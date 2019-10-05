@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
     public GameObject interactPanel;
+    public TextMeshProUGUI stolenValueText;
     public Image interactTimeFill;
 
     private bool isSpotted;
@@ -19,6 +21,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
+        stolenValueText.text = "Money stolen: $00000";
         gameController = FindObjectOfType<GameController>();
     }
 
@@ -29,11 +32,11 @@ public class PlayerManager : MonoBehaviour
         gameController.GameLost();
     }
 
-    public void StealMoney()
+    public void UpdateStolenMoneyTotal()
     {
         canInteract = false;
         totalMoneyStolen += currentItemBeingInteractedWith.GetComponent<ValuableItem>().itemValue;
-        Debug.Log(totalMoneyStolen);
+        stolenValueText.text = "Money Stolen: $" + totalMoneyStolen.ToString("00000");
         Destroy(currentItemBeingInteractedWith);
         currentItemBeingInteractedWith = null;
         gameController.CalculatePlayerScore(totalMoneyStolen);

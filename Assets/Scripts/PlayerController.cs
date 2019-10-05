@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
             if (timeOfInteraction <= 0)
             {
                 playerOccupied = false;
-                playerManager.StealMoney();
+                playerManager.UpdateStolenMoneyTotal();
                 break;
             }
 
