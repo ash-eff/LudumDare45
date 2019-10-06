@@ -18,7 +18,7 @@ public class RobotMove : MonoBehaviour
         gameController = FindObjectOfType<GameController>();
         currentWaypointIndex = 1;
         target = waypoints[currentWaypointIndex];
-        StartCoroutine(RobotMovement());
+        //StartCoroutine(RobotMovement());
     }
 
     void Update()

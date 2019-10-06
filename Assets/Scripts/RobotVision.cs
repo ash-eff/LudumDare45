@@ -6,8 +6,10 @@ public class RobotVision : MonoBehaviour
 {
     public PlayerController target;
     public GameObject robot;
-    public float rayLength;
-    public float rayAngle;
+    public float visionDistance;
+    public float visionAngle;
+
+    private RaycastHit2D hit;
     private Vector2 directionToTarget;
     private float angleToTarget;
 
@@ -19,19 +21,20 @@ public class RobotVision : MonoBehaviour
     void Update()
     {
         // for testing only!
-        Debug.DrawRay(robot.transform.position, robot.transform.right * rayLength, Color.red);
-        var leftDirection = Quaternion.AngleAxis(rayAngle, Vector3.forward) * robot.transform.right;
-        var rightDirection = Quaternion.AngleAxis(-rayAngle, Vector3.forward) * robot.transform.right;
-        Debug.DrawRay(robot.transform.position, new Vector2(rightDirection.x, rightDirection.y) * rayLength, Color.yellow);
-        Debug.DrawRay(robot.transform.position, new Vector2(leftDirection.x, leftDirection.y) * rayLength, Color.blue);
+        Debug.DrawRay(robot.transform.position, robot.transform.right * visionDistance, Color.red);
+        var leftDirection = Quaternion.AngleAxis(visionAngle, Vector3.forward) * robot.transform.right;
+        var rightDirection = Quaternion.AngleAxis(-visionAngle, Vector3.forward) * robot.transform.right;
+        Debug.DrawRay(robot.transform.position, new Vector2(rightDirection.x, rightDirection.y) * visionDistance, Color.yellow);
+        Debug.DrawRay(robot.transform.position, new Vector2(leftDirection.x, leftDirection.y) * visionDistance, Color.blue);
 
         directionToTarget = target.transform.position - robot.transform.position;
         angleToTarget = Vector2.Angle(directionToTarget, robot.transform.right);
-        if(angleToTarget <= rayAngle)
+        if(angleToTarget <= visionAngle)
         {
-            if(directionToTarget.magnitude <= rayLength)
+            hit = Physics2D.Raycast(robot.transform.position, directionToTarget.normalized * visionDistance);
+            if (hit.transform.gameObject.tag == "Player")
             {
-                Debug.Log("Target Is Spotted!!");
+                Debug.Log("Player Spotted!!");
             }
         }
     }
