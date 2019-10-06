@@ -14,13 +14,13 @@ public class RobotMove : MonoBehaviour
     private PlayerController playerTarget;
     private int currentWaypointIndex;
 
-    private void Start()
+    private void Awake()
     {
         playerTarget = FindObjectOfType<PlayerController>();
         gameController = FindObjectOfType<GameController>();
         currentWaypointIndex = 1;
         target = waypoints[currentWaypointIndex];
-        //StartCoroutine(RobotMovement());
+        StartCoroutine(RobotMovement());
     }
 
     IEnumerator RobotMovement()

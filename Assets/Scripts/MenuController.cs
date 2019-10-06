@@ -1,21 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
     public GameObject pauseMenu;
+    public Image volumeFillBar;
+    public Image sfxFillBar;
 
     private bool isGamePaused;
+    private int maxMusicVolumePercent = 100;
     private float musicVolume = 1f;
+    private int maxSFXVolumePercent = 100;
     private float sfxVolume = 1f;
+    private int volumeChangePercent = 10;
     private GameController gameController;
 
     public bool IsGamePaused { get { return isGamePaused; } }
     public float MusicVolume { get { return musicVolume; } }
     public float SFXVolume { get { return sfxVolume; } }
 
-    private void Start()
+    private void Awake()
     {
         gameController = FindObjectOfType<GameController>();
     }
@@ -27,6 +34,8 @@ public class MenuController : MonoBehaviour
             return;
         }
 
+        volumeFillBar.fillAmount = musicVolume;
+        sfxFillBar.fillAmount = sfxVolume;
         CheckForPlayerInput();
     }
 
@@ -54,50 +63,59 @@ public class MenuController : MonoBehaviour
 
     public void IncreaseMusicVolume()
     {
-        if (musicVolume < 1.0f && musicVolume >= 0.0)
+        float tempMusicVolume = musicVolume * maxMusicVolumePercent;
+        if (tempMusicVolume < maxMusicVolumePercent)
         {
-            musicVolume += .1f;
+            tempMusicVolume += volumeChangePercent;
+            musicVolume = Mathf.Round(tempMusicVolume / volumeChangePercent) / volumeChangePercent;
         }
     }
 
     public void IncreaseSFXVolume()
     {
+        float tempSFXVolume = sfxVolume * maxSFXVolumePercent;
+        if (tempSFXVolume < maxSFXVolumePercent)
         {
-            if (sfxVolume < 1.0f && sfxVolume > 0.0)
-            {
-                sfxVolume -= .1f;
-            }
+            tempSFXVolume += volumeChangePercent;
+            sfxVolume = Mathf.Round(tempSFXVolume / volumeChangePercent) / volumeChangePercent;
         }
     }
 
     public void DecreaseMusicVolume()
     {
-        if (musicVolume < 1.0f && musicVolume > 0.0)
+        float tempMusicVolume = musicVolume * maxSFXVolumePercent;
+        if (tempMusicVolume > 0f)
         {
-            musicVolume -= .1f;
+            tempMusicVolume -= volumeChangePercent;
+            musicVolume = Mathf.Round(tempMusicVolume / volumeChangePercent) / volumeChangePercent;
         }
     }
 
     public void DecreaseSFXVolume()
     {
-
+        float tempSFXVolume = sfxVolume * maxSFXVolumePercent;
+        if (tempSFXVolume> 0f)
+        {
+            tempSFXVolume -= volumeChangePercent;
+            sfxVolume = Mathf.Round(tempSFXVolume / volumeChangePercent) / volumeChangePercent;
+        }
     }
 
     public void QuitGame()
     {
         Debug.Log("Quit Game");
-        //Application.Quit();
+        Application.Quit();
     }
 
     public void ReloadGame()
     {
-        Debug.Log("Reload Game");
-        //SceneManager.LoadScene(1);
+        Time.timeScale = 1;
+        SceneManager.LoadScene(1);
     }
 
     public void ReturnToMainMenu()
     {
-        Debug.Log("Return To Main Menu");
-        //SceneManager.LoadScene(0);
+        Time.timeScale = 1;
+        SceneManager.LoadScene(0);
     }
 }

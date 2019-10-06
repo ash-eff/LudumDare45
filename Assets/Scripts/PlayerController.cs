@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     private PlayerManager playerManager;
     private Vector2 movement;
 
-    void Start()
+    void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
         playerManager = GetComponent<PlayerManager>();
@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
         CheckForInteractions();
     }
 
@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
             if (timeOfInteraction <= 0)
             {
                 playerOccupied = false;
-                playerManager.UpdateStolenMoneyTotal();
+                playerManager.StealMoney();
                 break;
             }
 

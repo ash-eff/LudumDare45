@@ -17,7 +17,7 @@ public class RobotVision : MonoBehaviour
     private Vector2 directionToTarget;
     private float angleToTarget;
 
-    private void Start()
+    private void Awake()
     {
         gameController = FindObjectOfType<GameController>();
         robotMove = GetComponent<RobotMove>();

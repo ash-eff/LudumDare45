@@ -8,7 +8,7 @@ public class RobotShoot : MonoBehaviour
     private PlayerManager playerTarget;
     private LineRenderer lineRenderer;
 
-    private void Start()
+    private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
         playerTarget = FindObjectOfType<PlayerManager>();
@@ -20,8 +20,8 @@ public class RobotShoot : MonoBehaviour
         lineRenderer.SetPosition(0, robot.transform.position);
         lineRenderer.SetPosition(1, playerTarget.transform.position);
         lineRenderer.enabled = true;
-        yield return new WaitForSecondsRealtime(.25f);
-        lineRenderer.enabled = false;
         playerTarget.Kill();
+        yield return new WaitForSecondsRealtime(.1f);
+        lineRenderer.enabled = false;
     }
 }

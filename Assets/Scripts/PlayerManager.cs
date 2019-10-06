@@ -8,6 +8,7 @@ public class PlayerManager : MonoBehaviour
 {
     public GameObject mallDirectory;
     public GameObject interactPanel;
+    public GameObject deathPanel;
     public TextMeshProUGUI stolenValueText;
     public Image interactTimeFill;
 
@@ -16,13 +17,16 @@ public class PlayerManager : MonoBehaviour
     private int totalMoneyStolen;
     private GameController gameController;
     private GameObject currentItemBeingInteractedWith;
+    private SpriteRenderer spr;
 
     public bool IsSpotted { get { return isSpotted; } }
     public bool CanInteract { get { return canInteract; } }
+    public int TotalMoneyStolen { get { return totalMoneyStolen; } }
 
-    private void Start()
+    private void Awake()
     {
-        stolenValueText.text = "Money stolen: $00000";
+        spr = GetComponent<SpriteRenderer>();
+        stolenValueText.text = "Money stolen: $0000";
         gameController = FindObjectOfType<GameController>();
     }
 
@@ -33,14 +37,18 @@ public class PlayerManager : MonoBehaviour
         gameController.GameLost();
     }
 
-    public void UpdateStolenMoneyTotal()
+    public void StealMoney()
     {
         canInteract = false;
         totalMoneyStolen += currentItemBeingInteractedWith.GetComponent<ValuableItem>().itemValue;
-        stolenValueText.text = "Money Stolen: $" + totalMoneyStolen.ToString("00000");
         Destroy(currentItemBeingInteractedWith);
         currentItemBeingInteractedWith = null;
-        gameController.CalculatePlayerScore(totalMoneyStolen);
+        UpdateMoneyStolenValue(totalMoneyStolen);
+    }
+
+    public void UpdateMoneyStolenValue(int value)
+    {
+        stolenValueText.text = "Money Stolen: $" + value.ToString("0000");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -75,8 +83,7 @@ public class PlayerManager : MonoBehaviour
 
     public void Kill()
     {
-        // player explosion aniumation
-        Debug.Log("I'm dead");
-        Destroy(gameObject);
+        spr.enabled = false;
+        deathPanel.SetActive(true);
     }
 }

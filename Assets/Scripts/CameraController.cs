@@ -8,10 +8,10 @@ public class CameraController : MonoBehaviour
     private GameController gameController;
     private PlayerController playerTarget;
 
-    private void Start()
+    private void Awake()
     {
         playerTarget = FindObjectOfType<PlayerController>();
-        transform.position = playerTarget.transform.position;
+        transform.position = new Vector3(playerTarget.transform.position.x, playerTarget.transform.position.y, -10f);
         gameController = FindObjectOfType<GameController>();
     }
 
