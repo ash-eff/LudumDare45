@@ -7,28 +7,39 @@ using TMPro;
 public class PlayerManager : MonoBehaviour
 {
     public GameObject mallDirectory;
-    public GameObject interactPanel;
+    public GameObject textInformationPanel;
+    public TextMeshProUGUI textInformation;
     public GameObject deathPanel;
+    public GameObject hideActionsPanel;
     public TextMeshProUGUI stolenValueText;
     public Image interactTimeFill;
 
     private bool isSpotted;
     private bool canInteract;
+    private bool canTeleport;
     private int totalMoneyStolen;
     private GameController gameController;
     private GameObject currentItemBeingInteractedWith;
     private SpriteRenderer spr;
+    private PlayerController playercontroller;
+    private Transporter currentTransporter;
+    private Animator anim;
 
     public bool IsSpotted { get { return isSpotted; } }
     public bool CanInteract { get { return canInteract; } }
+    public bool CanTeleport { get { return canTeleport; } }
     public int TotalMoneyStolen { get { return totalMoneyStolen; } }
+    public Transporter CurrentTransporter { get { return currentTransporter; } }
 
     private void Awake()
     {
+        anim = GetComponent<Animator>();
+        playercontroller = GetComponent<PlayerController>();
         transform.position = FindObjectOfType<StartPoint>().transform.position;
         spr = GetComponent<SpriteRenderer>();
         stolenValueText.text = "Money stolen: $0000";
         gameController = FindObjectOfType<GameController>();
+        StartCoroutine(SetPlayerUntargetable(2f));
     }
 
     public void PlayerSpotted()
@@ -52,11 +63,27 @@ public class PlayerManager : MonoBehaviour
         stolenValueText.text = "Money Stolen: $" + value.ToString("0000");
     }
 
+    public IEnumerator HidePlayerTeleport()
+    {
+        hideActionsPanel.SetActive(true);
+        yield return new WaitForSecondsRealtime(2.5f);
+        hideActionsPanel.SetActive(false);
+    }
+
+    public IEnumerator SetPlayerUntargetable(float untargetableTime)
+    {
+        anim.SetBool("isUntargetable", true);
+        gameObject.layer = 10;
+        yield return new WaitForSecondsRealtime(untargetableTime);
+        anim.SetBool("isUntargetable", false);
+        gameObject.layer = 9;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Interactable")
         {
-            interactPanel.SetActive(true);
+            DisplayTextInformation("press 'e' to steal!");
             currentItemBeingInteractedWith = collision.gameObject;
             canInteract = true;
         }
@@ -65,13 +92,21 @@ public class PlayerManager : MonoBehaviour
         {
             mallDirectory.SetActive(true);
         }
+
+        if (collision.tag == "Transporter" && !canTeleport)
+        {
+            currentTransporter = collision.GetComponent<Transporter>();
+            string teleporterInfoText = collision.GetComponent<Transporter>().transporterInfo;
+            DisplayTextInformation(teleporterInfoText);
+            canTeleport = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if(collision.tag == "Interactable")
         {
-            interactPanel.SetActive(false);
+            CancelTextInformation();
             currentItemBeingInteractedWith = null;
             canInteract = false;
         }
@@ -80,6 +115,25 @@ public class PlayerManager : MonoBehaviour
         {
             mallDirectory.SetActive(false);
         }
+
+        if (collision.tag == "Transporter")
+        {
+            currentTransporter = null;
+            CancelTextInformation();
+            canTeleport = false;
+        }
+    }
+
+    public void DisplayTextInformation(string s)
+    {
+        textInformation.text = s;
+        textInformationPanel.SetActive(true);
+    }
+
+    public void CancelTextInformation()
+    {     
+        textInformationPanel.SetActive(false);
+        textInformation.text = "";
     }
 
     public void Kill()

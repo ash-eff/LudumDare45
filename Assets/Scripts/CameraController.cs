@@ -6,12 +6,12 @@ public class CameraController : MonoBehaviour
 {
     public float lerpSpeed;
     private GameController gameController;
-    private PlayerController playerTarget;
+    private PlayerController playerController;
 
     private void Awake()
     {
-        playerTarget = FindObjectOfType<PlayerController>();
-        transform.position = new Vector3(playerTarget.transform.position.x, playerTarget.transform.position.y, -10f);
+        playerController = FindObjectOfType<PlayerController>();
+        transform.position = new Vector3(playerController.transform.position.x, playerController.transform.position.y, -10f);
         gameController = FindObjectOfType<GameController>();
     }
 
@@ -22,12 +22,19 @@ public class CameraController : MonoBehaviour
             return;
         }
 
-        FollowPlayer();
+        if (!playerController.IsTeleporting)
+        {
+            FollowPlayer();
+        }
+        else
+        {
+            transform.position = new Vector3(playerController.transform.position.x, playerController.transform.position.y, -10f);
+        }
     }
 
     void FollowPlayer()
     {
-        Vector3 targetPos = new Vector3(playerTarget.transform.position.x, playerTarget.transform.position.y, -10f);
+        Vector3 targetPos = new Vector3(playerController.transform.position.x, playerController.transform.position.y, -10f);
         transform.position = Vector3.Lerp(transform.position, targetPos, lerpSpeed * Time.deltaTime);
     }
 }

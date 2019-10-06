@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float interactTime;
+    public float stealTime;
     public float moveSpeed;
 
     private bool playerOccupied;
+    private bool isTeleporting;
 
     private Rigidbody2D rb2d;
     private PlayerManager playerManager;
     private Vector2 movement;
+
+    public bool IsTeleporting { get { return isTeleporting; } }
 
     void Awake()
     {
@@ -27,7 +30,7 @@ public class PlayerController : MonoBehaviour
         }
 
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
-        CheckForInteractions();
+        CheckForButtonPress();
     }
 
     private void FixedUpdate()
@@ -45,7 +48,19 @@ public class PlayerController : MonoBehaviour
         rb2d.MovePosition((Vector2)transform.position + (direction * moveSpeed * Time.deltaTime)); 
     }
 
-    void CheckForInteractions()
+    IEnumerator MovePlayerToNewFloor(Vector2 location)
+    {
+        StartCoroutine(playerManager.SetPlayerUntargetable(4f));
+        StartCoroutine(playerManager.HidePlayerTeleport());
+        yield return new WaitForSecondsRealtime(1f);
+        isTeleporting = true;
+        transform.position = location;
+        yield return new WaitForSecondsRealtime(1.5f);
+        isTeleporting = false;
+        playerOccupied = false;
+    }
+
+    void CheckForButtonPress()
     {
         if (playerManager.CanInteract && !playerOccupied)
         {
@@ -55,16 +70,26 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(InteractWithItem());
             }
         }
+
+        if (playerManager.CanTeleport && !playerOccupied)
+        {
+            if (Input.GetButtonDown("Interact"))
+            {
+                playerManager.CancelTextInformation();
+                playerOccupied = true;
+                StartCoroutine(MovePlayerToNewFloor(playerManager.CurrentTransporter.exitLocation.transform.position));
+            }
+        }
     }
 
-     IEnumerator InteractWithItem()
+    IEnumerator InteractWithItem()
     {
-        float timeOfInteraction = interactTime;
+        float timeOfInteraction = stealTime;
         playerManager.interactTimeFill.fillAmount = 0f;
         while (Input.GetButton("Interact"))
         {
             timeOfInteraction -= Time.deltaTime;
-            playerManager.interactTimeFill.fillAmount += Time.deltaTime / interactTime;
+            playerManager.interactTimeFill.fillAmount += Time.deltaTime / stealTime;
 
             if (timeOfInteraction <= 0)
             {
