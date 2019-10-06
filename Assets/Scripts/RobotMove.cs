@@ -11,22 +11,16 @@ public class RobotMove : MonoBehaviour
     public GameObject robot;
     private GameController gameController;
     private Transform target;
+    private PlayerController playerTarget;
     private int currentWaypointIndex;
 
     private void Start()
     {
+        playerTarget = FindObjectOfType<PlayerController>();
         gameController = FindObjectOfType<GameController>();
         currentWaypointIndex = 1;
         target = waypoints[currentWaypointIndex];
-        //StartCoroutine(RobotMovement());
-    }
-
-    void Update()
-    {
-        if (gameController.IsGameOver)
-        {
-            return;
-        }
+        StartCoroutine(RobotMovement());
     }
 
     IEnumerator RobotMovement()
@@ -46,7 +40,7 @@ public class RobotMove : MonoBehaviour
         float leftRotation = 0;
         float rightRotation = 0;
 
-        yield return new WaitForSeconds(scanWaitTime);
+        yield return new WaitForSecondsRealtime(scanWaitTime);
 
         while(leftRotation < maxRotation)
         {
@@ -55,7 +49,7 @@ public class RobotMove : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSeconds(scanWaitTime);
+        yield return new WaitForSecondsRealtime(scanWaitTime);
 
         while(rightRotation < (maxRotation * 2))
         {
@@ -64,7 +58,7 @@ public class RobotMove : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSeconds(scanWaitTime);
+        yield return new WaitForSecondsRealtime(scanWaitTime);
 
         while (robot.transform.rotation.z < startingRotation)
         {
@@ -72,9 +66,10 @@ public class RobotMove : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSeconds(scanWaitTime);
+        yield return new WaitForSecondsRealtime(scanWaitTime);
         GetNextPosition();
-        StartCoroutine(RotateTowardsTarget());      
+        yield return StartCoroutine(RotateTowardsTarget());
+        StartCoroutine(RobotMovement());
     }
 
     IEnumerator RotateTowardsTarget()
@@ -88,10 +83,7 @@ public class RobotMove : MonoBehaviour
             robot.transform.rotation = Quaternion.RotateTowards(robot.transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
             yield return null;
         }
-
-        StartCoroutine(RobotMovement());
     }
-
 
     void GetNextPosition()
     {
@@ -101,6 +93,18 @@ public class RobotMove : MonoBehaviour
             currentWaypointIndex = 0;
         }
 
-        target = waypoints[currentWaypointIndex];
+        SetTarget(waypoints[currentWaypointIndex]);
+    }
+
+    void SetTarget(Transform newTarget)
+    {
+        target = newTarget;
+    }
+
+    public void FacePlayerTarget()
+    {
+        SetTarget(playerTarget.transform);
+        StopAllCoroutines();
+        StartCoroutine(RotateTowardsTarget());
     }
 }

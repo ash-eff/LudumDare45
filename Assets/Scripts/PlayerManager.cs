@@ -61,4 +61,11 @@ public class PlayerManager : MonoBehaviour
             canInteract = false;
         }
     }
+
+    public void Kill()
+    {
+        // player explosion aniumation
+        Debug.Log("I'm dead");
+        Destroy(gameObject);
+    }
 }

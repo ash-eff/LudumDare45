@@ -33,6 +33,7 @@ public class GameController : MonoBehaviour
 
     void GameOver()
     {
+        isGameOver = true;
         if (isGameWon)
         {
             // calculate player score
@@ -41,6 +42,7 @@ public class GameController : MonoBehaviour
         else
         {
             // show game lost screen with stats
+            Debug.Log("GAME OVER! YOU LOSE!");
         }
     }
 }
