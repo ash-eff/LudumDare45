@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\RobotMove.cs" />
     <Compile Include="Assets\Scripts\RobotShoot.cs" />
     <Compile Include="Assets\Scripts\RobotVision.cs" />
+    <Compile Include="Assets\Scripts\StartPoint.cs" />
     <Compile Include="Assets\Scripts\ValuableItem.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />

@@ -25,6 +25,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
+        transform.position = FindObjectOfType<StartPoint>().transform.position;
         spr = GetComponent<SpriteRenderer>();
         stolenValueText.text = "Money stolen: $0000";
         gameController = FindObjectOfType<GameController>();
