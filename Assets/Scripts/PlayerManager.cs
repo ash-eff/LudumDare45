@@ -6,6 +6,7 @@ using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
+    public GameObject mallDirectory;
     public GameObject interactPanel;
     public TextMeshProUGUI stolenValueText;
     public Image interactTimeFill;
@@ -50,6 +51,11 @@ public class PlayerManager : MonoBehaviour
             currentItemBeingInteractedWith = collision.gameObject;
             canInteract = true;
         }
+
+        if(collision.tag == "Directory")
+        {
+            mallDirectory.SetActive(true);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -59,6 +65,11 @@ public class PlayerManager : MonoBehaviour
             interactPanel.SetActive(false);
             currentItemBeingInteractedWith = null;
             canInteract = false;
+        }
+
+        if (collision.tag == "Directory")
+        {
+            mallDirectory.SetActive(false);
         }
     }
 

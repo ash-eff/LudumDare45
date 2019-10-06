@@ -43,10 +43,13 @@ public class RobotVision : MonoBehaviour
         angleToTarget = Vector2.Angle(directionToTarget, robot.transform.right);
         if(angleToTarget <= visionAngle)
         {
-            hit = Physics2D.Raycast(robot.transform.position, directionToTarget.normalized, visionDistance, visionMask);
-            if (hit)
+            if(directionToTarget.magnitude <= visionDistance)
             {
-                DispatchTarget();
+                hit = Physics2D.Raycast(robot.transform.position, directionToTarget.normalized, visionDistance, visionMask);
+                if (hit.transform.tag == "Player")
+                {
+                    DispatchTarget();
+                }
             }
         }
     }
