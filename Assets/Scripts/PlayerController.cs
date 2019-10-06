@@ -55,6 +55,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSecondsRealtime(1f);
         isTeleporting = true;
         transform.position = location;
+        playerManager.CheckFloor();
         yield return new WaitForSecondsRealtime(1.5f);
         isTeleporting = false;
         playerOccupied = false;

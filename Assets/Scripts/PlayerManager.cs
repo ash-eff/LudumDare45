@@ -9,6 +9,8 @@ public class PlayerManager : MonoBehaviour
     public GameObject mallDirectory;
     public GameObject textInformationPanel;
     public TextMeshProUGUI textInformation;
+    public TextMeshProUGUI floorText;
+    public TextMeshProUGUI storeText;
     public GameObject deathPanel;
     public GameObject hideActionsPanel;
     public TextMeshProUGUI stolenValueText;
@@ -39,6 +41,7 @@ public class PlayerManager : MonoBehaviour
         spr = GetComponent<SpriteRenderer>();
         stolenValueText.text = "Money stolen: $0000";
         gameController = FindObjectOfType<GameController>();
+        CheckFloor();
         StartCoroutine(SetPlayerUntargetable(2f));
     }
 
@@ -100,6 +103,11 @@ public class PlayerManager : MonoBehaviour
             DisplayTextInformation(teleporterInfoText);
             canTeleport = true;
         }
+
+        if (collision.tag == "Store")
+        {
+            storeText.text = collision.GetComponent<Store>().storeName;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -140,5 +148,23 @@ public class PlayerManager : MonoBehaviour
     {
         spr.enabled = false;
         deathPanel.SetActive(true);
+    }
+
+    public void CheckFloor()
+    {
+        if(transform.position.x < 75f)
+        {
+            floorText.text = "3rd Floor";
+        }
+
+        if (transform.position.x > 75f && transform.position.x < 250f)
+        {
+            floorText.text = "2nd Floor";
+        }
+
+        if (transform.position.x > 250f)
+        {
+            floorText.text = "1st Floor";
+        }
     }
 }
