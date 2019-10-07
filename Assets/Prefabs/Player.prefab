@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3ca6f2d34ef5b0940bfbfdcf3f569924, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.88235295, b: 0.8156863, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -162,6 +162,8 @@ MonoBehaviour:
   mallDirectory: {fileID: 0}
   textInformationPanel: {fileID: 0}
   textInformation: {fileID: 0}
+  floorText: {fileID: 0}
+  storeText: {fileID: 0}
   deathPanel: {fileID: 0}
   hideActionsPanel: {fileID: 0}
   stolenValueText: {fileID: 0}
