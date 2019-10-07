@@ -13,18 +13,20 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb2d;
     private PlayerManager playerManager;
     private Vector2 movement;
+    private GameController gameController;
 
     public bool IsTeleporting { get { return isTeleporting; } }
 
     void Awake()
     {
+        gameController = FindObjectOfType<GameController>();
         rb2d = GetComponent<Rigidbody2D>();
         playerManager = GetComponent<PlayerManager>();
     }
 
     void Update()
     {
-        if (playerManager.IsSpotted || playerOccupied)
+        if (playerManager.IsSpotted || playerOccupied || gameController.IsGameOver)
         {
             return;
         }
@@ -35,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (playerManager.IsSpotted || playerOccupied)
+        if (playerManager.IsSpotted || playerOccupied || gameController.IsGameOver)
         {
             return;
         }
