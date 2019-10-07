@@ -14,6 +14,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject deathPanel;
     public GameObject hideActionsPanel;
     public TextMeshProUGUI stolenValueText;
+    public GameObject interactPanel;
     public Image interactTimeFill;
 
     private bool isSpotted;

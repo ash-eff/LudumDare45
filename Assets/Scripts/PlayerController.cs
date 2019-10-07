@@ -87,6 +87,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator InteractWithItem()
     {
+        playerManager.interactPanel.SetActive(true);
         float timeOfInteraction = stealTime;
         playerManager.interactTimeFill.fillAmount = 0f;
         while (Input.GetButton("Interact"))
@@ -104,6 +105,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
+        playerManager.interactPanel.SetActive(false);
         playerManager.interactTimeFill.fillAmount = 0f;
         playerOccupied = false;
     }
