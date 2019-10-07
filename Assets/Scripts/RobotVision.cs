@@ -15,10 +15,15 @@ public class RobotVision : MonoBehaviour
     private RobotShoot robotShoot;
     private RaycastHit2D hit;
     private Vector2 directionToTarget;
+    private MenuController menuController;
     private float angleToTarget;
+
+    public AudioSource audioSource;
+    public AudioClip robotCaughtYou;
 
     private void Awake()
     {
+        menuController = FindObjectOfType<MenuController>();
         gameController = FindObjectOfType<GameController>();
         robotMove = GetComponent<RobotMove>();
         robotShoot = GetComponent<RobotShoot>();
@@ -31,6 +36,8 @@ public class RobotVision : MonoBehaviour
         {
             return;
         }
+
+        audioSource.volume = menuController.SFXVolume;
 
         // for testing only!
         Debug.DrawRay(robot.transform.position, robot.transform.right * visionDistance, Color.red);
@@ -55,9 +62,10 @@ public class RobotVision : MonoBehaviour
     }
 
     void DispatchTarget()
-    {
+    {      
         robotMove.FacePlayerTarget();
         playerTarget.PlayerSpotted();
         StartCoroutine(robotShoot.ShootTarget());
+        audioSource.PlayOneShot(robotCaughtYou);
     }
 }

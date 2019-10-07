@@ -11,8 +11,8 @@ public class CameraController : MonoBehaviour
     private void Awake()
     {
         playerController = FindObjectOfType<PlayerController>();
-        transform.position = new Vector3(playerController.transform.position.x, playerController.transform.position.y, -10f);
         gameController = FindObjectOfType<GameController>();
+        transform.position = new Vector3(playerController.transform.position.x, playerController.transform.position.y, -10f);  
     }
 
     private void FixedUpdate()

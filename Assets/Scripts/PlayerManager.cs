@@ -16,6 +16,11 @@ public class PlayerManager : MonoBehaviour
     public TextMeshProUGUI stolenValueText;
     public GameObject interactPanel;
     public Image interactTimeFill;
+    public GameObject firstFloorDir;
+    public GameObject secondFloorDir;
+    public GameObject thirdFloorDir;
+    public AudioClip lootGrab;
+    public AudioSource audioSource;
 
     private bool isSpotted;
     private bool canInteract;
@@ -27,6 +32,7 @@ public class PlayerManager : MonoBehaviour
     private PlayerController playercontroller;
     private Transporter currentTransporter;
     private Animator anim;
+    private MenuController menuController;
 
     public bool IsSpotted { get { return isSpotted; } }
     public bool CanInteract { get { return canInteract; } }
@@ -36,6 +42,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
+        menuController = FindObjectOfType<MenuController>();
         anim = GetComponent<Animator>();
         playercontroller = GetComponent<PlayerController>();
         transform.position = FindObjectOfType<StartPoint>().transform.position;
@@ -44,6 +51,11 @@ public class PlayerManager : MonoBehaviour
         gameController = FindObjectOfType<GameController>();
         CheckFloor();
         StartCoroutine(SetPlayerUntargetable(2f));
+    }
+
+    private void Update()
+    {
+        audioSource.volume = menuController.SFXVolume;
     }
 
     public void PlayerSpotted()
@@ -55,6 +67,7 @@ public class PlayerManager : MonoBehaviour
 
     public void StealMoney()
     {
+        audioSource.PlayOneShot(lootGrab);
         canInteract = false;
         totalMoneyStolen += currentItemBeingInteractedWith.GetComponent<ValuableItem>().itemValue;
         Destroy(currentItemBeingInteractedWith);
@@ -156,16 +169,25 @@ public class PlayerManager : MonoBehaviour
         if(transform.position.x < 75f)
         {
             floorText.text = "3rd Floor";
+            firstFloorDir.SetActive(false);
+            secondFloorDir.SetActive(false);
+            thirdFloorDir.SetActive(true);
         }
 
         if (transform.position.x > 75f && transform.position.x < 250f)
         {
             floorText.text = "2nd Floor";
+            firstFloorDir.SetActive(false);
+            secondFloorDir.SetActive(true);
+            thirdFloorDir.SetActive(false);
         }
 
         if (transform.position.x > 250f)
         {
             floorText.text = "1st Floor";
+            firstFloorDir.SetActive(true);
+            secondFloorDir.SetActive(false);
+            thirdFloorDir.SetActive(false);
         }
     }
 }

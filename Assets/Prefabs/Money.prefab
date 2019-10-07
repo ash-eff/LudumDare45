@@ -110,4 +110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce1b750e55f35a41b37d46b7d77144f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lootIndicatorPrefab: {fileID: 6506852028528829885, guid: e1688216025eb2f4993ea62839c31dff,
+    type: 3}
   itemValue: 15

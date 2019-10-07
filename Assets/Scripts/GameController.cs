@@ -15,7 +15,9 @@ public class GameController : MonoBehaviour
     private bool isGameWon;
     private int playerScore;
     private float gameRunTime;
-    private AudioSource audioSource;
+    public AudioSource musicSource;
+    public AudioSource sfxSource;
+    public AudioClip countSound;
     private MenuController menuController;
     private PlayerManager playerManager;
 
@@ -37,17 +39,18 @@ public class GameController : MonoBehaviour
     public void Awake()
     {
         playerManager = FindObjectOfType<PlayerManager>();
-        audioSource = GetComponent<AudioSource>();
         menuController = FindObjectOfType<MenuController>();
     }
 
     private void Update()
     {
-        audioSource.volume = menuController.MusicVolume;
+        musicSource.volume = menuController.MusicVolume;
+        sfxSource.volume = menuController.SFXVolume;
     }
 
     void GameOver()
     {
+        musicSource.Stop();
         isGameOver = true;
         if (isGameWon)
         {
@@ -69,13 +72,15 @@ public class GameController : MonoBehaviour
         int moneyStolen = playerManager.TotalMoneyStolen;
         while(moneyStolen > 0)
         {
+            sfxSource.PlayOneShot(countSound);
             playerScore++;
             moneyStolen--;
             playerManager.UpdateMoneyStolenValue(moneyStolen);
             endScoreText.text = "Money Stolen: $" + playerScore.ToString("0000");
-            yield return null;
+            yield return new WaitForSecondsRealtime(.01f);
         }
 
+        endRankText.text = "Rank: A";
         Debug.Log(moneyStolen);
     }
 }
