@@ -32,7 +32,7 @@ public class RobotVision : MonoBehaviour
 
     void Update()
     {
-        if (gameController.IsGameOver)
+        if (gameController.IsGameOver || playerTarget.IsSpotted)
         {
             return;
         }
@@ -53,7 +53,7 @@ public class RobotVision : MonoBehaviour
             if(directionToTarget.magnitude <= visionDistance)
             {
                 hit = Physics2D.Raycast(robot.transform.position, directionToTarget.normalized, visionDistance, visionMask);
-                if (hit.transform.tag == "Player")
+                if (hit.transform.tag == "Player" && !playerTarget.IsSpotted)
                 {
                     DispatchTarget();
                 }
@@ -63,9 +63,13 @@ public class RobotVision : MonoBehaviour
 
     void DispatchTarget()
     {      
-        robotMove.FacePlayerTarget();
-        playerTarget.PlayerSpotted();
-        StartCoroutine(robotShoot.ShootTarget());
         audioSource.PlayOneShot(robotCaughtYou);
+        playerTarget.PlayerSpotted();
+        if (playerTarget.IsDead)
+        {
+            robotMove.FacePlayerTarget();
+            StartCoroutine(robotShoot.ShootTarget());
+            playerTarget.Kill();
+        }
     }
 }

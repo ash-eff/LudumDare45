@@ -11,12 +11,12 @@ public class RobotMove : MonoBehaviour
     public GameObject robot;
     private GameController gameController;
     private Transform target;
-    private PlayerController playerTarget;
+    private PlayerManager playerTarget;
     private int currentWaypointIndex;
 
     private void Awake()
     {
-        playerTarget = FindObjectOfType<PlayerController>();
+        playerTarget = FindObjectOfType<PlayerManager>();
         gameController = FindObjectOfType<GameController>();
         currentWaypointIndex = 1;
         target = waypoints[currentWaypointIndex];

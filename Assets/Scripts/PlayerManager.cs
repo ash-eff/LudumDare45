@@ -6,6 +6,10 @@ using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
+    public float stealTime;
+    public float moveSpeed;
+    public int lives = 3;
+
     public GameObject mallDirectory;
     public GameObject textInformationPanel;
     public TextMeshProUGUI textInformation;
@@ -14,6 +18,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject deathPanel;
     public GameObject hideActionsPanel;
     public TextMeshProUGUI stolenValueText;
+    public TextMeshProUGUI livesTotalText;
     public GameObject interactPanel;
     public Image interactTimeFill;
     public GameObject firstFloorDir;
@@ -21,51 +26,122 @@ public class PlayerManager : MonoBehaviour
     public GameObject thirdFloorDir;
     public AudioClip lootGrab;
     public AudioSource audioSource;
+    public Vector2 checkPoint;
 
-    private bool isSpotted;
-    private bool canInteract;
-    private bool canTeleport;
+    public bool playerOccupied;
+    public bool isTeleporting;
+    public bool isSpotted;
+    public bool canInteract;
+    public bool canTeleport;
+    public bool isTargetable;
     private int totalMoneyStolen;
+    private bool isDead;
+
+    private Rigidbody2D rb2d;
+    private Vector2 movement;
     private GameController gameController;
     private GameObject currentItemBeingInteractedWith;
     private SpriteRenderer spr;
-    private PlayerController playercontroller;
     private Transporter currentTransporter;
     private Animator anim;
     private MenuController menuController;
 
+    public bool IsTeleporting { get { return isTeleporting; } }
     public bool IsSpotted { get { return isSpotted; } }
-    public bool CanInteract { get { return canInteract; } }
-    public bool CanTeleport { get { return canTeleport; } }
+    public bool IsDead { get { return isDead; } }
     public int TotalMoneyStolen { get { return totalMoneyStolen; } }
-    public Transporter CurrentTransporter { get { return currentTransporter; } }
 
     private void Awake()
     {
+        rb2d = GetComponent<Rigidbody2D>();
         menuController = FindObjectOfType<MenuController>();
         anim = GetComponent<Animator>();
-        playercontroller = GetComponent<PlayerController>();
         transform.position = FindObjectOfType<StartPoint>().transform.position;
         spr = GetComponent<SpriteRenderer>();
         stolenValueText.text = "Money stolen: $0000";
+        livesTotalText.text = "Lives: " + lives.ToString();
         gameController = FindObjectOfType<GameController>();
-        CheckFloor();
+        CheckCurrentFloor();
+        checkPoint = transform.position;
         StartCoroutine(SetPlayerUntargetable(2f));
     }
 
     private void Update()
     {
+        if (isSpotted || playerOccupied || gameController.IsGameOver)
+        {
+            return;
+        }
+
+        movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
+        CheckForButtonPress();
         audioSource.volume = menuController.SFXVolume;
     }
 
-    public void PlayerSpotted()
+    private void FixedUpdate()
     {
-        isSpotted = true;
-        canInteract = false;
-        gameController.GameLost();
+        if (isSpotted || playerOccupied || gameController.IsGameOver)
+        {
+            return;
+        }
+
+        MovePlayer(movement);
     }
 
-    public void StealMoney()
+    private void MovePlayer(Vector2 direction)
+    {
+        rb2d.MovePosition((Vector2)transform.position + (direction * moveSpeed * Time.deltaTime));
+    }
+
+    private void CheckForButtonPress()
+    {
+        if (canInteract && !playerOccupied && isTargetable)
+        {
+            if (Input.GetButtonDown("Interact"))
+            {
+                playerOccupied = true;
+                StartCoroutine(FillStealIndicatorBar());
+            }
+        }
+
+        if (canTeleport && !playerOccupied && isTargetable)
+        {
+            if (Input.GetButtonDown("Interact"))
+            {
+                CancelTextInformation();
+                playerOccupied = true;
+                StartCoroutine(MovePlayerToNewLocation(currentTransporter.exitLocation.transform.position));
+                checkPoint = currentTransporter.exitLocation.transform.position;
+            }
+        }
+    }
+
+    private IEnumerator FillStealIndicatorBar()
+    {
+        interactPanel.SetActive(true);
+        float timeOfInteraction = stealTime;
+        interactTimeFill.fillAmount = 0f;
+        while (Input.GetButton("Interact"))
+        {
+            timeOfInteraction -= Time.deltaTime;
+            interactTimeFill.fillAmount += Time.deltaTime / stealTime;
+
+            if (timeOfInteraction <= 0)
+            {
+                playerOccupied = false;
+                StealMoney();
+                break;
+            }
+
+            yield return null;
+        }
+
+        interactPanel.SetActive(false);
+        interactTimeFill.fillAmount = 0f;
+        playerOccupied = false;
+    }
+
+    private void StealMoney()
     {
         audioSource.PlayOneShot(lootGrab);
         canInteract = false;
@@ -80,20 +156,97 @@ public class PlayerManager : MonoBehaviour
         stolenValueText.text = "Money Stolen: $" + value.ToString("0000");
     }
 
-    public IEnumerator HidePlayerTeleport()
+    void UpdatesLivesTotal()
+    {
+        livesTotalText.text = "Lives: " + lives.ToString();
+    }
+
+    public void PlayerSpotted()
+    {
+        isSpotted = true;
+        canInteract = false;
+        lives--;
+        UpdatesLivesTotal();
+
+        if (lives > 0)
+        {
+            ReturnToCheckPoint();
+        }
+        else
+        {
+            isDead = true;
+            gameController.GameLost();
+        }
+    }
+
+    private void ReturnToCheckPoint()
+    {
+        StartCoroutine(MovePlayerToNewLocation(checkPoint));
+    }
+
+    private IEnumerator MovePlayerToNewLocation(Vector2 location)
+    {
+        StartCoroutine(SetPlayerUntargetable(4f));
+        StartCoroutine(HidePlayerTeleport());
+        yield return new WaitForSecondsRealtime(1f);
+        isTeleporting = true;
+        transform.position = location;
+        CheckCurrentFloor();
+        yield return new WaitForSecondsRealtime(1.5f);
+        ResetStatus();
+    }
+
+    private IEnumerator SetPlayerUntargetable(float untargetableTime)
+    {
+        isTargetable = false;
+        anim.SetBool("isUntargetable", true);
+        gameObject.layer = 10;
+        yield return new WaitForSecondsRealtime(untargetableTime);
+        anim.SetBool("isUntargetable", false);
+        gameObject.layer = 9;
+        isTargetable = true;
+    }
+
+    private IEnumerator HidePlayerTeleport()
     {
         hideActionsPanel.SetActive(true);
         yield return new WaitForSecondsRealtime(2.5f);
         hideActionsPanel.SetActive(false);
     }
 
-    public IEnumerator SetPlayerUntargetable(float untargetableTime)
+    private void CheckCurrentFloor()
     {
-        anim.SetBool("isUntargetable", true);
-        gameObject.layer = 10;
-        yield return new WaitForSecondsRealtime(untargetableTime);
-        anim.SetBool("isUntargetable", false);
-        gameObject.layer = 9;
+        if (transform.position.x < 75f)
+        {
+            floorText.text = "3rd Floor";
+            firstFloorDir.SetActive(false);
+            secondFloorDir.SetActive(false);
+            thirdFloorDir.SetActive(true);
+        }
+
+        if (transform.position.x > 75f && transform.position.x < 250f)
+        {
+            floorText.text = "2nd Floor";
+            firstFloorDir.SetActive(false);
+            secondFloorDir.SetActive(true);
+            thirdFloorDir.SetActive(false);
+        }
+
+        if (transform.position.x > 250f)
+        {
+            floorText.text = "1st Floor";
+            firstFloorDir.SetActive(true);
+            secondFloorDir.SetActive(false);
+            thirdFloorDir.SetActive(false);
+        }
+    }
+
+    private void ResetStatus()
+    {
+        isTeleporting = false;
+        playerOccupied = false;
+        isSpotted = false;
+        canInteract = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -162,32 +315,5 @@ public class PlayerManager : MonoBehaviour
     {
         spr.enabled = false;
         deathPanel.SetActive(true);
-    }
-
-    public void CheckFloor()
-    {
-        if(transform.position.x < 75f)
-        {
-            floorText.text = "3rd Floor";
-            firstFloorDir.SetActive(false);
-            secondFloorDir.SetActive(false);
-            thirdFloorDir.SetActive(true);
-        }
-
-        if (transform.position.x > 75f && transform.position.x < 250f)
-        {
-            floorText.text = "2nd Floor";
-            firstFloorDir.SetActive(false);
-            secondFloorDir.SetActive(true);
-            thirdFloorDir.SetActive(false);
-        }
-
-        if (transform.position.x > 250f)
-        {
-            floorText.text = "1st Floor";
-            firstFloorDir.SetActive(true);
-            secondFloorDir.SetActive(false);
-            thirdFloorDir.SetActive(false);
-        }
     }
 }

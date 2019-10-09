@@ -9,9 +9,10 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI endScoreText;
     public TextMeshProUGUI endTimeText;
     public TextMeshProUGUI endRankText;
+    public ValuableItem[] valuableItems;
 
     private bool isGameOver;
-    private bool isGameRunning;
+    //private bool isGameRunning;
     private bool isGameWon;
     private int playerScore;
     private float gameRunTime;
@@ -22,7 +23,7 @@ public class GameController : MonoBehaviour
     private PlayerManager playerManager;
 
     public bool IsGameOver { get { return isGameOver; } }
-    public bool IsGameRunning { get { return isGameRunning; } }
+    //public bool IsGameRunning { get { return isGameRunning; } }
 
     public void GameLost()
     {
@@ -38,6 +39,8 @@ public class GameController : MonoBehaviour
 
     public void Awake()
     {
+        valuableItems = FindObjectsOfType<ValuableItem>();
+        Debug.Log(valuableItems.Length);
         playerManager = FindObjectOfType<PlayerManager>();
         menuController = FindObjectOfType<MenuController>();
     }
@@ -80,7 +83,32 @@ public class GameController : MonoBehaviour
             yield return new WaitForSecondsRealtime(.01f);
         }
 
-        endRankText.text = "Rank: A";
-        Debug.Log(moneyStolen);
+        float finalScoreTotal = (playerScore / 15) / valuableItems.Length;
+        float percentage = Mathf.RoundToInt(finalScoreTotal * 100f);
+
+        if (percentage == 100 && playerManager.lives == 3)
+        {
+            endRankText.text = "Rank: S+";
+        }
+        else if(percentage > 99)
+        {
+            endRankText.text = "Rank: S-";
+        }
+        else if (percentage > 90)
+        {
+            endRankText.text = "Rank: A";
+        }
+        else if (percentage > 80)
+        {
+            endRankText.text = "Rank: B";
+        }
+        else if (percentage > 70)
+        {
+            endRankText.text = "Rank: C";
+        }
+        else
+        {
+            endRankText.text = "Rank: D";
+        }
     }
 }

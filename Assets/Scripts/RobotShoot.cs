@@ -30,7 +30,6 @@ public class RobotShoot : MonoBehaviour
         lineRenderer.SetPosition(1, playerTarget.transform.position);
         lineRenderer.enabled = true;
         audioSource.PlayOneShot(robotShoot);
-        playerTarget.Kill();
         yield return new WaitForSecondsRealtime(.1f);
         lineRenderer.enabled = false;
     }
