@@ -89,15 +89,15 @@ public class RobotVision : MonoBehaviour
         //}
     }
 
-    void DispatchTarget()
-    {      
-        audioSource.PlayOneShot(robotCaughtYou);
-        playerTarget.PlayerSpotted();
-        if (playerTarget.IsDead)
-        {
-            robotMove.FacePlayerTarget();
-            StartCoroutine(robotShoot.ShootTarget());
-            playerTarget.Kill();
-        }
-    }
+    //void DispatchTarget()
+    //{      
+    //    audioSource.PlayOneShot(robotCaughtYou);
+    //    playerTarget.PlayerSpotted();
+    //    if (playerTarget.IsDead)
+    //    {
+    //        robotMove.FacePlayerTarget();
+    //        StartCoroutine(robotShoot.ShootTarget());
+    //        playerTarget.Kill();
+    //    }
+    //}
 }

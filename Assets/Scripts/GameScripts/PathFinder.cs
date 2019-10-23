@@ -1,30 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class PathFinder : MonoBehaviour
 {
-    [SerializeField] Node startNode, endNode;
+    [SerializeField] Vector2Int startPosition, endPosition;
 
-    Dictionary<Vector2Int, Node> grid = new Dictionary<Vector2Int, Node>();
-    public Queue<Node> queue = new Queue<Node>();
+    public Tilemap tileMap;
+    public Dictionary<Vector2Int, MapPointInfo> map = new Dictionary<Vector2Int, MapPointInfo>();
+    public Queue<Vector2Int> queue = new Queue<Vector2Int>();
     bool isRunning = true;
-    Node searchCenter;
-    public List<Node> path = new List<Node>();
+    Vector2Int searchCenter;
+    public List<Vector2Int> path = new List<Vector2Int>();
 
-    Vector2Int[] directions = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left,
-        new Vector2Int(1,1),  new Vector2Int(-1, 1), new Vector2Int(-1,-1),  new Vector2Int(-1,1)};
+    Vector2Int[] directions = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left, };
+    //new Vector2Int(1,1),  new Vector2Int(-1, 1), new Vector2Int(-1,-1),  new Vector2Int(-1,1)};
 
-    private void Awake()
+    GridMap grid;
+
+    private void Start()
     {
-        LoadNodes();
+        grid = FindObjectOfType<GridMap>();
+        GenerateMap();
     }
 
-    public List<Node> GetPath(Node _startNode, Node _endNode)
+    public List<Vector2Int> GetPath(Vector2Int _startPosition, Vector2Int _endPosition)
     {
-        startNode = _startNode;
-        endNode = _endNode;
-        ResetPath();
+        startPosition = _startPosition;
+        endPosition = _endPosition;
+        //ResetPath();
 
         if(path.Count == 0)
         {
@@ -36,17 +41,11 @@ public class PathFinder : MonoBehaviour
 
     private void ResetPath()
     {
-        searchCenter = null;
-        startNode.isExplored = false;
-        startNode.exploredFrom = null;
-        endNode.isExplored = false;
-        endNode.exploredFrom = null;
         path.Clear();
         
-        foreach(KeyValuePair<Vector2Int, Node> node in grid)
+        foreach(var item in map)
         {
-            node.Value.isExplored = false;
-            node.Value.exploredFrom = null;
+            item.Value.ResetValues();
         }
 
         queue.Clear();
@@ -61,41 +60,40 @@ public class PathFinder : MonoBehaviour
 
     private void CreatePath()
     {
-        SetAsPath(endNode);
+        SetAsPath(endPosition);
+        Vector2Int previous = map[endPosition].GetExploredFrom;
 
-        Node previous = endNode.exploredFrom;
-
-        while(previous != startNode)
+        while (previous != startPosition)
         {
             SetAsPath(previous);
-            previous = previous.exploredFrom;
+            Debug.Log(map[previous]);
+            previous = map[previous].GetExploredFrom;
         }
 
-        SetAsPath(startNode);
+        SetAsPath(startPosition);
         path.Reverse();
     }
 
-    private void SetAsPath(Node node)
-    {
-        path.Add(node);
+    private void SetAsPath(Vector2Int pos)
+    {      
+        path.Add(pos);
     }
 
     private void BreadthFirstSearch()
     {
-        queue.Enqueue(startNode);
+        queue.Enqueue(startPosition);
 
         while (queue.Count > 0 && isRunning)
         {
             searchCenter = queue.Dequeue();
             HaltIfEndFound();
             ExploreNeighbors();
-            searchCenter.isExplored = true;
         }
     }
 
     private void HaltIfEndFound()
-    {
-        if(searchCenter == endNode)
+    {       
+        if(searchCenter == endPosition)
         {
             isRunning = false;
         }
@@ -108,10 +106,11 @@ public class PathFinder : MonoBehaviour
             return;
         }
 
-        foreach(Vector2Int direction in directions)
+        foreach (Vector2Int direction in directions)
         {
-            Vector2Int neighborCoordinates = searchCenter.GetGridPos() + direction;
-            if (grid.ContainsKey(neighborCoordinates))
+            Vector2Int neighborCoordinates = searchCenter + direction;
+
+            if (map.ContainsKey(neighborCoordinates))
             {
                 QueueNewNeighbors(neighborCoordinates);
             }
@@ -120,32 +119,63 @@ public class PathFinder : MonoBehaviour
 
     private void QueueNewNeighbors(Vector2Int neighborCoordinates)
     {
-        Node neighbor = grid[neighborCoordinates];
-        if(neighbor.isExplored || queue.Contains(neighbor))
+        MapPointInfo info = map[neighborCoordinates];
+        if(info.GetHasBeenExplored == true || queue.Contains(neighborCoordinates))
         {
-            // do nothing
+            // skip
         }
         else
         {
-            queue.Enqueue(neighbor);
-            neighbor.exploredFrom = searchCenter;
+            queue.Enqueue(neighborCoordinates);
+            map[neighborCoordinates] = new MapPointInfo(searchCenter, true);
         }
     }
 
-    private void LoadNodes()
+    private void GenerateMap()
     {
-        Node[] nodes = FindObjectsOfType<Node>();
-        foreach (Node node in nodes)
+        foreach (Vector3Int pos in grid.theGrid)
         {
-            var gridPos = node.GetGridPos();
-            if (grid.ContainsKey(gridPos))
+            if (GetTile(pos) != null)
             {
-                Debug.LogWarning("Skipping overlapping node " + node + "at: " + node.GetGridPos().ToString());
-            }
-            else
-            {
-                grid.Add(gridPos, node);
+                MapPointInfo mapPointInfo = new MapPointInfo((Vector2Int)pos, false);
+                map.Add((Vector2Int)pos, mapPointInfo);
+                Debug.Log((Vector2Int)pos);
             }
         }
     }
+
+    public TileBase GetTile(Vector3Int atLocation)
+    {
+        TileBase tile = tileMap.GetTile(atLocation);
+        return tile;
+    }
+
+    public struct MapPointInfo
+    {
+        public Vector2Int exploredFrom;
+        public bool hasBeenExplored;
+
+        public MapPointInfo(Vector2Int _exploredFrom, bool _hasBeenExplored)
+        {
+            exploredFrom = _exploredFrom;
+            hasBeenExplored = _hasBeenExplored;
+        }
+
+        public bool GetHasBeenExplored
+        {
+            get { return hasBeenExplored; }
+        }
+
+        public Vector2Int GetExploredFrom
+        {
+            get { return exploredFrom; }
+        }
+
+        public void ResetValues()
+        {
+            exploredFrom = Vector2Int.zero;
+            hasBeenExplored = false;
+        }
+    }
+
 }

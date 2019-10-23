@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\Exit.cs" />
     <Compile Include="Assets\Scripts\GameScripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\GameScripts\GameController.cs" />
+    <Compile Include="Assets\Scripts\GameScripts\GridMap.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Loader.cs" />
     <Compile Include="Assets\Scripts\GameScripts\MenuController.cs" />
     <Compile Include="Assets\Scripts\GameScripts\PathFinder.cs" />
