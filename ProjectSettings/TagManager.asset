@@ -8,6 +8,7 @@ TagManager:
   - Directory
   - Transporter
   - Store
+  - Robot
   layers:
   - Default
   - TransparentFX
@@ -22,8 +23,8 @@ TagManager:
   - UntargetablePlayer
   - PostProcessing
   - MiniMap
-  - 
-  - 
+  - Walkable
+  - Robot
   - 
   - 
   - 

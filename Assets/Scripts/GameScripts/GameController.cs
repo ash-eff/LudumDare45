@@ -40,7 +40,6 @@ public class GameController : MonoBehaviour
     public void Awake()
     {
         valuableItems = FindObjectsOfType<ValuableItem>();
-        Debug.Log(valuableItems.Length);
         playerManager = FindObjectOfType<PlayerManager>();
         menuController = FindObjectOfType<MenuController>();
     }

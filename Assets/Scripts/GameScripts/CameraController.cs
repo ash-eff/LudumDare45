@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public float lerpSpeed;
+    public bool followPlayer;
     private GameController gameController;
     private PlayerManager playerManager;
 
@@ -12,23 +13,29 @@ public class CameraController : MonoBehaviour
     {
         playerManager = FindObjectOfType<PlayerManager>();
         gameController = FindObjectOfType<GameController>();
-        transform.position = new Vector3(playerManager.transform.position.x, playerManager.transform.position.y, -10f);  
+        if (followPlayer)
+        {
+            transform.position = new Vector3(playerManager.transform.position.x, playerManager.transform.position.y, -10f);
+        }
     }
 
     private void FixedUpdate()
     {
-        if (gameController.IsGameOver)
+        if (followPlayer)
         {
-            return;
-        }
+            if (gameController.IsGameOver)
+            {
+                return;
+            }
 
-        if (!playerManager.IsTeleporting)
-        {
-            FollowPlayer();
-        }
-        else
-        {
-            transform.position = new Vector3(playerManager.transform.position.x, playerManager.transform.position.y, -10f);
+            if (!playerManager.IsTeleporting)
+            {
+                FollowPlayer();
+            }
+            else
+            {
+                transform.position = new Vector3(playerManager.transform.position.x, playerManager.transform.position.y, -10f);
+            }
         }
     }
 
