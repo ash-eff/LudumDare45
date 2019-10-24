@@ -15,6 +15,7 @@ public class PathFinder : MonoBehaviour
     Vector2Int searchCenter;
     public List<Vector2Int> path = new List<Vector2Int>();
     List<Vector2Int> searchedItems = new List<Vector2Int>();
+    public bool isGeneratingMap = true;
 
     GridMap grid;
 
@@ -148,8 +149,7 @@ public class PathFinder : MonoBehaviour
             }
         }
 
-        RobotMove rMove = GetComponent<RobotMove>();
-        rMove.GetPathToFollow();
+        isGeneratingMap = false;
     }
 
     public TileBase GetTile(Vector3Int atLocation)

@@ -20,23 +20,23 @@ public class RobotMove : MonoBehaviour
 
     public int waypointIndex;
 
-    //public bool getGridNow = false;
-
     private void Start()
     {
         pathfinder = GetComponent<PathFinder>();
         startPos = waypoints[0].GetGridPos();
         targetPos = waypoints[1].GetGridPos();
         waypointIndex = 1;
+        StartCoroutine(WaittoStart());
     }
 
-    private void Update()
+    IEnumerator WaittoStart()
     {
-        //if (getGridNow)
-       // {
-       //     getGridNow = false;
-        //    GetPathToFollow();
-       // }
+        while (pathfinder.isGeneratingMap)
+        {
+            yield return null;
+        }
+
+        GetPathToFollow();
     }
 
     public void GetPathToFollow()
