@@ -44,11 +44,11 @@ public class GameController : MonoBehaviour
         menuController = FindObjectOfType<MenuController>();
     }
 
-    private void Update()
-    {
-        musicSource.volume = menuController.MusicVolume;
-        sfxSource.volume = menuController.SFXVolume;
-    }
+    //private void Update()
+    //{
+    //    musicSource.volume = menuController.MusicVolume;
+    //    sfxSource.volume = menuController.SFXVolume;
+    //}
 
     void GameOver()
     {
