@@ -78,12 +78,12 @@
     <Compile Include="Assets\Scripts\RobotScripts\RobotMove.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotShoot.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotVision.cs" />
+    <Compile Include="Assets\Scripts\RobotScripts\Waypoint.cs" />
     <Compile Include="Assets\Scripts\rWalk.cs" />
     <Compile Include="Assets\Scripts\StartPoint.cs" />
     <Compile Include="Assets\Scripts\Store.cs" />
     <Compile Include="Assets\Scripts\Transporter.cs" />
     <Compile Include="Assets\Scripts\ValuableItem.cs" />
-    <Compile Include="Assets\Scripts\Waypoint.cs" />
     <Compile Include="Assets\VHSPack\VHSDistort.cs" />
     <Compile Include="Assets\VHSPack\VHSEdge.cs" />
     <Compile Include="Assets\VHSPack\VHSLines.cs" />

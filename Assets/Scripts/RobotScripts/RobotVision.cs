@@ -20,9 +20,6 @@ public class RobotVision : MonoBehaviour
     private MenuController menuController;
     private float angleToTarget;
 
-    public AudioSource audioSource;
-    public AudioClip robotCaughtYou;
-
     private void Awake()
     {
         chainOfCommand = FindObjectOfType<RobotChainOfCommand>();
@@ -39,8 +36,6 @@ public class RobotVision : MonoBehaviour
         {
             return;
         }
-
-        audioSource.volume = menuController.SFXVolume;
 
         //if (!inPathOfOtherRobot)
         //{

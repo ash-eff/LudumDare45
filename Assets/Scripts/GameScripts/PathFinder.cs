@@ -5,19 +5,27 @@ using UnityEngine.Tilemaps;
 
 public class PathFinder : MonoBehaviour
 {
-    [SerializeField] Vector2Int startPosition, endPosition;
+    Vector2Int startPosition, endPosition;
 
     public Tilemap tileMap;
     public Dictionary<Vector2Int, MapPointInfo> map = new Dictionary<Vector2Int, MapPointInfo>();
     public Queue<Vector2Int> queue = new Queue<Vector2Int>();
     bool isRunning = true;
+    public bool mapComplete;
     Vector2Int searchCenter;
     public List<Vector2Int> path = new List<Vector2Int>();
-
-    Vector2Int[] directions = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left, };
-    //new Vector2Int(1,1),  new Vector2Int(-1, 1), new Vector2Int(-1,-1),  new Vector2Int(-1,1)};
+    List<Vector2Int> searchedItems = new List<Vector2Int>();
 
     GridMap grid;
+
+    Vector2Int[] directions = { Vector2Int.up, 
+                                Vector2Int.right,
+                                Vector2Int.down, 
+                                Vector2Int.left,
+                                new Vector2Int(1, 1), // up-right
+                                new Vector2Int(1, -1), // right-down
+                                new Vector2Int(-1, -1), //down-left
+                                new Vector2Int(-1, 1) }; // left-up
 
     private void Start()
     {
@@ -29,27 +37,24 @@ public class PathFinder : MonoBehaviour
     {
         startPosition = _startPosition;
         endPosition = _endPosition;
-        //ResetPath();
+        path.Clear();
 
-        if(path.Count == 0)
+        foreach (Vector2Int v in searchedItems)
+        {
+            map[v] = new MapPointInfo(Vector2Int.zero, false);
+        }
+
+        searchedItems.Clear();
+        queue.Clear();
+
+        isRunning = true;
+
+        if (path.Count == 0)
         {
             CalculatePath();
         }
 
         return path;
-    }
-
-    private void ResetPath()
-    {
-        path.Clear();
-        
-        foreach(var item in map)
-        {
-            item.Value.ResetValues();
-        }
-
-        queue.Clear();
-        isRunning = true;
     }
 
     private void CalculatePath()
@@ -66,7 +71,6 @@ public class PathFinder : MonoBehaviour
         while (previous != startPosition)
         {
             SetAsPath(previous);
-            Debug.Log(map[previous]);
             previous = map[previous].GetExploredFrom;
         }
 
@@ -75,13 +79,14 @@ public class PathFinder : MonoBehaviour
     }
 
     private void SetAsPath(Vector2Int pos)
-    {      
+    {
         path.Add(pos);
     }
 
     private void BreadthFirstSearch()
     {
         queue.Enqueue(startPosition);
+        searchedItems.Add(startPosition);
 
         while (queue.Count > 0 && isRunning)
         {
@@ -92,8 +97,8 @@ public class PathFinder : MonoBehaviour
     }
 
     private void HaltIfEndFound()
-    {       
-        if(searchCenter == endPosition)
+    {
+        if (searchCenter == endPosition)
         {
             isRunning = false;
         }
@@ -127,6 +132,7 @@ public class PathFinder : MonoBehaviour
         else
         {
             queue.Enqueue(neighborCoordinates);
+            searchedItems.Add(neighborCoordinates);
             map[neighborCoordinates] = new MapPointInfo(searchCenter, true);
         }
     }
@@ -139,9 +145,11 @@ public class PathFinder : MonoBehaviour
             {
                 MapPointInfo mapPointInfo = new MapPointInfo((Vector2Int)pos, false);
                 map.Add((Vector2Int)pos, mapPointInfo);
-                Debug.Log((Vector2Int)pos);
             }
         }
+
+        RobotMove rMove = GetComponent<RobotMove>();
+        rMove.GetPathToFollow();
     }
 
     public TileBase GetTile(Vector3Int atLocation)
@@ -170,12 +178,17 @@ public class PathFinder : MonoBehaviour
         {
             get { return exploredFrom; }
         }
-
-        public void ResetValues()
-        {
-            exploredFrom = Vector2Int.zero;
-            hasBeenExplored = false;
-        }
     }
 
+    private void OnDrawGizmos()
+    {
+        if(path.Count != 0)
+        {
+            foreach (Vector2Int v in path)
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawSphere(new Vector3(v.x, v.y, 0), .2f);
+            }
+        }
+    }
 }

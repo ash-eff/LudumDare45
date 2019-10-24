@@ -7,6 +7,7 @@ public class GridMap : MonoBehaviour
     public int gridWidth;
     public int gridHeight;
     public List<Vector3Int> theGrid = new List<Vector3Int>();
+    public bool isReady;
 
     private void Awake()
     {
@@ -22,5 +23,7 @@ public class GridMap : MonoBehaviour
                 theGrid.Add(new Vector3Int(x, y, 0));
             }
         }
+
+        isReady = true;
     }
 }
