@@ -9,6 +9,7 @@ public class RobotMove : MonoBehaviour
     public LayerMask obstacleLayer;
 
     public float moveSpeed;
+    public float currentSpeed;
     public float turnSpeed;
     public float scanWaitTime;
 
@@ -18,6 +19,8 @@ public class RobotMove : MonoBehaviour
     public Vector2Int startPos;
     public Vector2Int targetPos;
 
+    public Vector2 currentTargetPos;
+
     public int waypointIndex;
 
     private void Start()
@@ -26,10 +29,10 @@ public class RobotMove : MonoBehaviour
         startPos = waypoints[0].GetGridPos();
         targetPos = waypoints[1].GetGridPos();
         waypointIndex = 1;
-        StartCoroutine(WaittoStart());
+        StartCoroutine(WaitToStart());
     }
 
-    IEnumerator WaittoStart()
+    IEnumerator WaitToStart()
     {
         while (pathfinder.isGeneratingMap)
         {
@@ -52,10 +55,49 @@ public class RobotMove : MonoBehaviour
         }
     }
 
+    IEnumerator FollowPath(List<Vector2Int> path)
+    {
+        int nextIndexInPath = 0;
+        StartCoroutine(SpeedUp());
+        Vector3 lastPosInList = new Vector3(path[path.Count - 1].x, path[path.Count - 1].y, 0f);
+
+        foreach (Vector2Int vec in path)
+        {
+            nextIndexInPath++;
+            
+
+            if(nextIndexInPath == path.Count - 1)
+            {
+                float distanceToLastVec = (lastPosInList - transform.position).magnitude;
+                Debug.Log("Dist: " + distanceToLastVec);
+                StartCoroutine(SlowDown(distanceToLastVec));
+            }
+
+            if (nextIndexInPath > path.Count - 1)
+            {
+                // this is the last vec in path
+            }
+            else
+            {
+                StartCoroutine(RotateTowardsTarget(new Vector2(path[nextIndexInPath].x, path[nextIndexInPath].y)));
+            }
+            
+            while (transform.position != new Vector3(vec.x, vec.y, 0))
+            {
+                transform.position = Vector2.MoveTowards(transform.position, vec, currentSpeed * Time.deltaTime);
+                yield return null;
+            }
+        }
+
+        yield return new WaitForSeconds(.1f);
+        GetNextWaypoints();
+        GetPathToFollow();
+    }
+
     void GetNextWaypoints()
     {
         waypointIndex++;
-        if(waypointIndex > waypoints.Length - 1)
+        if (waypointIndex > waypoints.Length - 1)
         {
             waypointIndex = 0;
         }
@@ -63,59 +105,57 @@ public class RobotMove : MonoBehaviour
         targetPos = waypoints[waypointIndex].GetGridPos();
     }
 
-    IEnumerator FollowPath(List<Vector2Int> path)
+    IEnumerator SpeedUp()
     {
-        foreach (Vector2Int vec in path)
+        Debug.Log("Speed Up");
+        float startSpeed = .25f;
+        float lerpTime = 2f;
+        float currentLerpTime = 0;
+
+        while (currentSpeed < moveSpeed)
         {
-            StartCoroutine(RotateTowardsTarget(vec));
-            while (transform.position != new Vector3(vec.x, vec.y, 0))
+            currentLerpTime += Time.deltaTime;
+            if (currentLerpTime > lerpTime)
             {
-                
-
-                transform.position = Vector2.MoveTowards(transform.position, vec, moveSpeed * Time.deltaTime);
-                yield return null;
+                currentLerpTime = lerpTime;
             }
-        }
 
-        GetNextWaypoints();
-        //yield return StartCoroutine(ScanSurroundings());
-        // yield return StartCoroutine(RotateTowardsTarget(targetPos));
-        //yield return new WaitForSeconds(3f);
-        GetPathToFollow();
+            float perc = currentLerpTime / lerpTime;
+            currentSpeed = Mathf.Lerp(startSpeed, moveSpeed, perc);
+
+            yield return null;
+        }
     }
 
-    IEnumerator ScanSurroundings()
+    IEnumerator SlowDown(float byTime)
     {
-        float startingRotation = transform.rotation.z;
-        float maxRotation = 25f;
-        float leftRotation = 0;
-        float rightRotation = 0;
-    
-        yield return new WaitForSecondsRealtime(scanWaitTime);
-    
-        while(leftRotation < maxRotation)
+        Debug.Log("Slow Down");
+        float startSpeed = currentSpeed;
+        float endSpeed = .25f;
+        float lerpTime = byTime;
+        float currentLerpTime = 0;
+
+        while (currentSpeed > endSpeed)
         {
-            leftRotation++;
-            transform.Rotate(Vector3.forward);
+            currentLerpTime += Time.deltaTime;
+            if (currentLerpTime > lerpTime)
+            {
+                currentLerpTime = lerpTime;
+            }
+
+            float perc = currentLerpTime / lerpTime;
+            currentSpeed = Mathf.Lerp(startSpeed, endSpeed, perc);
+
             yield return null;
         }
-    
-        yield return new WaitForSecondsRealtime(scanWaitTime);
-    
-        while(rightRotation < (maxRotation * 2))
-        {
-            rightRotation++;
-            transform.Rotate(-Vector3.forward);
-            yield return null;
-        }
-    
-        yield return new WaitForSecondsRealtime(scanWaitTime);
-    
-        while (transform.rotation.z < startingRotation)
-        {
-            transform.Rotate(Vector3.forward);
-            yield return null;
-        }
+    }
+
+    void RotateBody(Vector3 toTarget)
+    {
+        Vector3 targetDirection = toTarget - transform.position;
+        float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
+        Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * turnSpeed);
     }
 
     IEnumerator RotateTowardsTarget(Vector2 target)

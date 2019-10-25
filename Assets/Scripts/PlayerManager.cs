@@ -6,27 +6,27 @@ using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
-    public float stealTime;
+    //public float stealTime;
     public float moveSpeed;
     public int lives = 3;
-
-    public GameObject mallDirectory;
-    public GameObject textInformationPanel;
-    public TextMeshProUGUI textInformation;
-    public TextMeshProUGUI floorText;
-    public TextMeshProUGUI storeText;
-    public GameObject deathPanel;
-    public GameObject hideActionsPanel;
-    public TextMeshProUGUI stolenValueText;
-    public TextMeshProUGUI livesTotalText;
-    public GameObject interactPanel;
-    public Image interactTimeFill;
-    public GameObject firstFloorDir;
-    public GameObject secondFloorDir;
-    public GameObject thirdFloorDir;
-    public AudioClip lootGrab;
-    public AudioSource audioSource;
-    public Vector2 checkPoint;
+    //
+    //public GameObject mallDirectory;
+    //public GameObject textInformationPanel;
+    //public TextMeshProUGUI textInformation;
+    //public TextMeshProUGUI floorText;
+    //public TextMeshProUGUI storeText;
+    //public GameObject deathPanel;
+    //public GameObject hideActionsPanel;
+    //public TextMeshProUGUI stolenValueText;
+    //public TextMeshProUGUI livesTotalText;
+    //public GameObject interactPanel;
+    //public Image interactTimeFill;
+    //public GameObject firstFloorDir;
+    //public GameObject secondFloorDir;
+    //public GameObject thirdFloorDir;
+    //public AudioClip lootGrab;
+    //public AudioSource audioSource;
+    //public Vector2 checkPoint;
 
     public bool playerOccupied;
     public bool isTeleporting;
@@ -40,11 +40,11 @@ public class PlayerManager : MonoBehaviour
     private Rigidbody2D rb2d;
     private Vector2 movement;
     private GameController gameController;
-    private GameObject currentItemBeingInteractedWith;
+    //private GameObject currentItemBeingInteractedWith;
     private SpriteRenderer spr;
-    private Transporter currentTransporter;
+    //private Transporter currentTransporter;
     private Animator anim;
-    private MenuController menuController;
+    //private MenuController menuController;
 
     public bool IsTeleporting { get { return isTeleporting; } }
     public bool IsSpotted { get { return isSpotted; } }
@@ -54,16 +54,16 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        menuController = FindObjectOfType<MenuController>();
+        //menuController = FindObjectOfType<MenuController>();
         anim = GetComponent<Animator>();
-        transform.position = FindObjectOfType<StartPoint>().transform.position;
+        transform.position = transform.position;
         spr = GetComponent<SpriteRenderer>();
-        stolenValueText.text = "Money stolen: $0000";
-        livesTotalText.text = "Lives: " + lives.ToString();
+        //stolenValueText.text = "Money stolen: $0000";
+        //livesTotalText.text = "Lives: " + lives.ToString();
         gameController = FindObjectOfType<GameController>();
-        CheckCurrentFloor();
-        checkPoint = transform.position;
-        StartCoroutine(SetPlayerUntargetable(2f));
+        //CheckCurrentFloor();
+        //checkPoint = transform.position;
+        //StartCoroutine(SetPlayerUntargetable(2f));
     }
 
     private void Update()
@@ -74,8 +74,8 @@ public class PlayerManager : MonoBehaviour
         }
 
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
-        CheckForButtonPress();
-        audioSource.volume = menuController.SFXVolume;
+        //CheckForButtonPress();
+        //audioSource.volume = menuController.SFXVolume;
     }
 
     private void FixedUpdate()
@@ -93,227 +93,227 @@ public class PlayerManager : MonoBehaviour
         rb2d.MovePosition((Vector2)transform.position + (direction * moveSpeed * Time.deltaTime));
     }
 
-    private void CheckForButtonPress()
-    {
-        if (canInteract && !playerOccupied && isTargetable)
-        {
-            if (Input.GetButtonDown("Interact"))
-            {
-                playerOccupied = true;
-                StartCoroutine(FillStealIndicatorBar());
-            }
-        }
+    //private void CheckForButtonPress()
+    //{
+    //    if (canInteract && !playerOccupied && isTargetable)
+    //    {
+    //        if (Input.GetButtonDown("Interact"))
+    //        {
+    //            playerOccupied = true;
+    //            //StartCoroutine(FillStealIndicatorBar());
+    //        }
+    //    }
+    //
+    //    if (canTeleport && !playerOccupied && isTargetable)
+    //    {
+    //        if (Input.GetButtonDown("Interact"))
+    //        {
+    //            CancelTextInformation();
+    //            playerOccupied = true;
+    //            StartCoroutine(MovePlayerToNewLocation(currentTransporter.exitLocation.transform.position));
+    //            checkPoint = currentTransporter.exitLocation.transform.position;
+    //        }
+    //    }
+    //}
 
-        if (canTeleport && !playerOccupied && isTargetable)
-        {
-            if (Input.GetButtonDown("Interact"))
-            {
-                CancelTextInformation();
-                playerOccupied = true;
-                StartCoroutine(MovePlayerToNewLocation(currentTransporter.exitLocation.transform.position));
-                checkPoint = currentTransporter.exitLocation.transform.position;
-            }
-        }
-    }
+    //private IEnumerator FillStealIndicatorBar()
+    //{
+    //    interactPanel.SetActive(true);
+    //    float timeOfInteraction = stealTime;
+    //    interactTimeFill.fillAmount = 0f;
+    //    while (Input.GetButton("Interact"))
+    //    {
+    //        timeOfInteraction -= Time.deltaTime;
+    //        interactTimeFill.fillAmount += Time.deltaTime / stealTime;
+    //
+    //        if (timeOfInteraction <= 0)
+    //        {
+    //            playerOccupied = false;
+    //            StealMoney();
+    //            break;
+    //        }
+    //
+    //        yield return null;
+    //    }
+    //
+    //    interactPanel.SetActive(false);
+    //    interactTimeFill.fillAmount = 0f;
+    //    playerOccupied = false;
+    //}
 
-    private IEnumerator FillStealIndicatorBar()
-    {
-        interactPanel.SetActive(true);
-        float timeOfInteraction = stealTime;
-        interactTimeFill.fillAmount = 0f;
-        while (Input.GetButton("Interact"))
-        {
-            timeOfInteraction -= Time.deltaTime;
-            interactTimeFill.fillAmount += Time.deltaTime / stealTime;
+    //private void StealMoney()
+    //{
+    //    audioSource.PlayOneShot(lootGrab);
+    //    canInteract = false;
+    //    totalMoneyStolen += currentItemBeingInteractedWith.GetComponent<ValuableItem>().itemValue;
+    //    Destroy(currentItemBeingInteractedWith);
+    //    currentItemBeingInteractedWith = null;
+    //    UpdateMoneyStolenValue(totalMoneyStolen);
+    //}
+    //
+    //public void UpdateMoneyStolenValue(int value)
+    //{
+    //    stolenValueText.text = "Money Stolen: $" + value.ToString("0000");
+    //}
+    //
+    //void UpdatesLivesTotal()
+    //{
+    //    livesTotalText.text = "Lives: " + lives.ToString();
+    //}
 
-            if (timeOfInteraction <= 0)
-            {
-                playerOccupied = false;
-                StealMoney();
-                break;
-            }
+    //public void PlayerSpotted()
+    //{
+    //    isSpotted = true;
+    //    canInteract = false;
+    //    lives--;
+    //    //UpdatesLivesTotal();
+    //
+    //    if (lives > 0)
+    //    {
+    //        ReturnToCheckPoint();
+    //    }
+    //    else
+    //    {
+    //        isDead = true;
+    //        gameController.GameLost();
+    //    }
+    //}
 
-            yield return null;
-        }
+    //private void ReturnToCheckPoint()
+    //{
+    //    StartCoroutine(MovePlayerToNewLocation(checkPoint));
+    //}
+    //
+    //private IEnumerator MovePlayerToNewLocation(Vector2 location)
+    //{
+    //    StartCoroutine(SetPlayerUntargetable(4f));
+    //    StartCoroutine(HidePlayerTeleport());
+    //    yield return new WaitForSecondsRealtime(1f);
+    //    isTeleporting = true;
+    //    transform.position = location;
+    //    CheckCurrentFloor();
+    //    yield return new WaitForSecondsRealtime(1.5f);
+    //    ResetStatus();
+    //}
+    //
+    //private IEnumerator SetPlayerUntargetable(float untargetableTime)
+    //{
+    //    isTargetable = false;
+    //    anim.SetBool("isUntargetable", true);
+    //    gameObject.layer = 10;
+    //    yield return new WaitForSecondsRealtime(untargetableTime);
+    //    anim.SetBool("isUntargetable", false);
+    //    gameObject.layer = 9;
+    //    isTargetable = true;
+    //}
 
-        interactPanel.SetActive(false);
-        interactTimeFill.fillAmount = 0f;
-        playerOccupied = false;
-    }
-
-    private void StealMoney()
-    {
-        audioSource.PlayOneShot(lootGrab);
-        canInteract = false;
-        totalMoneyStolen += currentItemBeingInteractedWith.GetComponent<ValuableItem>().itemValue;
-        Destroy(currentItemBeingInteractedWith);
-        currentItemBeingInteractedWith = null;
-        UpdateMoneyStolenValue(totalMoneyStolen);
-    }
-
-    public void UpdateMoneyStolenValue(int value)
-    {
-        stolenValueText.text = "Money Stolen: $" + value.ToString("0000");
-    }
-
-    void UpdatesLivesTotal()
-    {
-        livesTotalText.text = "Lives: " + lives.ToString();
-    }
-
-    public void PlayerSpotted()
-    {
-        isSpotted = true;
-        canInteract = false;
-        lives--;
-        UpdatesLivesTotal();
-
-        if (lives > 0)
-        {
-            ReturnToCheckPoint();
-        }
-        else
-        {
-            isDead = true;
-            gameController.GameLost();
-        }
-    }
-
-    private void ReturnToCheckPoint()
-    {
-        StartCoroutine(MovePlayerToNewLocation(checkPoint));
-    }
-
-    private IEnumerator MovePlayerToNewLocation(Vector2 location)
-    {
-        StartCoroutine(SetPlayerUntargetable(4f));
-        StartCoroutine(HidePlayerTeleport());
-        yield return new WaitForSecondsRealtime(1f);
-        isTeleporting = true;
-        transform.position = location;
-        CheckCurrentFloor();
-        yield return new WaitForSecondsRealtime(1.5f);
-        ResetStatus();
-    }
-
-    private IEnumerator SetPlayerUntargetable(float untargetableTime)
-    {
-        isTargetable = false;
-        anim.SetBool("isUntargetable", true);
-        gameObject.layer = 10;
-        yield return new WaitForSecondsRealtime(untargetableTime);
-        anim.SetBool("isUntargetable", false);
-        gameObject.layer = 9;
-        isTargetable = true;
-    }
-
-    private IEnumerator HidePlayerTeleport()
-    {
-        hideActionsPanel.SetActive(true);
-        yield return new WaitForSecondsRealtime(2.5f);
-        hideActionsPanel.SetActive(false);
-    }
-
-    private void CheckCurrentFloor()
-    {
-        if (transform.position.x < 75f)
-        {
-            floorText.text = "3rd Floor";
-            firstFloorDir.SetActive(false);
-            secondFloorDir.SetActive(false);
-            thirdFloorDir.SetActive(true);
-        }
-
-        if (transform.position.x > 75f && transform.position.x < 250f)
-        {
-            floorText.text = "2nd Floor";
-            firstFloorDir.SetActive(false);
-            secondFloorDir.SetActive(true);
-            thirdFloorDir.SetActive(false);
-        }
-
-        if (transform.position.x > 250f)
-        {
-            floorText.text = "1st Floor";
-            firstFloorDir.SetActive(true);
-            secondFloorDir.SetActive(false);
-            thirdFloorDir.SetActive(false);
-        }
-    }
-
-    private void ResetStatus()
-    {
-        isTeleporting = false;
-        playerOccupied = false;
-        isSpotted = false;
-        canInteract = false;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.tag == "Interactable")
-        {
-            DisplayTextInformation("press 'e' to steal!");
-            currentItemBeingInteractedWith = collision.gameObject;
-            canInteract = true;
-        }
-
-        if(collision.tag == "Directory")
-        {
-            mallDirectory.SetActive(true);
-        }
-
-        if (collision.tag == "Transporter" && !canTeleport)
-        {
-            currentTransporter = collision.GetComponent<Transporter>();
-            string teleporterInfoText = collision.GetComponent<Transporter>().transporterInfo;
-            DisplayTextInformation(teleporterInfoText);
-            canTeleport = true;
-        }
-
-        if (collision.tag == "Store")
-        {
-            storeText.text = collision.GetComponent<Store>().storeName;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if(collision.tag == "Interactable")
-        {
-            CancelTextInformation();
-            currentItemBeingInteractedWith = null;
-            canInteract = false;
-        }
-
-        if (collision.tag == "Directory")
-        {
-            mallDirectory.SetActive(false);
-        }
-
-        if (collision.tag == "Transporter")
-        {
-            currentTransporter = null;
-            CancelTextInformation();
-            canTeleport = false;
-        }
-    }
-
-    public void DisplayTextInformation(string s)
-    {
-        textInformation.text = s;
-        textInformationPanel.SetActive(true);
-    }
-
-    public void CancelTextInformation()
-    {     
-        textInformationPanel.SetActive(false);
-        textInformation.text = "";
-    }
-
-    public void Kill()
-    {
-        spr.enabled = false;
-        deathPanel.SetActive(true);
-    }
+    //private IEnumerator HidePlayerTeleport()
+    //{
+    //    hideActionsPanel.SetActive(true);
+    //    yield return new WaitForSecondsRealtime(2.5f);
+    //    hideActionsPanel.SetActive(false);
+    //}
+    //
+    //private void CheckCurrentFloor()
+    //{
+    //    if (transform.position.x < 75f)
+    //    {
+    //        floorText.text = "3rd Floor";
+    //        firstFloorDir.SetActive(false);
+    //        secondFloorDir.SetActive(false);
+    //        thirdFloorDir.SetActive(true);
+    //    }
+    //
+    //    if (transform.position.x > 75f && transform.position.x < 250f)
+    //    {
+    //        floorText.text = "2nd Floor";
+    //        firstFloorDir.SetActive(false);
+    //        secondFloorDir.SetActive(true);
+    //        thirdFloorDir.SetActive(false);
+    //    }
+    //
+    //    if (transform.position.x > 250f)
+    //    {
+    //        floorText.text = "1st Floor";
+    //        firstFloorDir.SetActive(true);
+    //        secondFloorDir.SetActive(false);
+    //        thirdFloorDir.SetActive(false);
+    //    }
+    //}
+    //
+    //private void ResetStatus()
+    //{
+    //    isTeleporting = false;
+    //    playerOccupied = false;
+    //    isSpotted = false;
+    //    canInteract = false;
+    //}
+    //
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if(collision.tag == "Interactable")
+    //    {
+    //        DisplayTextInformation("press 'e' to steal!");
+    //        currentItemBeingInteractedWith = collision.gameObject;
+    //        canInteract = true;
+    //    }
+    //
+    //    if(collision.tag == "Directory")
+    //    {
+    //        mallDirectory.SetActive(true);
+    //    }
+    //
+    //    if (collision.tag == "Transporter" && !canTeleport)
+    //    {
+    //        currentTransporter = collision.GetComponent<Transporter>();
+    //        string teleporterInfoText = collision.GetComponent<Transporter>().transporterInfo;
+    //        DisplayTextInformation(teleporterInfoText);
+    //        canTeleport = true;
+    //    }
+    //
+    //    if (collision.tag == "Store")
+    //    {
+    //        storeText.text = collision.GetComponent<Store>().storeName;
+    //    }
+    //}
+    //
+    //private void OnTriggerExit2D(Collider2D collision)
+    //{
+    //    if(collision.tag == "Interactable")
+    //    {
+    //        CancelTextInformation();
+    //        currentItemBeingInteractedWith = null;
+    //        canInteract = false;
+    //    }
+    //
+    //    if (collision.tag == "Directory")
+    //    {
+    //        mallDirectory.SetActive(false);
+    //    }
+    //
+    //    if (collision.tag == "Transporter")
+    //    {
+    //        currentTransporter = null;
+    //        CancelTextInformation();
+    //        canTeleport = false;
+    //    }
+    //}
+    //
+    //public void DisplayTextInformation(string s)
+    //{
+    //    textInformation.text = s;
+    //    textInformationPanel.SetActive(true);
+    //}
+    //
+    //public void CancelTextInformation()
+    //{     
+    //    textInformationPanel.SetActive(false);
+    //    textInformation.text = "";
+    //}
+    //
+    //public void Kill()
+    //{
+    //    spr.enabled = false;
+    //    deathPanel.SetActive(true);
+    //}
 }

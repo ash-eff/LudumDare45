@@ -77,7 +77,7 @@ public class GameController : MonoBehaviour
             sfxSource.PlayOneShot(countSound);
             playerScore++;
             moneyStolen--;
-            playerManager.UpdateMoneyStolenValue(moneyStolen);
+            //playerManager.UpdateMoneyStolenValue(moneyStolen);
             endScoreText.text = "Money Stolen: $" + playerScore.ToString("0000");
             yield return new WaitForSecondsRealtime(.01f);
         }

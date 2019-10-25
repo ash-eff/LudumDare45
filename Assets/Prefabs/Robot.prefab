@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8199884539260260485}
   - component: {fileID: 2015244561136198228}
   - component: {fileID: 8199884539260260490}
+  - component: {fileID: 2059388528}
   m_Layer: 0
   m_Name: Robot
   m_TagString: Untagged
@@ -103,13 +104,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   moveSpeed: 2
+  currentSpeed: 0
   turnSpeed: 180
   scanWaitTime: 1
-  waypoints: []
+  waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   startPos: {x: 0, y: 0}
   targetPos: {x: 0, y: 0}
+  currentTargetPos: {x: 0, y: 0}
   waypointIndex: 0
-  getGridNow: 0
 --- !u!114 &2015244561136198228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,11 +137,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 16384
   inPathOfOtherRobot: 0
-  playerTarget: {fileID: 0}
   visionDistance: 8
   visionAngle: 45
-  audioSource: {fileID: 0}
-  robotCaughtYou: {fileID: 8300000, guid: 91cea5dda653ee94ea8134c9e89ee86c, type: 3}
+  maxHeadRotation: 0
+  scanTime: 0
+  robotHead: {fileID: 3394284756593577350}
 --- !u!114 &8199884539260260490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +155,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileMap: {fileID: 0}
+  mapComplete: 0
   path: []
+  isGeneratingMap: 1
+--- !u!114 &2059388528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8199884539260260489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d73b0f095ffc09045a3163e2df4aa755, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8209327090551915222
 GameObject:
   m_ObjectHideFlags: 0
