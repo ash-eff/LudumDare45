@@ -72,10 +72,12 @@
     <Compile Include="Assets\Scripts\ItemLocation.cs" />
     <Compile Include="Assets\Scripts\MallDirectory.cs" />
     <Compile Include="Assets\Scripts\Node.cs" />
+    <Compile Include="Assets\Scripts\Noise.cs" />
     <Compile Include="Assets\Scripts\PlayerManager.cs" />
-    <Compile Include="Assets\Scripts\RobotScripts\RobotChainOfCommand.cs" />
+    <Compile Include="Assets\Scripts\RobotScripts\RobotAudioSensors.cs" />
+    <Compile Include="Assets\Scripts\RobotScripts\RobotController.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotFOV.cs" />
-    <Compile Include="Assets\Scripts\RobotScripts\RobotMove.cs" />
+    <Compile Include="Assets\Scripts\RobotScripts\RobotPathing.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotShoot.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotVision.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\Waypoint.cs" />

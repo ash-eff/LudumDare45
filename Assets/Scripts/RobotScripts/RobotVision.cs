@@ -16,8 +16,7 @@ public class RobotVision : MonoBehaviour
     public Transform robotHead;
 
     private GameController gameController;
-    private RobotChainOfCommand chainOfCommand;
-    private RobotMove robotMove;
+    private RobotPathing robotMove;
     private RobotShoot robotShoot;
     private RaycastHit2D hit;
     private Vector2 directionToTarget;
@@ -26,10 +25,9 @@ public class RobotVision : MonoBehaviour
 
     private void Awake()
     {
-        chainOfCommand = FindObjectOfType<RobotChainOfCommand>();
         menuController = FindObjectOfType<MenuController>();
         gameController = FindObjectOfType<GameController>();
-        robotMove = GetComponent<RobotMove>();
+        robotMove = GetComponent<RobotPathing>();
         robotShoot = GetComponent<RobotShoot>();
         //playerTarget = FindObjectOfType<PlayerManager>();
     }
