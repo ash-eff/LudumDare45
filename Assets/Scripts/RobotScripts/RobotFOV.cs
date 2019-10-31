@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RobotFOV : MonoBehaviour
 {
-    public RobotVision robotVision;
+    public RobotSenses robotSenses;
     private float viewRadius;
     private float viewAngle;
 
@@ -34,13 +34,13 @@ public class RobotFOV : MonoBehaviour
 
     void DrawFieldOfView()
     {
-        int stepCount = Mathf.RoundToInt((robotVision.visionAngle * 2) * meshResolution);
-        float stepAngleSize = (robotVision.visionAngle * 2) / stepCount;
+        int stepCount = Mathf.RoundToInt((robotSenses.visionAngle * 2) * meshResolution);
+        float stepAngleSize = (robotSenses.visionAngle * 2) / stepCount;
         List<Vector3> viewPoints = new List<Vector3>();
         ViewCastInfo oldViewCast = new ViewCastInfo();
         for (int i = 0; i <= stepCount; i++)
         {
-            float angle = transform.eulerAngles.z - (robotVision.visionAngle * 2) / 2 + stepAngleSize * i;
+            float angle = transform.eulerAngles.z - (robotSenses.visionAngle * 2) / 2 + stepAngleSize * i;
             ViewCastInfo newViewCast = ViewCast(angle);
 
             if (i > 0)
@@ -131,7 +131,7 @@ public class RobotFOV : MonoBehaviour
     ViewCastInfo ViewCast(float globalAngle)
     {
         Vector3 dir = DirFromAngle(globalAngle, true);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, robotVision.visionDistance, obstacleMask);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, robotSenses.visionDistance, obstacleMask);
 
         if (hit)
         {
@@ -139,7 +139,7 @@ public class RobotFOV : MonoBehaviour
         }
         else
         {
-            return new ViewCastInfo(false, transform.position + dir * robotVision.visionDistance, robotVision.visionDistance, globalAngle);
+            return new ViewCastInfo(false, transform.position + dir * robotSenses.visionDistance, robotSenses.visionDistance, globalAngle);
         }
     }
 

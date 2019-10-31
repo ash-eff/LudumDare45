@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 5824671865384576340}
   - component: {fileID: 8199884539260260485}
   - component: {fileID: 2015244561136198228}
-  - component: {fileID: 757632922774214778}
   - component: {fileID: 8199884539260260490}
   m_Layer: 14
   m_Name: Robot
@@ -125,6 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4a183163adc44041ad0d5418812e5a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
 --- !u!114 &8199884539260260485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,7 +137,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 513db5e9894295244b86b6420c5f2935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
   walkableLayer:
     serializedVersion: 2
     m_Bits: 8192
@@ -145,11 +144,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   moveSpeed: 2
-  investigateSpeed: 0
-  currentSpeed: 0
   turnSpeed: 180
-  scanWaitTime: 1
-  stopPathing: 0
   waypoints:
   - {fileID: 0}
   - {fileID: 0}
@@ -157,11 +152,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  startPos: {x: 0, y: 0}
-  targetPos: {x: 0, y: 0}
-  currentPos: {x: 0, y: 0}
-  currentTargetPos: {x: 0, y: 0}
-  waypointIndex: 0
 --- !u!114 &2015244561136198228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,19 +176,6 @@ MonoBehaviour:
   maxHeadRotation: 15
   scanTime: 0.75
   robotHead: {fileID: 3394284756593577350}
---- !u!114 &757632922774214778
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8199884539260260489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee9c7042f36ace24d8a78652138fc8dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  noiseLocation: {x: 0, y: 0}
 --- !u!114 &8199884539260260490
 MonoBehaviour:
   m_ObjectHideFlags: 0

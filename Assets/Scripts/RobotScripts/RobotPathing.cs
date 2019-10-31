@@ -156,11 +156,4 @@ public class RobotPathing : MonoBehaviour
             yield return null;
         }
     }
-
-    //public void FacePlayerTarget()
-    //{
-    //    //SetTarget(playerTarget.transform);
-    //    StopAllCoroutines();
-    //    //StartCoroutine(RotateTowardsTarget());
-    //}
 }

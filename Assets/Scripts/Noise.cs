@@ -32,7 +32,7 @@ public class Noise : MonoBehaviour
 
                 if (robotDistFromNoise < noiseVolume)
                 {
-                    robot.transform.GetComponent<RobotAudioSensors>().RobotHeardANoise(transform.position);
+                    robot.transform.GetComponent<RobotSenses>().HeardANoise(transform.position);
                 }
                 else
                 {
