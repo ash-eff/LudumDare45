@@ -276,26 +276,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f85d52d5c40fc74a9e5f6e925568353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stealTime: 0
   moveSpeed: 0
   lives: 3
-  mallDirectory: {fileID: 0}
-  textInformationPanel: {fileID: 0}
-  textInformation: {fileID: 0}
-  floorText: {fileID: 0}
-  storeText: {fileID: 0}
-  deathPanel: {fileID: 0}
-  hideActionsPanel: {fileID: 0}
-  stolenValueText: {fileID: 0}
-  livesTotalText: {fileID: 0}
-  interactPanel: {fileID: 4970451530318543339}
-  interactTimeFill: {fileID: 3046716533150169317}
-  firstFloorDir: {fileID: 0}
-  secondFloorDir: {fileID: 0}
-  thirdFloorDir: {fileID: 0}
-  lootGrab: {fileID: 0}
-  audioSource: {fileID: 0}
-  checkPoint: {x: 0, y: 0}
   playerOccupied: 0
   isTeleporting: 0
   isSpotted: 0
@@ -621,7 +603,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3799656877070034387
 RectTransform:
   m_ObjectHideFlags: 0
@@ -720,7 +702,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1262912911445012204
 RectTransform:
   m_ObjectHideFlags: 0
@@ -947,7 +929,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1443380290176800621
 Transform:
   m_ObjectHideFlags: 0

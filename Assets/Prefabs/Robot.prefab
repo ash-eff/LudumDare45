@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5824671865384576340}
   - component: {fileID: 8199884539260260485}
   - component: {fileID: 2015244561136198228}
+  - component: {fileID: 6655954298053282909}
   - component: {fileID: 8199884539260260490}
   m_Layer: 14
   m_Name: Robot
@@ -167,15 +168,29 @@ MonoBehaviour:
   visionLayer:
     serializedVersion: 2
     m_Bits: 768
-  robotLayer:
+  itemLayer:
     serializedVersion: 2
-    m_Bits: 16384
-  inPathOfOtherRobot: 0
+    m_Bits: 0
+  robotHead: {fileID: 3394284756593577350}
   visionDistance: 8
   visionAngle: 45
+  visionTime: 0
   maxHeadRotation: 15
   scanTime: 0.75
-  robotHead: {fileID: 3394284756593577350}
+  heardSomething: 0
+  locationOfSuspicion: {x: 0, y: 0}
+--- !u!114 &6655954298053282909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8199884539260260489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33c4db4fe9337d541ae99ba363bde56b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8199884539260260490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,7 +298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d4a5061c56234843bf07aceab0cceb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  robotVision: {fileID: 2015244561136198228}
+  robotSenses: {fileID: 2015244561136198228}
   targetMask:
     serializedVersion: 2
     m_Bits: 0

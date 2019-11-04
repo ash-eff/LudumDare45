@@ -75,6 +75,7 @@
     <Compile Include="Assets\Scripts\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\CurrentlyUnused\RobotShoot.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\PathFinder.cs" />
+    <Compile Include="Assets\Scripts\RobotScripts\RobotAlert.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotController.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotFOV.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotPathing.cs" />

@@ -5,6 +5,7 @@ using UnityEngine;
 public class RobotFOV : MonoBehaviour
 {
     public RobotSenses robotSenses;
+    public Material mat;
     private float viewRadius;
     private float viewAngle;
 

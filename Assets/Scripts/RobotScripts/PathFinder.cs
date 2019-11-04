@@ -180,15 +180,15 @@ public class PathFinder : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        if(path.Count != 0)
-        {
-            foreach (Vector2Int v in path)
-            {
-                Gizmos.color = Color.green;
-                Gizmos.DrawSphere(new Vector3(v.x, v.y, 0), .2f);
-            }
-        }
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    if(path.Count != 0)
+    //    {
+    //        foreach (Vector2Int v in path)
+    //        {
+    //            Gizmos.color = Color.green;
+    //            Gizmos.DrawSphere(new Vector3(v.x, v.y, 0), .2f);
+    //        }
+    //    }
+    //}
 }

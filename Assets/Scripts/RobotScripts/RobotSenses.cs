@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class RobotSenses : MonoBehaviour
 {
-    public LayerMask visionLayer;
+    public LayerMask visionLayer, itemLayer;
     public Transform robotHead;
 
     public float visionDistance;
+    public float baseVisionDistance;
     public float visionAngle;
+    public float visionTime;
     public float maxHeadRotation;
     public float scanTime;
+    public bool lockHeadOnTarget;
+
+    public bool heardSomething;
+
+    public Vector2 locationOfSuspicion;
 
     private RobotController robotController;
     private GameController gameController;
@@ -19,6 +26,12 @@ public class RobotSenses : MonoBehaviour
     {
         robotController = GetComponent<RobotController>();
         gameController = FindObjectOfType<GameController>();
+        baseVisionDistance = visionDistance;
+    }
+
+    private void Start()
+    {
+        StartCoroutine(Vision());
     }
 
     void Update()
@@ -32,6 +45,19 @@ public class RobotSenses : MonoBehaviour
         {
             PatrolScan();
         }
+
+        if (lockHeadOnTarget)
+        {
+            float distanceToTarget = ((Vector2)robotHead.transform.position - locationOfSuspicion).magnitude;
+            float angle = Mathf.Atan2(locationOfSuspicion.y - robotHead.transform.position.y, 
+                                      locationOfSuspicion.x - robotHead.transform.position.x) * Mathf.Rad2Deg;
+            robotHead.rotation = Quaternion.Euler(0f, 0f, angle);
+            visionDistance = distanceToTarget;
+        }
+        else
+        {
+            visionDistance = baseVisionDistance;
+        }
     }
 
     void PatrolScan()
@@ -39,47 +65,77 @@ public class RobotSenses : MonoBehaviour
         robotHead.localRotation = Quaternion.Euler(0f, 0f, maxHeadRotation * Mathf.Sin(Time.time * scanTime));
     }
 
-    void InvestigateScan()
-    {
-        // implement investigate scan
-    }
-
     public void HeardANoise(Vector2 atPosition)
     {
-        Vector2Int noiseLocation = new Vector2Int((int)atPosition.x, (int)atPosition.y);
-        Debug.DrawRay(transform.position, (Vector3)atPosition - transform.position, Color.green, 1f);
+        if (!heardSomething)
+        {
+            locationOfSuspicion = atPosition;
+            heardSomething = true;
+            Vector2Int noiseLocation = new Vector2Int((int)atPosition.x, (int)atPosition.y);
+            //Debug.DrawRay(transform.position, (Vector3)atPosition - transform.position, Color.yellow);
+            robotController.state = RobotController.State.AlertState;
+        }
     }
 
-    // rework this to cast a sphere and check for colliders on specific layers
-    // then check to see if any items are in field of view and identify objects for reaction
-    /*public void Vision(Vector2 atPosition)
+    IEnumerator Vision()
     {
-        Vector2 directionToTarget = atPosition - (Vector2)robotHead.position;
-        float angleToTarget = Vector2.Angle(directionToTarget, robotHead.right);
-        RaycastHit2D hit;
-
-        if (angleToTarget <= visionAngle)
+        while(robotController.state == RobotController.State.PatrolState)
         {
-            if (directionToTarget.magnitude <= visionDistance)
+            RaycastHit2D[] visableTargets = Physics2D.CircleCastAll(transform.position, visionDistance, transform.right, 0, itemLayer);
+            foreach(RaycastHit2D visableTarget in visableTargets)
             {
-                hit = Physics2D.Raycast(robotHead.position, directionToTarget.normalized, visionDistance, visionLayer);
+                Vector2 targetPos = visableTarget.transform.position;
+                Vector2 directionToTarget = targetPos - (Vector2)robotHead.position;
+                float angleToTarget = Vector2.Angle(directionToTarget, robotHead.right);
 
-                // was it the player?
-                if (hit.transform.tag == "Player" && hit.transform.GetComponent<PlayerManager>().IsSpotted)
+                RaycastHit2D hit;
+                hit = Physics2D.Raycast(robotHead.position, directionToTarget.normalized, visionDistance, visionLayer);
+                if (hit.transform.tag == "Player")
                 {
-                    Debug.Log("Hit Player");
+                    if (angleToTarget <= visionAngle)
+                    {
+                        Debug.DrawRay(transform.position, directionToTarget.normalized * directionToTarget.magnitude, Color.cyan);
+                    }
+                    else
+                    {
+                        Debug.DrawRay(transform.position, directionToTarget.normalized * directionToTarget.magnitude, Color.magenta);
+                    }
                 }
             }
+            yield return new WaitForSeconds(visionTime);
         }
-    } */
+    }
+
+    public IEnumerator CenterHead()
+    {
+        robotHead.localRotation = Quaternion.Euler(0f, 0f, 0f);
+        float lerpTime = .5f;
+        float currentLerpTime = 0;
+        float fromAngle = robotHead.localRotation.z;
+        while (fromAngle != 0)
+        {
+            currentLerpTime += Time.deltaTime;
+            float perc = currentLerpTime / lerpTime;
+            float newAngle = Mathf.Lerp(fromAngle, 0, perc);
+            robotHead.localRotation = Quaternion.Euler(0f, 0f, newAngle);
+            yield return null;
+        }
+
+        lockHeadOnTarget = true;
+    }
 
     // FOR TESTING ONLY
-    void TestingGizmos()
-    {
-        Debug.DrawRay(robotHead.position, robotHead.right * visionDistance, Color.red);
-        var leftDirection = Quaternion.AngleAxis(visionAngle, Vector3.forward) * robotHead.right;
-        var rightDirection = Quaternion.AngleAxis(-visionAngle, Vector3.forward) * robotHead.right;
-        Debug.DrawRay(robotHead.position, new Vector2(rightDirection.x, rightDirection.y) * visionDistance, Color.yellow);
-        Debug.DrawRay(robotHead.position, new Vector2(leftDirection.x, leftDirection.y) * visionDistance, Color.blue);
-    }
+    //void TestingGizmos()
+    //{
+    //    Debug.DrawRay(robotHead.position, robotHead.right * visionDistance, Color.red);
+    //    var leftDirection = Quaternion.AngleAxis(visionAngle, Vector3.forward) * robotHead.right;
+    //    var rightDirection = Quaternion.AngleAxis(-visionAngle, Vector3.forward) * robotHead.right;
+    //    Debug.DrawRay(robotHead.position, new Vector2(rightDirection.x, rightDirection.y) * visionDistance, Color.yellow);
+    //    Debug.DrawRay(robotHead.position, new Vector2(leftDirection.x, leftDirection.y) * visionDistance, Color.blue);
+    //}
+
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.DrawWireSphere(transform.position, visionDistance);
+    //}
 }

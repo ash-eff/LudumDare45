@@ -18,33 +18,47 @@ public class RobotPathing : MonoBehaviour
 
     private float currentSpeed;
 
-    private Vector2Int startPos;
-    private Vector2Int targetPos;
-    private Vector2Int currentPos;
+    public Vector2Int startPos;
+    public Vector2Int endPos;
+    public Vector2Int currentPos;
     private Vector2 currentTargetPos;
 
-    private int waypointIndex;
+    public int waypointIndex;
 
     private void Start()
     {
         robotController = GetComponent<RobotController>();
         pathfinder = GetComponent<PathFinder>();
-        startPos = waypoints[0].GetGridPos();
-        targetPos = waypoints[1].GetGridPos();
-        waypointIndex = 1;
     }
 
-    public void StartPathing()
+    public void GetNextWaypoints(Vector2Int currPos)
     {
-        if(robotController.state == RobotController.State.PatrolState)
+        waypointIndex++;
+        if (waypointIndex > waypoints.Length - 1)
         {
-            GetPathToFollow();
+            waypointIndex = 0;
+        }
+        SetPathStartAndEnd(currPos, waypoints[waypointIndex].GetGridPos());
+    }
+
+    public void SetPathStartAndEnd(Vector2Int _start, Vector2Int _end)
+    {
+        startPos = _start;
+        endPos = _end;
+    }
+
+    public void ResetToPreviousWaypoint()
+    {
+        waypointIndex--;
+        if (waypointIndex < 0)
+        {
+            waypointIndex = 0;
         }
     }
 
-    void GetPathToFollow()
+    public void GetPathToFollow()
     {
-        var path = pathfinder.GetPath(startPos, targetPos);
+        var path = pathfinder.GetPath(startPos, endPos);
         if(path != null)
         {
             StartCoroutine(FollowPath(path));
@@ -53,6 +67,7 @@ public class RobotPathing : MonoBehaviour
 
     IEnumerator FollowPath(List<Vector2Int> path)
     {
+        int stateValue = (int)robotController.state;
         int nextIndexInPath = 0;
         StartCoroutine(SpeedUp());
         Vector3 lastPosInList = new Vector3(path[path.Count - 1].x, path[path.Count - 1].y, 0f);
@@ -82,23 +97,24 @@ public class RobotPathing : MonoBehaviour
                 transform.position = Vector2.MoveTowards(transform.position, vec, currentSpeed * Time.deltaTime);
                 yield return null;
             }
+
+            if(stateValue != (int)robotController.state)
+            {
+                robotController.React();
+                yield break;
+            }
         }
 
-
-        yield return new WaitForSeconds(.1f);
-        GetNextWaypoints();
-        GetPathToFollow();
+        robotController.React();
     }
 
-    void GetNextWaypoints()
+    public IEnumerator InvestigatePath(Vector2Int _start, Vector2Int _end)
     {
-        waypointIndex++;
-        if (waypointIndex > waypoints.Length - 1)
-        {
-            waypointIndex = 0;
-        }
-        startPos = targetPos;
-        targetPos = waypoints[waypointIndex].GetGridPos();
+        Debug.Log("Investigating");
+        robotController.state = RobotController.State.InvestigateState;
+        yield return new WaitForSeconds(1f);
+        SetPathStartAndEnd(_start, _end);
+        GetPathToFollow();
     }
 
     IEnumerator SpeedUp()
@@ -144,7 +160,7 @@ public class RobotPathing : MonoBehaviour
         }
     }
 
-    IEnumerator RotateTowardsTarget(Vector2 target)
+    public IEnumerator RotateTowardsTarget(Vector2 target)
     {
         Vector2 targetDirection = target - (Vector2)transform.position;
         Vector3 rotatedVectorToTarget = Quaternion.Euler(0, 0, 90) * targetDirection;
