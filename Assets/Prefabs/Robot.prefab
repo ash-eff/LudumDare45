@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 8141688951398579237}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 3394284756593577350}
   m_RootOrder: 0
@@ -69,8 +69,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: 2c06d1cfdc521ce42a93bea4d3cbd00f, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: fce308e7505dd8a40b8b59f51722ac78, type: 3}
+  m_Color: {r: 0.30729514, g: 1, b: 0.08962262, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -156,7 +156,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 7e53a71836d75a94e99fa9320712f595, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fce308e7505dd8a40b8b59f51722ac78, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -184,7 +184,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.28, y: 1.28}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 0.64, y: 0.64}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -251,10 +251,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visionLayer:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 33536
   itemLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 32768
   robotHead: {fileID: 3394284756593577350}
   visionDistance: 8
   baseVisionDistance: 0
@@ -277,9 +277,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33c4db4fe9337d541ae99ba363bde56b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseFovColor: {r: 0, g: 0, b: 0, a: 0}
-  alertFovColor: {r: 0, g: 0, b: 0, a: 0}
-  alarmFovColor: {r: 0, g: 0, b: 0, a: 0}
+  robotBaseMat: {fileID: 2100000, guid: 94b6fba277ff8824ea83c5038822a5bf, type: 2}
+  robotAlertMat: {fileID: 2100000, guid: c86b5c268a78e6f4d8a4627fa0443ef7, type: 2}
+  robotAlarmMat: {fileID: 2100000, guid: 92d744de98819a142a45e2509106c165, type: 2}
 --- !u!114 &8199884539260260490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,7 +355,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c86b5c268a78e6f4d8a4627fa0443ef7, type: 2}
+  - {fileID: 2100000, guid: 94b6fba277ff8824ea83c5038822a5bf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

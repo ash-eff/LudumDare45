@@ -88,17 +88,22 @@ public class RobotSenses : MonoBehaviour
                 Vector2 directionToTarget = targetPos - (Vector2)robotHead.position;
                 float angleToTarget = Vector2.Angle(directionToTarget, robotHead.right);
 
-                RaycastHit2D hit;
-                hit = Physics2D.Raycast(robotHead.position, directionToTarget.normalized, visionDistance, visionLayer);
-                if (hit.transform.tag == "Player")
+                if (angleToTarget <= visionAngle)
                 {
-                    if (angleToTarget <= visionAngle)
+                    RaycastHit2D hit;
+                    hit = Physics2D.Raycast(robotHead.position, directionToTarget.normalized, visionDistance, visionLayer);
+                    if (hit)
                     {
-                        Debug.DrawRay(transform.position, directionToTarget.normalized * directionToTarget.magnitude, Color.cyan);
-                    }
-                    else
-                    {
-                        Debug.DrawRay(transform.position, directionToTarget.normalized * directionToTarget.magnitude, Color.magenta);
+                        if(hit.transform.tag == "Interactable")
+                        {
+                            ValuableItem valItem = hit.transform.GetComponent<ValuableItem>();
+                            if (!valItem.isClaimed)
+                            {
+                                locationOfSuspicion = valItem.transform.position;
+                                valItem.isClaimed = true;
+                                robotController.state = RobotController.State.AlertState;
+                            }
+                        }
                     }
                 }
             }

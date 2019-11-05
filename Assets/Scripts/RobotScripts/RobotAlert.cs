@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class RobotAlert : MonoBehaviour
 {
-    public Color baseFovColor;
-    public Color alertFovColor;
-    public Color alarmFovColor;
+    public Material robotBaseMat;
+    public Material robotAlertMat;
+    public Material robotAlarmMat;
 
     RobotSenses robotSenses;
     RobotFOV robotFOV;
@@ -18,7 +18,7 @@ public class RobotAlert : MonoBehaviour
     {
         robotSenses = GetComponent<RobotSenses>();
         robotFOV = GetComponentInChildren<RobotFOV>();
-        robotFOV.mat.color = baseFovColor;
+        robotFOV.GetComponent<MeshRenderer>().material = robotBaseMat;
         baseVisionAngle = robotSenses.visionAngle;
         alertAngle = robotSenses.visionAngle / 4;
         alarmAngle = robotSenses.visionAngle * 2;
@@ -26,23 +26,23 @@ public class RobotAlert : MonoBehaviour
 
     public void ReturnToStatusQuo()
     {
-        robotFOV.mat.color = baseFovColor;
+        robotFOV.GetComponent<MeshRenderer>().material = robotBaseMat;
         StartCoroutine(ChangeFOVSize(robotSenses.visionAngle, baseVisionAngle));
     }
-
+   
     public void OnAlert()
     {
-        robotFOV.mat.color = alertFovColor;
+        robotFOV.GetComponent<MeshRenderer>().material = robotAlertMat;
         StartCoroutine(robotSenses.CenterHead());
         StartCoroutine(ChangeFOVSize(robotSenses.visionAngle, alertAngle));
     }
-
+   
     public void OnAlarm()
     {
-        robotFOV.mat.color = alarmFovColor;
+        robotFOV.GetComponent<MeshRenderer>().material = robotAlarmMat;
         StartCoroutine(ChangeFOVSize(robotSenses.visionAngle, alarmAngle));
     }
-
+   
     IEnumerator ChangeFOVSize(float fromSize, float toSize)
     {
         float lerpTime = .5f;

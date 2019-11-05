@@ -23,6 +23,8 @@ public class RobotPathing : MonoBehaviour
     public Vector2Int currentPos;
     private Vector2 currentTargetPos;
 
+    public GameObject itemBeingIvestigated;
+
     public int waypointIndex;
 
     private void Start()
@@ -103,14 +105,24 @@ public class RobotPathing : MonoBehaviour
                 robotController.React();
                 yield break;
             }
+
+            if(robotController.state == RobotController.State.InvestigateState)
+            {
+                StartCoroutine(DealWithInvestigation());
+                break;
+            }
         }
 
         robotController.React();
     }
 
+    IEnumerator DealWithInvestigation()
+    {
+        yield return new WaitForSeconds(1f);
+    }
+
     public IEnumerator InvestigatePath(Vector2Int _start, Vector2Int _end)
     {
-        Debug.Log("Investigating");
         robotController.state = RobotController.State.InvestigateState;
         yield return new WaitForSeconds(1f);
         SetPathStartAndEnd(_start, _end);
@@ -162,14 +174,24 @@ public class RobotPathing : MonoBehaviour
 
     public IEnumerator RotateTowardsTarget(Vector2 target)
     {
-        Vector2 targetDirection = target - (Vector2)transform.position;
-        Vector3 rotatedVectorToTarget = Quaternion.Euler(0, 0, 90) * targetDirection;
-        Quaternion targetRotation = Quaternion.LookRotation(forward: Vector3.forward, upwards: rotatedVectorToTarget);
-    
-        while (transform.rotation != targetRotation)
+        float lerpTime = .5f;
+        float currentLerpTime = 0;
+        float angle = Mathf.Atan2(target.y - transform.position.y, target.x - transform.position.x) * Mathf.Rad2Deg;
+        float startingRot = transform.localEulerAngles.z;
+
+        if(startingRot > 180)
         {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
-            yield return null;
+            startingRot -= 360f;
         }
+
+        while (startingRot != Mathf.Abs(angle))
+        {
+            currentLerpTime += Time.deltaTime;
+            float perc = currentLerpTime / lerpTime;
+            float diff = Mathf.LerpAngle(startingRot, angle, perc);
+            transform.rotation = Quaternion.Euler(0f, 0f, diff);
+    
+            yield return null;
+        }      
     }
 }

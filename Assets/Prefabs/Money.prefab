@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 8975809566723240079}
   - component: {fileID: 8975809566723240078}
   - component: {fileID: 8975809566723240077}
-  m_Layer: 9
+  - component: {fileID: 727242897244051323}
+  m_Layer: 15
   m_Name: Money
-  m_TagString: Player
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,3 +98,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &727242897244051323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8975809566723240076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cce1b750e55f35a41b37d46b7d77144f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isClaimed: 0
+  originalItemLocation: {x: 0, y: 0}
+  currentItemLocation: {x: 0, y: 0}

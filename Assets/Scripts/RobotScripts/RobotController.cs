@@ -35,8 +35,9 @@ public class RobotController : MonoBehaviour
 
     public void React()
     {
+        Debug.Log(state);
         switch (state)
-        {
+        {         
             case State.PatrolState:
                 robotPathing.GetNextWaypoints(GetVector2IntOfPosition(transform.position));
                 robotPathing.GetPathToFollow();

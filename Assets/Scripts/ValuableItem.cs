@@ -4,58 +4,47 @@ using UnityEngine;
 
 public class ValuableItem : MonoBehaviour
 {
-    //public enum ItemType { Clothing, General, Sporting, Electronic, Children, Pets, Entertainment, Utility };
-    //public ItemType itemType;
-    public string itemName;
-    public int minValue, maxValue;
-    [Range(0,1)]
-    public float chanceForGoldenItem;
-    public int itemValue;
-    public string[] itemNames;
-    public bool isGolden;
-    public Sprite goldenSprite;
+    //public string itemName;
+    //public int minValue, maxValue;
+    //[Range(0,1)]
+    //public float chanceForGoldenItem;
+    //public int itemValue;
+    //public string[] itemNames;
+    //public bool isGolden;
+    //public Sprite goldenSprite;
 
+    public bool isClaimed;
+    
     private SpriteRenderer spr;
+    private Collider2D col;
 
-    private void Awake()
+    public Vector2 originalItemLocation;
+    public Vector2 currentItemLocation;
+
+    private void Start()
     {
         spr = GetComponent<SpriteRenderer>();
-        itemValue = GetItemValue();
-        itemName = GetItemName();
+        col = GetComponent<Collider2D>();
     }
 
-    int GetItemValue()
+    public void CheckIfItemIsOutOfPosition()
     {
-        if (CheckForGoldenItem())
+        if(originalItemLocation != currentItemLocation)
         {
-            spr.sprite = goldenSprite;
-            itemValue = maxValue * 10;
-            return itemValue;
+            PickUpItem();
         }
-
-        itemValue = Random.Range(minValue, maxValue);
-        return itemValue;
     }
 
-    bool CheckForGoldenItem()
+    void PickUpItem()
     {
-        float chance = Random.value;
-        if(chance <= chanceForGoldenItem)
-        {
-            isGolden = true;
-            return isGolden;
-        }
-
-        return false;
+        col.enabled = false;
+        spr.enabled = false;
+        transform.position = originalItemLocation;
     }
 
-    string GetItemName()
+    public void PlaceItem()
     {
-        if (isGolden)
-        {
-            return "Golden Shirt";
-        }
-
-        return itemNames[Random.Range(0, itemNames.Length)];
+        col.enabled = true;
+        spr.enabled = true;
     }
 }
