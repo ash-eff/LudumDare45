@@ -50,6 +50,7 @@ public class RobotController : MonoBehaviour
             case State.PatrolState:
                 robotSenses.lockHeadOnTarget = false;
                 robotAlert.ReturnToStatusQuo();
+                StartCoroutine(robotSenses.Vision());
                 robotPatrol.GetNextWaypoints(GetVector2IntOfPosition(transform.position));
                 robotPatrol.GetPathToFollow();
                 break;

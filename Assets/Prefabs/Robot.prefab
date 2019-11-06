@@ -230,7 +230,7 @@ MonoBehaviour:
   baseVisionDistance: 0
   visionAngle: 45
   visionTime: 0.1
-  maxHeadRotation: 15
+  maxHeadRotation: 10
   scanTime: 1
   lockHeadOnTarget: 0
   heardSomething: 0
@@ -253,8 +253,7 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 256
-  moveSpeed: 2
-  turnSpeed: 180
+  moveSpeed: 3.5
   waypoints:
   - {fileID: 0}
   - {fileID: 0}
@@ -265,7 +264,6 @@ MonoBehaviour:
   startPos: {x: 0, y: 0}
   endPos: {x: 0, y: 0}
   currentPos: {x: 0, y: 0}
-  itemBeingIvestigated: {fileID: 0}
   waypointIndex: 0
 --- !u!114 &6782120370340758966
 MonoBehaviour:
@@ -279,7 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f6eff6ddf494f949b5e6d9f3a5a8eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  investigateMoveSpeed: 2
+  investigateMoveSpeed: 3.5
 --- !u!114 &6655954298053282909
 MonoBehaviour:
   m_ObjectHideFlags: 0

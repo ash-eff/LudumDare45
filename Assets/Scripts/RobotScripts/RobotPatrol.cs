@@ -9,7 +9,6 @@ public class RobotPatrol : MonoBehaviour
     public LayerMask obstacleLayer;
 
     public float moveSpeed;
-    public float turnSpeed;
 
     public Waypoint[] waypoints;
 
@@ -89,7 +88,7 @@ public class RobotPatrol : MonoBehaviour
             }
             else
             {
-                StartCoroutine(RotateTowardsTarget(new Vector2(path[nextIndexInPath].x, path[nextIndexInPath].y)));
+                StartCoroutine(RotateTowardsTarget(new Vector2(vec.x, vec.y)));
             }
             
             while (transform.position != new Vector3(vec.x, vec.y, 0))
@@ -158,7 +157,7 @@ public class RobotPatrol : MonoBehaviour
 
     public IEnumerator RotateTowardsTarget(Vector2 target)
     {
-        float lerpTime = .5f;
+        float lerpTime = .2f;
         float currentLerpTime = 0;
         float angle = Mathf.Atan2(target.y - transform.position.y, target.x - transform.position.x) * Mathf.Rad2Deg;
         float startingRot = transform.localEulerAngles.z;

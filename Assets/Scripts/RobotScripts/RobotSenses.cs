@@ -13,8 +13,8 @@ public class RobotSenses : MonoBehaviour
     public float visionTime;
     public float maxHeadRotation;
     public float scanTime;
+
     public bool lockHeadOnTarget;
-    
     public bool heardSomething;
     
     public Vector2 locationOfSuspicion;
@@ -78,7 +78,7 @@ public class RobotSenses : MonoBehaviour
         }
     }
     
-    IEnumerator Vision()
+    public IEnumerator Vision()
     {
         while(robotController.state == RobotController.State.PatrolState)
         {

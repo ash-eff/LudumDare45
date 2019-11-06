@@ -59,7 +59,7 @@ public class RobotInvestigate : MonoBehaviour
             }
             else
             {
-                StartCoroutine(robotPatrol.RotateTowardsTarget(new Vector2(path[nextIndexInPath].x, path[nextIndexInPath].y)));
+                StartCoroutine(robotPatrol.RotateTowardsTarget(new Vector2(vec.x, vec.y)));
             }
 
             while (transform.position != new Vector3(vec.x, vec.y, 0))
