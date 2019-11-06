@@ -4,17 +4,27 @@ using UnityEngine;
 
 public class RobotController : MonoBehaviour
 {
-    public enum State { PatrolState, SearchState, InvestigateState, AlertState, WaitState, BreakState }
+    public enum State { PatrolState, SearchState, InvestigateState, ReturnState, AlarmState, WaitState, BreakState }
     public State state;
 
     private PathFinder pathfinder;
-    private RobotPathing robotPathing;
+    private RobotPatrol robotPatrol;
     private RobotSenses robotSenses;
     private RobotAlert robotAlert;
+    private RobotInvestigate robotInvestigate;
+
+    private GameObject itemOfInvestigation;
+
+    public GameObject ItemToInvestigate
+    {
+        get { return itemOfInvestigation; }
+        set { itemOfInvestigation = value; }
+    }
 
     private void Start()
     {
-        robotPathing = GetComponent<RobotPathing>();
+        robotInvestigate = GetComponent<RobotInvestigate>();
+        robotPatrol = GetComponent<RobotPatrol>();
         robotSenses = GetComponent<RobotSenses>();
         robotAlert = GetComponent<RobotAlert>();
         pathfinder = GetComponent<PathFinder>();
@@ -29,35 +39,34 @@ public class RobotController : MonoBehaviour
         }
 
         state = State.PatrolState;
-        robotPathing.GetNextWaypoints(GetVector2IntOfPosition(transform.position));
-        robotPathing.GetPathToFollow();
+        robotPatrol.GetNextWaypoints(GetVector2IntOfPosition(transform.position));
+        robotPatrol.GetPathToFollow();
     }
 
     public void React()
     {
-        Debug.Log(state);
         switch (state)
         {         
             case State.PatrolState:
-                robotPathing.GetNextWaypoints(GetVector2IntOfPosition(transform.position));
-                robotPathing.GetPathToFollow();
-                break;
-
-            case State.AlertState:
-                Vector2 investigatePosition = robotSenses.locationOfSuspicion;
-                StartCoroutine(robotPathing.RotateTowardsTarget(investigatePosition));
-                robotAlert.OnAlert();
-                StartCoroutine(robotPathing.InvestigatePath(GetVector2IntOfPosition(transform.position), GetVector2IntOfPosition(investigatePosition)));
+                robotSenses.lockHeadOnTarget = false;
+                robotAlert.ReturnToStatusQuo();
+                robotPatrol.GetNextWaypoints(GetVector2IntOfPosition(transform.position));
+                robotPatrol.GetPathToFollow();
                 break;
 
             case State.InvestigateState:
-                Debug.Log("Clear");
-                state = State.PatrolState;
-                robotAlert.ReturnToStatusQuo();
+                robotPatrol.ResetToPreviousWaypoint();
+                Vector2 investigatePosition = robotSenses.locationOfSuspicion;
+                StartCoroutine(robotPatrol.RotateTowardsTarget(investigatePosition));
+                robotAlert.OnAlert();
+                StartCoroutine(robotInvestigate.StartInvestigation(GetVector2IntOfPosition(transform.position), GetVector2IntOfPosition(investigatePosition)));
+                break;
+
+            case State.ReturnState:
                 robotSenses.lockHeadOnTarget = false;
-                robotPathing.ResetToPreviousWaypoint();
-                robotPathing.GetNextWaypoints(GetVector2IntOfPosition(transform.position));
-                robotPathing.GetPathToFollow();
+                robotAlert.ReturnToStatusQuo();
+                robotPatrol.SetPathStartAndEnd(GetVector2IntOfPosition(transform.position), robotInvestigate.GetReturnLocation);
+                robotPatrol.GetPathToFollow();
                 break;
         }
     }

@@ -92,8 +92,9 @@ GameObject:
   - component: {fileID: 8199884539260260491}
   - component: {fileID: 5884307201169813296}
   - component: {fileID: 5824671865384576340}
+  - component: {fileID: 3705186576986033670}
   - component: {fileID: 8199884539260260485}
-  - component: {fileID: 2015244561136198228}
+  - component: {fileID: 6782120370340758966}
   - component: {fileID: 6655954298053282909}
   - component: {fileID: 8199884539260260490}
   m_Layer: 14
@@ -206,6 +207,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+--- !u!114 &3705186576986033670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8199884539260260489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da16abb9faa807b4a95800c311bd30ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visionLayer:
+    serializedVersion: 2
+    m_Bits: 33536
+  itemLayer:
+    serializedVersion: 2
+    m_Bits: 32768
+  robotHead: {fileID: 3394284756593577350}
+  visionDistance: 8
+  baseVisionDistance: 0
+  visionAngle: 45
+  visionTime: 0.1
+  maxHeadRotation: 15
+  scanTime: 1
+  lockHeadOnTarget: 0
+  heardSomething: 0
+  locationOfSuspicion: {x: 0, y: 0}
 --- !u!114 &8199884539260260485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,8 +265,9 @@ MonoBehaviour:
   startPos: {x: 0, y: 0}
   endPos: {x: 0, y: 0}
   currentPos: {x: 0, y: 0}
+  itemBeingIvestigated: {fileID: 0}
   waypointIndex: 0
---- !u!114 &2015244561136198228
+--- !u!114 &6782120370340758966
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -246,25 +276,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8199884539260260489}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da16abb9faa807b4a95800c311bd30ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f6eff6ddf494f949b5e6d9f3a5a8eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visionLayer:
-    serializedVersion: 2
-    m_Bits: 33536
-  itemLayer:
-    serializedVersion: 2
-    m_Bits: 32768
-  robotHead: {fileID: 3394284756593577350}
-  visionDistance: 8
-  baseVisionDistance: 0
-  visionAngle: 45
-  visionTime: 0
-  maxHeadRotation: 15
-  scanTime: 0.75
-  lockHeadOnTarget: 0
-  heardSomething: 0
-  locationOfSuspicion: {x: 0, y: 0}
+  investigateMoveSpeed: 2
 --- !u!114 &6655954298053282909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,7 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d4a5061c56234843bf07aceab0cceb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  robotSenses: {fileID: 2015244561136198228}
+  robotSenses: {fileID: 3705186576986033670}
   mat: {fileID: 0}
   targetMask:
     serializedVersion: 2

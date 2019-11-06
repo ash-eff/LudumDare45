@@ -6,7 +6,7 @@ public class RobotSenses : MonoBehaviour
 {
     public LayerMask visionLayer, itemLayer;
     public Transform robotHead;
-
+    
     public float visionDistance;
     public float baseVisionDistance;
     public float visionAngle;
@@ -14,38 +14,40 @@ public class RobotSenses : MonoBehaviour
     public float maxHeadRotation;
     public float scanTime;
     public bool lockHeadOnTarget;
-
+    
     public bool heardSomething;
-
+    
     public Vector2 locationOfSuspicion;
-
+    
     private RobotController robotController;
+    private RobotInvestigate robotInvestigate;
     private GameController gameController;
-
+    
     private void Awake()
     {
+        robotInvestigate = GetComponent<RobotInvestigate>();
         robotController = GetComponent<RobotController>();
         gameController = FindObjectOfType<GameController>();
         baseVisionDistance = visionDistance;
     }
-
+    
     private void Start()
     {
         StartCoroutine(Vision());
     }
-
+    
     void Update()
     {
         if (gameController.IsGameOver)
         {
             return;
         }
-
-        if(robotController.state == RobotController.State.PatrolState)
+    
+        if(robotController.state == RobotController.State.PatrolState || robotController.state == RobotController.State.ReturnState)
         {
             PatrolScan();
         }
-
+    
         if (lockHeadOnTarget)
         {
             float distanceToTarget = ((Vector2)robotHead.transform.position - locationOfSuspicion).magnitude;
@@ -59,24 +61,23 @@ public class RobotSenses : MonoBehaviour
             visionDistance = baseVisionDistance;
         }
     }
-
+    
     void PatrolScan()
     {
         robotHead.localRotation = Quaternion.Euler(0f, 0f, maxHeadRotation * Mathf.Sin(Time.time * scanTime));
     }
-
+    
     public void HeardANoise(Vector2 atPosition)
     {
-        if (!heardSomething)
+        if(robotController.state == RobotController.State.PatrolState)
         {
             locationOfSuspicion = atPosition;
             heardSomething = true;
             Vector2Int noiseLocation = new Vector2Int((int)atPosition.x, (int)atPosition.y);
-            //Debug.DrawRay(transform.position, (Vector3)atPosition - transform.position, Color.yellow);
-            robotController.state = RobotController.State.AlertState;
+            robotController.state = RobotController.State.InvestigateState;
         }
     }
-
+    
     IEnumerator Vision()
     {
         while(robotController.state == RobotController.State.PatrolState)
@@ -87,7 +88,7 @@ public class RobotSenses : MonoBehaviour
                 Vector2 targetPos = visableTarget.transform.position;
                 Vector2 directionToTarget = targetPos - (Vector2)robotHead.position;
                 float angleToTarget = Vector2.Angle(directionToTarget, robotHead.right);
-
+    
                 if (angleToTarget <= visionAngle)
                 {
                     RaycastHit2D hit;
@@ -99,9 +100,10 @@ public class RobotSenses : MonoBehaviour
                             ValuableItem valItem = hit.transform.GetComponent<ValuableItem>();
                             if (!valItem.isClaimed)
                             {
+                                robotController.ItemToInvestigate = valItem.gameObject;
                                 locationOfSuspicion = valItem.transform.position;
                                 valItem.isClaimed = true;
-                                robotController.state = RobotController.State.AlertState;
+                                robotController.state = RobotController.State.InvestigateState;
                             }
                         }
                     }
@@ -110,7 +112,7 @@ public class RobotSenses : MonoBehaviour
             yield return new WaitForSeconds(visionTime);
         }
     }
-
+    
     public IEnumerator CenterHead()
     {
         robotHead.localRotation = Quaternion.Euler(0f, 0f, 0f);
@@ -125,10 +127,10 @@ public class RobotSenses : MonoBehaviour
             robotHead.localRotation = Quaternion.Euler(0f, 0f, newAngle);
             yield return null;
         }
-
+    
         lockHeadOnTarget = true;
     }
-
+    
     // FOR TESTING ONLY
     //void TestingGizmos()
     //{
@@ -138,7 +140,7 @@ public class RobotSenses : MonoBehaviour
     //    Debug.DrawRay(robotHead.position, new Vector2(rightDirection.x, rightDirection.y) * visionDistance, Color.yellow);
     //    Debug.DrawRay(robotHead.position, new Vector2(leftDirection.x, leftDirection.y) * visionDistance, Color.blue);
     //}
-
+    
     //private void OnDrawGizmos()
     //{
     //    Gizmos.DrawWireSphere(transform.position, visionDistance);

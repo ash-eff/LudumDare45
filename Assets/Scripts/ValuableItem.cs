@@ -23,6 +23,7 @@ public class ValuableItem : MonoBehaviour
 
     private void Start()
     {
+        currentItemLocation = transform.position;
         spr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
     }
