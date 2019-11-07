@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class RobotPatrol : MonoBehaviour
 {
@@ -58,7 +57,7 @@ public class RobotPatrol : MonoBehaviour
     public void GetPathToFollow()
     {
         var path = pathfinder.GetPath(startPos, endPos);
-        if(path != null)
+        if (path != null)
         {
             StartCoroutine(FollowPath(path));
         }
@@ -76,7 +75,7 @@ public class RobotPatrol : MonoBehaviour
             nextIndexInPath++;
             currentPos = vec;
 
-            if(nextIndexInPath == path.Count - 1)
+            if (nextIndexInPath == path.Count - 1)
             {
                 float distanceToLastVec = (lastPosInList - transform.position).magnitude;
                 StartCoroutine(SlowDown(distanceToLastVec));
@@ -90,21 +89,21 @@ public class RobotPatrol : MonoBehaviour
             {
                 StartCoroutine(RotateTowardsTarget(new Vector2(vec.x, vec.y)));
             }
-            
+
             while (transform.position != new Vector3(vec.x, vec.y, 0))
             {
                 transform.position = Vector2.MoveTowards(transform.position, vec, currentSpeed * Time.deltaTime);
                 yield return null;
             }
 
-            if(stateValue != (int)robotController.state)
+            if (stateValue != (int)robotController.state)
             {
                 robotController.React();
                 yield break;
             }
         }
 
-        if(robotController.state == RobotController.State.ReturnState)
+        if (robotController.state == RobotController.State.ReturnState)
         {
             robotController.ItemToInvestigate.GetComponent<ValuableItem>().PlaceItem();
             robotController.state = RobotController.State.PatrolState;
@@ -162,7 +161,7 @@ public class RobotPatrol : MonoBehaviour
         float angle = Mathf.Atan2(target.y - transform.position.y, target.x - transform.position.x) * Mathf.Rad2Deg;
         float startingRot = transform.localEulerAngles.z;
 
-        if(startingRot > 180)
+        if (startingRot > 180)
         {
             startingRot -= 360f;
         }
@@ -173,8 +172,8 @@ public class RobotPatrol : MonoBehaviour
             float perc = currentLerpTime / lerpTime;
             float diff = Mathf.LerpAngle(startingRot, angle, perc);
             transform.rotation = Quaternion.Euler(0f, 0f, diff);
-    
+
             yield return null;
-        }      
+        }
     }
 }

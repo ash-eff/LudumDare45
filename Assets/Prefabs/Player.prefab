@@ -233,7 +233,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3ca6f2d34ef5b0940bfbfdcf3f569924, type: 3}
-  m_Color: {r: 0, g: 0.88235295, b: 0.8156863, a: 1}
+  m_Color: {r: 0, g: 0.9820709, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -276,14 +276,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f85d52d5c40fc74a9e5f6e925568353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0
+  stealTime: 1
+  moveSpeed: 10
   lives: 3
+  interactPanel: {fileID: 4970451530318543339}
+  interactTimeFill: {fileID: 3046716533150169317}
   playerOccupied: 0
   isTeleporting: 0
   isSpotted: 0
   canInteract: 0
   canTeleport: 0
-  isTargetable: 0
+  isTargetable: 1
+  currentHeldItem: {fileID: 0}
 --- !u!95 &7146179297947915779
 Animator:
   serializedVersion: 3
@@ -603,7 +607,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3799656877070034387
 RectTransform:
   m_ObjectHideFlags: 0

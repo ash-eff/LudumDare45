@@ -36,7 +36,7 @@ public class ValuableItem : MonoBehaviour
         }
     }
 
-    void PickUpItem()
+    public void PickUpItem()
     {
         col.enabled = false;
         spr.enabled = false;
@@ -45,6 +45,14 @@ public class ValuableItem : MonoBehaviour
 
     public void PlaceItem()
     {
+        col.enabled = true;
+        spr.enabled = true;
+    }
+
+    public void DropItem(Vector2Int atLocation)
+    {
+        isClaimed = false;
+        transform.position = new Vector2(atLocation.x, atLocation.y);
         col.enabled = true;
         spr.enabled = true;
     }

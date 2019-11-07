@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7250191673102156684}
   - component: {fileID: 2534754347643502736}
+  - component: {fileID: 2881489704867292572}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -70,7 +71,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: fce308e7505dd8a40b8b59f51722ac78, type: 3}
-  m_Color: {r: 0.30729514, g: 1, b: 0.08962262, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.12284136, a: 0.19607843}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -80,6 +81,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &2881489704867292572
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8141688951398579237}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 10d94bbf9e0ca9f4a91ff6c85707f013, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8199884539260260489
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,7 +113,7 @@ GameObject:
   - component: {fileID: 5884307201169813296}
   - component: {fileID: 5824671865384576340}
   - component: {fileID: 3705186576986033670}
-  - component: {fileID: 8199884539260260485}
+  - component: {fileID: 395313930619051909}
   - component: {fileID: 6782120370340758966}
   - component: {fileID: 6655954298053282909}
   - component: {fileID: 8199884539260260490}
@@ -158,7 +178,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: fce308e7505dd8a40b8b59f51722ac78, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -235,7 +255,7 @@ MonoBehaviour:
   lockHeadOnTarget: 0
   heardSomething: 0
   locationOfSuspicion: {x: 0, y: 0}
---- !u!114 &8199884539260260485
+--- !u!114 &395313930619051909
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -244,7 +264,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8199884539260260489}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 513db5e9894295244b86b6420c5f2935, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e33ddeffa9c11b4a83007e29e23db1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   walkableLayer:
@@ -253,14 +273,8 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 256
-  moveSpeed: 3.5
-  waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  moveSpeed: 3
+  waypoints: []
   startPos: {x: 0, y: 0}
   endPos: {x: 0, y: 0}
   currentPos: {x: 0, y: 0}

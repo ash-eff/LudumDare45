@@ -56,7 +56,7 @@ public class RobotController : MonoBehaviour
                 break;
 
             case State.InvestigateState:
-                robotPatrol.ResetToPreviousWaypoint();
+                //robotPatrol.ResetToPreviousWaypoint();
                 Vector2 investigatePosition = robotSenses.locationOfSuspicion;
                 StartCoroutine(robotPatrol.RotateTowardsTarget(investigatePosition));
                 robotAlert.OnAlert();
