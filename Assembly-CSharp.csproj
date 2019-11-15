@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\DoorWay.cs" />
     <Compile Include="Assets\Scripts\Exit.cs" />
+    <Compile Include="Assets\Scripts\FakeRobot.cs" />
     <Compile Include="Assets\Scripts\GameScripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\GameScripts\GameController.cs" />
     <Compile Include="Assets\Scripts\GameScripts\GridMap.cs" />
@@ -99,6 +100,7 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\Shader\VisionAlarm.shader" />
+    <None Include="Assets\NavMeshComponents-master\ProjectSettings\ProjectVersion.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\VHSPack\ScreenVDistort.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
@@ -684,9 +686,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="NavMeshComponentsExamplesEditor.csproj">
+      <Project>{C4F4E5F0-C710-F2A9-49B0-86B68705F7A3}</Project>
+      <Name>NavMeshComponentsExamplesEditor</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.2D.Tilemap.Extras.Editor.csproj">
       <Project>{8A46ECBA-5CF7-99F4-09FA-7ABF06CF59A2}</Project>
       <Name>Unity.2D.Tilemap.Extras.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="NavMeshComponentsEditor.csproj">
+      <Project>{31056018-BCC9-08DD-5FB3-EB713747D313}</Project>
+      <Name>NavMeshComponentsEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="NavMeshComponents.csproj">
+      <Project>{5D350D30-9695-1F87-82A1-1141D3377301}</Project>
+      <Name>NavMeshComponents</Name>
+    </ProjectReference>
+    <ProjectReference Include="NavMeshComponentsExamples.csproj">
+      <Project>{96A0B260-34B4-44B2-8F39-3672524DCF15}</Project>
+      <Name>NavMeshComponentsExamples</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.2D.Tilemap.Extras.csproj">
       <Project>{61214228-A3D9-CA42-51B5-23A558BC97DB}</Project>
