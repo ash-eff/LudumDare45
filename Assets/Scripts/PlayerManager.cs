@@ -6,6 +6,9 @@ using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
+    public LayerMask wallLayer;
+    public float raylength;
+    public float numOfRays;
     public float stealTime;
     public float moveSpeed;
     public int lives = 3;
@@ -37,14 +40,13 @@ public class PlayerManager : MonoBehaviour
     private int totalMoneyStolen;
     private bool isDead;
 
-    private Rigidbody2D rb2d;
-    private Vector2 movement;
+    private Animator anim;
+    private Vector3 movement;
     private GameController gameController;
     private GameObject currentItemBeingInteractedWith;
     public GameObject currentHeldItem;
     private SpriteRenderer spr;
     //private Transporter currentTransporter;
-    private Animator anim;
     //private MenuController menuController;
 
     public bool IsTeleporting { get { return isTeleporting; } }
@@ -54,7 +56,6 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
-        rb2d = GetComponent<Rigidbody2D>();
         //menuController = FindObjectOfType<MenuController>();
         anim = GetComponent<Animator>();
         transform.position = transform.position;
@@ -74,8 +75,48 @@ public class PlayerManager : MonoBehaviour
             return;
         }
 
-        movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
+        movement = Vector3.zero;
+        movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
+        anim.SetFloat("DirX", movement.x);
+        anim.SetFloat("DirY", movement.z);
+        Debug.DrawRay(transform.position, Vector3.forward * raylength, Color.red);
+        Debug.DrawRay(transform.position, -Vector3.forward * raylength, Color.green);
+        Debug.DrawRay(transform.position, Vector3.right * raylength, Color.blue);
+        Debug.DrawRay(transform.position, -Vector3.right * raylength, Color.yellow);
+        if (movement.z != 0)
+        {
+            RaycastHit hitForward;
+            RaycastHit hitBack;
+            Debug.DrawRay(transform.position, Vector3.forward * raylength, Color.red);
+            Debug.DrawRay(transform.position, -Vector3.forward * raylength, Color.green);
+            if (Physics.Raycast(transform.position, Vector3.forward, out hitForward, raylength, wallLayer) && movement.z == 1f)
+            {
+                movement.z = 0f;
+            }
+            if (Physics.Raycast(transform.position, -Vector3.forward, out hitBack, raylength, wallLayer) && movement.z == -1f)
+            {
+                movement.z = 0f;
+            }
+        }
+
+        if(movement.x != 0)
+        {
+            RaycastHit hitRight;
+            RaycastHit hitLeft;
+
+            if (Physics.Raycast(transform.position, Vector3.right, out hitRight, raylength, wallLayer) && movement.x == 1f)
+            {
+                movement.x = 0f;
+            }
+            if (Physics.Raycast(transform.position, -Vector3.right, out hitLeft, raylength, wallLayer) && movement.x == -1f)
+            {
+                movement.x = 0f;
+            }
+        }
+
+
         CheckForButtonPress();
+        MovePlayer(movement.normalized);
         //audioSource.volume = menuController.SFXVolume;
     }
 
@@ -86,12 +127,14 @@ public class PlayerManager : MonoBehaviour
             return;
         }
 
-        MovePlayer(movement);
+
+        MovePlayer(movement.normalized);
     }
 
-    private void MovePlayer(Vector2 direction)
+    private void MovePlayer(Vector3 direction)
     {
-        rb2d.MovePosition((Vector2)transform.position + (direction * moveSpeed * Time.deltaTime));
+        transform.position = new Vector3(transform.position.x + (direction.x * moveSpeed * Time.deltaTime), 0.75f,
+                                         transform.position.z + (direction.z * moveSpeed * Time.deltaTime));
     }
 
     private void CheckForButtonPress()

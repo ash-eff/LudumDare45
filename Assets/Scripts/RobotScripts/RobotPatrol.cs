@@ -16,10 +16,10 @@ public class RobotPatrol : MonoBehaviour
 
     private float currentSpeed;
 
-    public Vector2Int startPos;
-    public Vector2Int endPos;
-    public Vector2Int currentPos;
-    private Vector2 currentTargetPos;
+    public Vector3 startPos;
+    public Vector3 endPos;
+    public Vector3 currentPos;
+    private Vector3 currentTargetPos;
 
     public int waypointIndex;
 
@@ -29,17 +29,17 @@ public class RobotPatrol : MonoBehaviour
         pathfinder = GetComponent<PathFinder>();
     }
 
-    public void GetNextWaypoints(Vector2Int currPos)
+    public void GetNextWaypoints(Vector3 currPos)
     {
         waypointIndex++;
         if (waypointIndex > waypoints.Length - 1)
         {
             waypointIndex = 0;
         }
-        SetPathStartAndEnd(currPos, waypoints[waypointIndex].GetGridPos());
+        SetPathStartAndEnd(currPos, waypoints[waypointIndex].transform.position);
     }
 
-    public void SetPathStartAndEnd(Vector2Int _start, Vector2Int _end)
+    public void SetPathStartAndEnd(Vector3 _start, Vector3 _end)
     {
         startPos = _start;
         endPos = _end;
@@ -63,21 +63,21 @@ public class RobotPatrol : MonoBehaviour
         }
     }
 
-    IEnumerator FollowPath(List<Vector2Int> path)
+    IEnumerator FollowPath(List<Vector3> path)
     {
         int stateValue = (int)robotController.state;
         int nextIndexInPath = 0;
         StartCoroutine(SpeedUp());
-        Vector3 lastPosInList = new Vector3(path[path.Count - 1].x, path[path.Count - 1].y, 0f);
+        Vector3 lastPosInList = new Vector3(path[path.Count - 1].x, 0, path[path.Count - 1].z);
 
-        foreach (Vector2Int vec in path)
+        foreach (Vector3 vec in path)
         {
             nextIndexInPath++;
             currentPos = vec;
 
             if (nextIndexInPath == path.Count - 1)
             {
-                float distanceToLastVec = (lastPosInList - transform.position).magnitude;
+                float distanceToLastVec = (lastPosInList - new Vector3(transform.position.x, 0f, transform.position.z)).magnitude;
                 StartCoroutine(SlowDown(distanceToLastVec));
             }
 
@@ -87,12 +87,12 @@ public class RobotPatrol : MonoBehaviour
             }
             else
             {
-                StartCoroutine(RotateTowardsTarget(new Vector2(vec.x, vec.y)));
+               // StartCoroutine(RotateTowardsTarget(new Vector3(vec.x, 0, vec.z)));
             }
 
-            while (transform.position != new Vector3(vec.x, vec.y, 0))
+            while (new Vector3(transform.position.x, 0f, transform.position.z) != new Vector3(vec.x, 0, vec.z))
             {
-                transform.position = Vector2.MoveTowards(transform.position, vec, currentSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, vec, currentSpeed * Time.deltaTime);
                 yield return null;
             }
 
@@ -154,26 +154,26 @@ public class RobotPatrol : MonoBehaviour
         }
     }
 
-    public IEnumerator RotateTowardsTarget(Vector2 target)
-    {
-        float lerpTime = .2f;
-        float currentLerpTime = 0;
-        float angle = Mathf.Atan2(target.y - transform.position.y, target.x - transform.position.x) * Mathf.Rad2Deg;
-        float startingRot = transform.localEulerAngles.z;
-
-        if (startingRot > 180)
-        {
-            startingRot -= 360f;
-        }
-
-        while (startingRot != Mathf.Abs(angle))
-        {
-            currentLerpTime += Time.deltaTime;
-            float perc = currentLerpTime / lerpTime;
-            float diff = Mathf.LerpAngle(startingRot, angle, perc);
-            transform.rotation = Quaternion.Euler(0f, 0f, diff);
-
-            yield return null;
-        }
-    }
+    //public IEnumerator RotateTowardsTarget(Vector2 target)
+    //{
+    //    float lerpTime = .2f;
+    //    float currentLerpTime = 0;
+    //    float angle = Mathf.Atan2(target.y - transform.position.y, target.x - transform.position.x) * Mathf.Rad2Deg;
+    //    float startingRot = transform.localEulerAngles.z;
+    //
+    //    if (startingRot > 180)
+    //    {
+    //        startingRot -= 360f;
+    //    }
+    //
+    //    while (startingRot != Mathf.Abs(angle))
+    //    {
+    //        currentLerpTime += Time.deltaTime;
+    //        float perc = currentLerpTime / lerpTime;
+    //        float diff = Mathf.LerpAngle(startingRot, angle, perc);
+    //        transform.rotation = Quaternion.Euler(0f, 0f, diff);
+    //
+    //        yield return null;
+    //    }
+    //}
 }

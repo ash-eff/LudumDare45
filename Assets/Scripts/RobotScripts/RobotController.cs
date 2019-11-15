@@ -39,7 +39,7 @@ public class RobotController : MonoBehaviour
         }
 
         state = State.PatrolState;
-        robotPatrol.GetNextWaypoints(GetVector2IntOfPosition(transform.position));
+        robotPatrol.GetNextWaypoints(transform.position);
         robotPatrol.GetPathToFollow();
     }
 
@@ -48,32 +48,32 @@ public class RobotController : MonoBehaviour
         switch (state)
         {         
             case State.PatrolState:
-                robotSenses.lockHeadOnTarget = false;
-                robotAlert.ReturnToStatusQuo();
-                StartCoroutine(robotSenses.Vision());
-                robotPatrol.GetNextWaypoints(GetVector2IntOfPosition(transform.position));
+                //robotSenses.lockHeadOnTarget = false;
+                //robotAlert.ReturnToStatusQuo();
+                //StartCoroutine(robotSenses.Vision());
+                robotPatrol.GetNextWaypoints(transform.position);
                 robotPatrol.GetPathToFollow();
                 break;
 
-            case State.InvestigateState:
-                //robotPatrol.ResetToPreviousWaypoint();
-                Vector2 investigatePosition = robotSenses.locationOfSuspicion;
-                StartCoroutine(robotPatrol.RotateTowardsTarget(investigatePosition));
-                robotAlert.OnAlert();
-                StartCoroutine(robotInvestigate.StartInvestigation(GetVector2IntOfPosition(transform.position), GetVector2IntOfPosition(investigatePosition)));
-                break;
-
-            case State.ReturnState:
-                robotSenses.lockHeadOnTarget = false;
-                robotAlert.ReturnToStatusQuo();
-                robotPatrol.SetPathStartAndEnd(GetVector2IntOfPosition(transform.position), robotInvestigate.GetReturnLocation);
-                robotPatrol.GetPathToFollow();
-                break;
+            //case State.InvestigateState:
+            //    robotPatrol.ResetToPreviousWaypoint();
+            //    Vector2 investigatePosition = robotSenses.locationOfSuspicion;
+            //    StartCoroutine(robotPatrol.RotateTowardsTarget(investigatePosition));
+            //    robotAlert.OnAlert();
+            //    StartCoroutine(robotInvestigate.StartInvestigation(GetVec3OfPosition(transform.position), GetVec3OfPosition(investigatePosition)));
+            //    break;
+            //
+            //case State.ReturnState:
+            //    robotSenses.lockHeadOnTarget = false;
+            //    robotAlert.ReturnToStatusQuo();
+            //    robotPatrol.SetPathStartAndEnd(GetVec3OfPosition(transform.position), robotInvestigate.GetReturnLocation);
+            //    robotPatrol.GetPathToFollow();
+            //    break;
         }
     }
 
-    Vector2Int GetVector2IntOfPosition(Vector3 ofPosition)
+    Vector3 GetVec3OfPosition(Vector3 ofPosition)
     {
-        return new Vector2Int((int)ofPosition.x, (int)ofPosition.y);
+        return new Vector3(ofPosition.x, 0, ofPosition.z);
     }
 }

@@ -5,28 +5,28 @@ using UnityEngine.Tilemaps;
 
 public class PathFinder : MonoBehaviour
 {
-    Vector2Int startPosition, endPosition;
+    Vector3 startPosition, endPosition;
 
     public Tilemap tileMap;
-    public Dictionary<Vector2Int, MapPointInfo> map = new Dictionary<Vector2Int, MapPointInfo>();
-    public Queue<Vector2Int> queue = new Queue<Vector2Int>();
+    public Dictionary<Vector3, MapPointInfo> map = new Dictionary<Vector3, MapPointInfo>();
+    public Queue<Vector3> queue = new Queue<Vector3>();
     bool isRunning = true;
     public bool mapComplete;
-    Vector2Int searchCenter;
-    public List<Vector2Int> path = new List<Vector2Int>();
-    List<Vector2Int> searchedItems = new List<Vector2Int>();
+    Vector3 searchCenter;
+    public List<Vector3> path = new List<Vector3>();
+    List<Vector3> searchedItems = new List<Vector3>();
     public bool isGeneratingMap = true;
 
     GridMap grid;
 
-    Vector2Int[] directions = { Vector2Int.up, 
-                                Vector2Int.right,
-                                Vector2Int.down, 
-                                Vector2Int.left,
-                                new Vector2Int(1, 1), // up-right
-                                new Vector2Int(1, -1), // right-down
-                                new Vector2Int(-1, -1), //down-left
-                                new Vector2Int(-1, 1) }; // left-up
+    Vector3[] directions = { new Vector3(0, 0, 1), // forward
+                                new Vector3(1, 0, 0), // right
+                                new Vector3(0, 0, -1), // back
+                                new Vector3(-1, 0, 0), // left
+                                new Vector3(1, 0, 1), // up-forward
+                                new Vector3(1, 0, -1), // right-back
+                                new Vector3(-1, 0, -1), //back-left
+                                new Vector3(-1, 0, 1) }; // left-forward
 
     private void Start()
     {
@@ -34,15 +34,15 @@ public class PathFinder : MonoBehaviour
         GenerateMap();
     }
 
-    public List<Vector2Int> GetPath(Vector2Int _startPosition, Vector2Int _endPosition)
+    public List<Vector3> GetPath(Vector3 _startPosition, Vector3 _endPosition)
     {
         startPosition = _startPosition;
         endPosition = _endPosition;
         path.Clear();
 
-        foreach (Vector2Int v in searchedItems)
+        foreach (Vector3 v in searchedItems)
         {
-            map[v] = new MapPointInfo(Vector2Int.zero, false);
+            map[v] = new MapPointInfo(Vector3.zero, false);
         }
 
         searchedItems.Clear();
@@ -67,7 +67,7 @@ public class PathFinder : MonoBehaviour
     private void CreatePath()
     {
         SetAsPath(endPosition);
-        Vector2Int previous = map[endPosition].GetExploredFrom;
+        Vector3 previous = map[endPosition].GetExploredFrom;
 
         while (previous != startPosition)
         {
@@ -79,7 +79,7 @@ public class PathFinder : MonoBehaviour
         path.Reverse();
     }
 
-    private void SetAsPath(Vector2Int pos)
+    private void SetAsPath(Vector3 pos)
     {
         path.Add(pos);
     }
@@ -112,10 +112,9 @@ public class PathFinder : MonoBehaviour
             return;
         }
 
-        foreach (Vector2Int direction in directions)
-        {
-            Vector2Int neighborCoordinates = searchCenter + direction;
-
+        foreach (Vector3 direction in directions)
+        { 
+            Vector3 neighborCoordinates = searchCenter + direction;
             if (map.ContainsKey(neighborCoordinates))
             {
                 QueueNewNeighbors(neighborCoordinates);
@@ -123,7 +122,7 @@ public class PathFinder : MonoBehaviour
         }
     }
 
-    private void QueueNewNeighbors(Vector2Int neighborCoordinates)
+    private void QueueNewNeighbors(Vector3 neighborCoordinates)
     {
         MapPointInfo info = map[neighborCoordinates];
         if(info.GetHasBeenExplored == true || queue.Contains(neighborCoordinates))
@@ -140,30 +139,21 @@ public class PathFinder : MonoBehaviour
 
     private void GenerateMap()
     {
-        foreach (Vector3Int pos in grid.theGrid)
+        foreach (Vector3 pos in grid.walkableTiles)
         {
-            if (GetTile(pos) != null)
-            {
-                MapPointInfo mapPointInfo = new MapPointInfo((Vector2Int)pos, false);
-                map.Add((Vector2Int)pos, mapPointInfo);
-            }
+            MapPointInfo mapPointInfo = new MapPointInfo(pos, false);
+            map.Add(pos, mapPointInfo);
         }
 
         isGeneratingMap = false;
     }
 
-    public TileBase GetTile(Vector3Int atLocation)
-    {
-        TileBase tile = tileMap.GetTile(atLocation);
-        return tile;
-    }
-
     public struct MapPointInfo
     {
-        public Vector2Int exploredFrom;
+        public Vector3 exploredFrom;
         public bool hasBeenExplored;
 
-        public MapPointInfo(Vector2Int _exploredFrom, bool _hasBeenExplored)
+        public MapPointInfo(Vector3 _exploredFrom, bool _hasBeenExplored)
         {
             exploredFrom = _exploredFrom;
             hasBeenExplored = _hasBeenExplored;
@@ -174,7 +164,7 @@ public class PathFinder : MonoBehaviour
             get { return hasBeenExplored; }
         }
 
-        public Vector2Int GetExploredFrom
+        public Vector3 GetExploredFrom
         {
             get { return exploredFrom; }
         }
@@ -184,7 +174,7 @@ public class PathFinder : MonoBehaviour
     {
         if(path.Count != 0)
         {
-            foreach (Vector2Int v in path)
+            foreach (Vector3 v in path)
             {
                 Gizmos.color = Color.yellow;
                 Gizmos.DrawSphere(new Vector3(v.x, v.y, 0), .1f);

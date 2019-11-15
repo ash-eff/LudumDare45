@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Waypoint : MonoBehaviour
 {
-    public Vector2Int GetGridPos()
-    {
-        return new Vector2Int((int)transform.position.x, (int)transform.position.y);
-    }
+    //public Vector3 GetGridPos()
+    //{
+    //    return new Vector3(transform.position.x, 0, transform.position.z);
+    //}
 }

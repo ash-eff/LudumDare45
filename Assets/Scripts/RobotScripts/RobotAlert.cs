@@ -24,35 +24,35 @@ public class RobotAlert : MonoBehaviour
         alarmAngle = robotSenses.visionAngle * 2;
     }
 
-    public void ReturnToStatusQuo()
-    {
-        robotFOV.GetComponent<MeshRenderer>().material = robotBaseMat;
-        StartCoroutine(ChangeFOVSize(robotSenses.visionAngle, baseVisionAngle));
-    }
-   
-    public void OnAlert()
-    {
-        robotFOV.GetComponent<MeshRenderer>().material = robotAlertMat;
-        StartCoroutine(robotSenses.CenterHead());
-        StartCoroutine(ChangeFOVSize(robotSenses.visionAngle, alertAngle));
-    }
-   
-    public void OnAlarm()
-    {
-        robotFOV.GetComponent<MeshRenderer>().material = robotAlarmMat;
-        StartCoroutine(ChangeFOVSize(robotSenses.visionAngle, alarmAngle));
-    }
-   
-    IEnumerator ChangeFOVSize(float fromSize, float toSize)
-    {
-        float lerpTime = .5f;
-        float currentLerpTime = 0;
-        while (fromSize != toSize)
-        {
-            currentLerpTime += Time.deltaTime;
-            float perc = currentLerpTime / lerpTime;
-            robotSenses.visionAngle = Mathf.Lerp(fromSize, toSize, perc);
-            yield return null;
-        }
-    }
+    //public void ReturnToStatusQuo()
+    //{
+    //    robotFOV.GetComponent<MeshRenderer>().material = robotBaseMat;
+    //    StartCoroutine(ChangeFOVSize(robotSenses.visionAngle, baseVisionAngle));
+    //}
+    //
+    //public void OnAlert()
+    //{
+    //    robotFOV.GetComponent<MeshRenderer>().material = robotAlertMat;
+    //    StartCoroutine(robotSenses.CenterHead());
+    //    StartCoroutine(ChangeFOVSize(robotSenses.visionAngle, alertAngle));
+    //}
+    //
+    //public void OnAlarm()
+    //{
+    //    robotFOV.GetComponent<MeshRenderer>().material = robotAlarmMat;
+    //    StartCoroutine(ChangeFOVSize(robotSenses.visionAngle, alarmAngle));
+    //}
+    //
+    //IEnumerator ChangeFOVSize(float fromSize, float toSize)
+    //{
+    //    float lerpTime = .5f;
+    //    float currentLerpTime = 0;
+    //    while (fromSize != toSize)
+    //    {
+    //        currentLerpTime += Time.deltaTime;
+    //        float perc = currentLerpTime / lerpTime;
+    //        robotSenses.visionAngle = Mathf.Lerp(fromSize, toSize, perc);
+    //        yield return null;
+    //    }
+    //}
 }
