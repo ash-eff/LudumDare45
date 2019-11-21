@@ -275,3 +275,9 @@ D:\Dev\repos\FiveFingerDiscount\obj\Debug\Assembly-CSharp.csproj.CoreCompileInpu
 D:\Dev\repos\FiveFingerDiscount\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 D:\Dev\repos\FiveFingerDiscount\obj\Debug\Assembly-CSharp.dll
 D:\Dev\repos\FiveFingerDiscount\obj\Debug\Assembly-CSharp.pdb
+D:\Dev\repos\FiveFingerDiscount\Temp\bin\Debug\NavMeshComponentsExamplesEditor.pdb
+D:\Dev\repos\FiveFingerDiscount\Temp\bin\Debug\Unity.2D.Tilemap.Extras.Editor.pdb
+D:\Dev\repos\FiveFingerDiscount\Temp\bin\Debug\NavMeshComponentsEditor.pdb
+D:\Dev\repos\FiveFingerDiscount\Temp\bin\Debug\NavMeshComponents.pdb
+D:\Dev\repos\FiveFingerDiscount\Temp\bin\Debug\NavMeshComponentsExamples.pdb
+D:\Dev\repos\FiveFingerDiscount\Temp\bin\Debug\Unity.2D.Tilemap.Extras.pdb

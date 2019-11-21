@@ -10,6 +10,7 @@ public class RobotPatrol : MonoBehaviour
     public float moveSpeed;
 
     public Waypoint[] waypoints;
+    public Animator anim;
 
     private PathFinder pathfinder;
     private RobotController robotController;
@@ -25,6 +26,7 @@ public class RobotPatrol : MonoBehaviour
 
     private void Start()
     {
+        anim = GetComponent<Animator>();
         robotController = GetComponent<RobotController>();
         pathfinder = GetComponent<PathFinder>();
     }
@@ -72,6 +74,9 @@ public class RobotPatrol : MonoBehaviour
 
         foreach (Vector3 vec in path)
         {
+            Vector2 dir = (vec - transform.position).normalized;
+            anim.SetFloat("DirX", dir.x);
+            anim.SetFloat("DirY", dir.y);
             nextIndexInPath++;
             currentPos = vec;
 
