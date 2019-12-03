@@ -11,24 +11,35 @@ public class RoomReveal : MonoBehaviour
 
     private void Start()
     {
+        room = GetComponent<Tilemap>();
         room.color = tilemapColor;
     }
 
-    private void OnTriggerExit(Collider other)
-    {       
-        if(other.transform.tag == "Player")
-        {
-            hidden = !hidden;
-            if (hidden)
-            {
-                StartCoroutine(FadeTilesIn());
-            }
-            else
-            {
-                StartCoroutine(FadeTilesOut());
-            }
-        }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        StartCoroutine(FadeTilesOut());
     }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        StartCoroutine(FadeTilesIn());
+    }
+
+    //private void OnTriggerExit(Collider other)
+    //{       
+    //    if(other.transform.tag == "Player")
+    //    {
+    //        hidden = !hidden;
+    //        if (hidden)
+    //        {
+    //            StartCoroutine(FadeTilesIn());
+    //        }
+    //        else
+    //        {
+    //            StartCoroutine(FadeTilesOut());
+    //        }
+    //    }
+    //}
 
     IEnumerator FadeTilesIn()
     {

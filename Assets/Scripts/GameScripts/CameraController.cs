@@ -15,11 +15,11 @@ public class CameraController : MonoBehaviour
         gameController = FindObjectOfType<GameController>();
         if (followPlayer)
         {
-            transform.position = new Vector3(playerManager.transform.position.x, playerManager.transform.position.z +10, -10f);
+            transform.position = new Vector3(playerManager.transform.position.x, playerManager.transform.position.y, -10f);
         }
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         if (followPlayer)
         {
@@ -34,14 +34,14 @@ public class CameraController : MonoBehaviour
             }
             else
             {
-                transform.position = new Vector3(playerManager.transform.position.x, playerManager.transform.position.z + 10, -10f);
+                transform.position = new Vector3(playerManager.transform.position.x, playerManager.transform.position.y, -10f);
             }
         }
     }
 
     void FollowPlayer()
     {
-        Vector3 targetPos = new Vector3(playerManager.transform.position.x, playerManager.transform.position.z + 10, -10f);
+        Vector3 targetPos = new Vector3(playerManager.transform.position.x, playerManager.transform.position.y, -10f);
         transform.position = Vector3.Lerp(transform.position, targetPos, lerpSpeed * Time.deltaTime);
     }
 }

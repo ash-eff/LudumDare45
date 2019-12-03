@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 4758818869084198285}
   - component: {fileID: 4758818869084198286}
   - component: {fileID: 4758818869084198258}
-  - component: {fileID: 4758818869084198259}
   - component: {fileID: 4758818869084198257}
   m_Layer: 0
   m_Name: Main Camera
@@ -46,7 +45,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 0}
+  m_BackGroundColor: {r: 0.15686275, g: 0.1764706, b: 0.19607843, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -63,11 +62,11 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 15
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 3895
+    m_Bits: 118583
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -99,7 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab26320a8a403d643824e07940e043a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpSpeed: 2
+  lerpSpeed: 5
+  followPlayer: 0
 --- !u!114 &4758818869084198258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,19 +113,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   screenEdge: {fileID: 2100000, guid: 0410b0e189fa55e42b06335bbb056343, type: 2}
---- !u!114 &4758818869084198259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4758818869084198284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 224f38912ab64314e9c9894c2812f1be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  screenLines: {fileID: 2100000, guid: 63ba4bfb687378145bb7a51de0fd4950, type: 2}
 --- !u!114 &4758818869084198257
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -74,6 +74,7 @@
     <Compile Include="Assets\Scripts\MallDirectory.cs" />
     <Compile Include="Assets\Scripts\Node.cs" />
     <Compile Include="Assets\Scripts\Noise.cs" />
+    <Compile Include="Assets\Scripts\PlayerCollision.cs" />
     <Compile Include="Assets\Scripts\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\CurrentlyUnused\RobotShoot.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\PathFinder.cs" />

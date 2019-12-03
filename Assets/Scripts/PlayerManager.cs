@@ -7,11 +7,17 @@ using TMPro;
 public class PlayerManager : MonoBehaviour
 {
     public LayerMask wallLayer;
-    public float raylength;
-    public float numOfRays;
+    public float xRaylength;
+    public float yRaylength;
+    public float xOffset;
+    public float yOffset;
+    public float xNumOfRays;
+    public float yNumOfRays;
     public float stealTime;
     public float moveSpeed;
     public int lives = 3;
+
+
     //
     //public GameObject mallDirectory;
     //public GameObject textInformationPanel;
@@ -75,47 +81,39 @@ public class PlayerManager : MonoBehaviour
             return;
         }
 
+        Vector3 castPosition = new Vector3(transform.position.x + xOffset, transform.position.y + yOffset, 0f);
         movement = Vector3.zero;
-        movement = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
-        anim.SetFloat("DirX", movement.x);
-        anim.SetFloat("DirY", movement.z);
-        Debug.DrawRay(transform.position, Vector3.forward * raylength, Color.red);
-        Debug.DrawRay(transform.position, -Vector3.forward * raylength, Color.green);
-        Debug.DrawRay(transform.position, Vector3.right * raylength, Color.blue);
-        Debug.DrawRay(transform.position, -Vector3.right * raylength, Color.yellow);
-        if (movement.z != 0)
+        movement = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0f);
+        Debug.DrawRay(castPosition, Vector3.up * yRaylength, Color.red);
+        Debug.DrawRay(castPosition, -Vector3.up * yRaylength, Color.green);
+        Debug.DrawRay(castPosition, Vector3.right * xRaylength, Color.blue);
+        Debug.DrawRay(castPosition, -Vector3.right * xRaylength, Color.yellow);
+        if (movement.y != 0)
         {
-            RaycastHit hitForward;
-            RaycastHit hitBack;
-            Debug.DrawRay(transform.position, Vector3.forward * raylength, Color.red);
-            Debug.DrawRay(transform.position, -Vector3.forward * raylength, Color.green);
-            if (Physics.Raycast(transform.position, Vector3.forward, out hitForward, raylength, wallLayer) && movement.z == 1f)
+            if (Physics2D.Raycast(castPosition, Vector3.up, yRaylength, wallLayer) && movement.y == 1f)
             {
-                movement.z = 0f;
+                movement.y = 0f;
             }
-            if (Physics.Raycast(transform.position, -Vector3.forward, out hitBack, raylength, wallLayer) && movement.z == -1f)
+            if (Physics2D.Raycast(castPosition, -Vector3.up, yRaylength, wallLayer) && movement.y == -1f)
             {
-                movement.z = 0f;
+                movement.y = 0f;
             }
         }
-
+        
         if(movement.x != 0)
         {
-            RaycastHit hitRight;
-            RaycastHit hitLeft;
-
-            if (Physics.Raycast(transform.position, Vector3.right, out hitRight, raylength, wallLayer) && movement.x == 1f)
+            if (Physics2D.Raycast(castPosition, Vector3.right, xRaylength, wallLayer) && movement.x == 1f)
             {
                 movement.x = 0f;
             }
-            if (Physics.Raycast(transform.position, -Vector3.right, out hitLeft, raylength, wallLayer) && movement.x == -1f)
+            if (Physics2D.Raycast(castPosition, -Vector3.right, xRaylength, wallLayer) && movement.x == -1f)
             {
                 movement.x = 0f;
             }
         }
 
 
-        CheckForButtonPress();
+        //CheckForButtonPress();
         MovePlayer(movement.normalized);
         //audioSource.volume = menuController.SFXVolume;
     }
@@ -128,13 +126,13 @@ public class PlayerManager : MonoBehaviour
         }
 
 
-        MovePlayer(movement.normalized);
+        //MovePlayer(movement.normalized);
     }
 
     private void MovePlayer(Vector3 direction)
     {
-        transform.position = new Vector3(transform.position.x + (direction.x * moveSpeed * Time.deltaTime), 0.75f,
-                                         transform.position.z + (direction.z * moveSpeed * Time.deltaTime));
+        transform.position = new Vector3(transform.position.x + (direction.x * moveSpeed * Time.deltaTime),
+                                         transform.position.y + (direction.y * moveSpeed * Time.deltaTime), 0f);
     }
 
     private void CheckForButtonPress()
