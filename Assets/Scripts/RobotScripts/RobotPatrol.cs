@@ -10,12 +10,12 @@ public class RobotPatrol : MonoBehaviour
     public float moveSpeed;
 
     public Waypoint[] waypoints;
-    public Animator anim;
+    //public Animator anim;
 
     private PathFinder pathfinder;
     private RobotController robotController;
 
-    private float currentSpeed;
+    public float currentSpeed;
 
     public Vector3 startPos;
     public Vector3 endPos;
@@ -26,7 +26,7 @@ public class RobotPatrol : MonoBehaviour
 
     private void Start()
     {
-        anim = GetComponent<Animator>();
+        //anim = GetComponent<Animator>();
         robotController = GetComponent<RobotController>();
         pathfinder = GetComponent<PathFinder>();
     }
@@ -38,7 +38,7 @@ public class RobotPatrol : MonoBehaviour
         {
             waypointIndex = 0;
         }
-        SetPathStartAndEnd(currPos, waypoints[waypointIndex].transform.position);
+        SetPathStartAndEnd(currPos, waypoints[waypointIndex].GetGridPos());
     }
 
     public void SetPathStartAndEnd(Vector3 _start, Vector3 _end)
@@ -68,51 +68,43 @@ public class RobotPatrol : MonoBehaviour
     IEnumerator FollowPath(List<Vector3> path)
     {
         int stateValue = (int)robotController.state;
-        int nextIndexInPath = 0;
+        int nextIndexInPath = 1;
         StartCoroutine(SpeedUp());
-        Vector3 lastPosInList = new Vector3(path[path.Count - 1].x, 0, path[path.Count - 1].z);
-
+        Vector3 lastPosInList = new Vector3(path[path.Count - 1].x, path[path.Count - 1].y, 0f);
+        Debug.Log("Path Count: " + path.Count);
         foreach (Vector3 vec in path)
         {
             Vector2 dir = (vec - transform.position).normalized;
-            anim.SetFloat("DirX", dir.x);
-            anim.SetFloat("DirY", dir.y);
-            nextIndexInPath++;
+            //anim.SetFloat("DirX", dir.x);
+            //anim.SetFloat("DirY", dir.y);
             currentPos = vec;
+            Debug.Log("Next Index in Path: " + nextIndexInPath);
 
-            if (nextIndexInPath == path.Count - 1)
+            if (nextIndexInPath == path.Count)
             {
-                float distanceToLastVec = (lastPosInList - new Vector3(transform.position.x, 0f, transform.position.z)).magnitude;
+                float distanceToLastVec = (lastPosInList - transform.position).magnitude;
                 StartCoroutine(SlowDown(distanceToLastVec));
             }
 
-            if (nextIndexInPath > path.Count - 1)
+            if (nextIndexInPath > path.Count)
             {
                 // this is the last vec in path
             }
             else
             {
-               // StartCoroutine(RotateTowardsTarget(new Vector3(vec.x, 0, vec.z)));
+                //StartCoroutine(RotateTowardsTarget(new Vector3(vec.x, 0, vec.z)));
             }
 
-            while (new Vector3(transform.position.x, 0f, transform.position.z) != new Vector3(vec.x, 0, vec.z))
+            while (transform.position != vec)
             {
                 transform.position = Vector3.MoveTowards(transform.position, vec, currentSpeed * Time.deltaTime);
                 yield return null;
             }
 
-            if (stateValue != (int)robotController.state)
-            {
-                robotController.React();
-                yield break;
-            }
+            nextIndexInPath++;
+            
         }
-
-        if (robotController.state == RobotController.State.ReturnState)
-        {
-            robotController.ItemToInvestigate.GetComponent<ValuableItem>().PlaceItem();
-            robotController.state = RobotController.State.PatrolState;
-        }
+        yield return new WaitForSeconds(1f);
         robotController.React();
     }
 

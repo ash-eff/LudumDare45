@@ -17,12 +17,18 @@ public class RoomReveal : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        StartCoroutine(FadeTilesOut());
+        if(collision.tag == "PlayerVision")
+        {
+            StartCoroutine(FadeTilesOut());
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        StartCoroutine(FadeTilesIn());
+        if (collision.tag == "PlayerVision")
+        {
+            StartCoroutine(FadeTilesIn());
+        }
     }
 
     //private void OnTriggerExit(Collider other)

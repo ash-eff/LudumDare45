@@ -20,10 +20,10 @@ public class GridMap : MonoBehaviour
         {
             for (int y = tm.cellBounds.yMin; y < tm.cellBounds.yMax; y++)
             {
-                Vector3Int location = (new Vector3Int(x, 0, y));
+                Vector3Int location = (new Vector3Int(x, y, 0));
                 if (tm.HasTile(new Vector3Int(x, y, 0)))
                 {
-                    Vector3 offsetLocation = new Vector3(location.x + 0.5f, 0f, location.z + 0.5f);
+                    Vector3 offsetLocation = new Vector3(location.x + 0.5f, location.y + 0.5f, 0f);
                     walkableTiles.Add(offsetLocation);
                 }
             }

@@ -6,7 +6,6 @@ public class RobotSenses : MonoBehaviour
 {
     public LayerMask visionLayer, itemLayer;
     //public Transform robotHead;
-    
     public float visionDistance;
     public float baseVisionDistance;
     public float visionAngle;
@@ -67,15 +66,16 @@ public class RobotSenses : MonoBehaviour
     //    robotHead.localRotation = Quaternion.Euler(0f, 0f, maxHeadRotation * Mathf.Sin(Time.time * scanTime));
     //}
     
-    public void HeardANoise(Vector2 atPosition)
+    public void HeardANoise(Vector3 atPosition)
     {
-        if(robotController.state == RobotController.State.PatrolState)
-        {
-            locationOfSuspicion = atPosition;
-            heardSomething = true;
-            Vector2Int noiseLocation = new Vector2Int((int)atPosition.x, (int)atPosition.y);
-            robotController.state = RobotController.State.InvestigateState;
-        }
+        //if(robotController.state == RobotController.State.PatrolState)
+        //{
+        //    locationOfSuspicion = atPosition;
+        //    heardSomething = true;
+        //    Vector2Int noiseLocation = new Vector2Int((int)atPosition.x, (int)atPosition.y);
+        //    robotController.state = RobotController.State.InvestigateState;
+        //}
+        Debug.DrawLine(transform.position, atPosition, Color.red, 1f);
     }
     
     //public IEnumerator Vision()

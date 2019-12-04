@@ -7,7 +7,6 @@ public class PathFinder : MonoBehaviour
 {
     Vector3 startPosition, endPosition;
 
-    public Tilemap tileMap;
     public Dictionary<Vector3, MapPointInfo> map = new Dictionary<Vector3, MapPointInfo>();
     public Queue<Vector3> queue = new Queue<Vector3>();
     bool isRunning = true;
@@ -19,14 +18,14 @@ public class PathFinder : MonoBehaviour
 
     GridMap grid;
 
-    Vector3[] directions = { new Vector3(0, 0, 1), // forward
-                                new Vector3(1, 0, 0), // right
-                                new Vector3(0, 0, -1), // back
-                                new Vector3(-1, 0, 0), // left
-                                new Vector3(1, 0, 1), // up-forward
-                                new Vector3(1, 0, -1), // right-back
-                                new Vector3(-1, 0, -1), //back-left
-                                new Vector3(-1, 0, 1) }; // left-forward
+    Vector3[] directions = { Vector3.up, // up
+                                Vector3.right, // right
+                                -Vector3.up, // down
+                                -Vector3.right, // left
+                                new Vector3(1, 1, 0), // up-right
+                                new Vector3(1, -1, 0), // right-down
+                                new Vector3(-1, -1, 0), // down-left
+                                new Vector3(-1, 1, 0) }; // left-up
 
     private void Start()
     {

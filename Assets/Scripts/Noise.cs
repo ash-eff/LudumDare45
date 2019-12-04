@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Noise : MonoBehaviour
 {
-    public bool makeNoise;
     public float noiseRadius;
     [Range(0,.25f)]
     public float noiseReductionPercent;
@@ -12,65 +11,86 @@ public class Noise : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(MakeNoise(0f));
+        MakeNoise();
+        Destroy(gameObject, 1f);
     }
 
-    IEnumerator MakeNoise(float noiseLength)
+    void MakeNoise()
     {
-        float timer = noiseLength;
-        if(noiseLength == 0)
+        RaycastHit2D[] nearbyRobots = Physics2D.CircleCastAll(transform.position, noiseRadius, Vector2.right, 0, robotLayer);
+        if (nearbyRobots.Length > 0)
         {
-            while (true)
+            foreach (RaycastHit2D robot in nearbyRobots)
             {
-                RaycastHit2D[] nearbyRobots = Physics2D.CircleCastAll(transform.position, noiseRadius, Vector2.right, 0, robotLayer);
-                if (nearbyRobots != null)
-                {
-                    foreach (RaycastHit2D robot in nearbyRobots)
-                    {
-                        Vector2 directionToRobot = robot.transform.position - transform.position;
-                        float robotDistFromNoise = directionToRobot.magnitude;
-                        float noiseVolume = CheckForNoiseRedction(directionToRobot);
-
-                        if (robotDistFromNoise < noiseVolume)
-                        {
-                            robot.transform.GetComponent<RobotSenses>().HeardANoise(transform.position);
-                        }
-                    }
-                }
-
-                yield return new WaitForSeconds(.1f);
+                //Vector2 directionToRobot = robot.transform.position - transform.position;
+                //float robotDistFromNoise = directionToRobot.magnitude;
+                //float noiseVolume = CheckForNoiseRedction(directionToRobot);
+                //
+                //if (robotDistFromNoise < noiseVolume)
+                //{
+                    robot.transform.GetComponent<RobotSenses>().HeardANoise(transform.position);
+                //}
             }
         }
-        else
-        {
-            while (timer > 0)
-            {
-                RaycastHit2D[] nearbyRobots = Physics2D.CircleCastAll(transform.position, noiseRadius, Vector2.right, 0, robotLayer);
-                if (nearbyRobots != null)
-                {
-                    foreach (RaycastHit2D robot in nearbyRobots)
-                    {
-                        Vector2 directionToRobot = robot.transform.position - transform.position;
-                        float robotDistFromNoise = directionToRobot.magnitude;
-                        float noiseVolume = CheckForNoiseRedction(directionToRobot);
-
-                        if (robotDistFromNoise < noiseVolume)
-                        {
-                            robot.transform.GetComponent<RobotSenses>().HeardANoise(transform.position);
-                        }
-                        else
-                        {
-                            Debug.Log(robot.transform.name + " did not hear this");
-                        }
-                    }
-                }
-
-                yield return new WaitForSeconds(.1f);
-                timer -= .1f;
-            }
-        }
-
+        //nearbyRobots = null;
     }
+
+    //IEnumerator MakeNoise(float noiseLength)
+    //{
+        //float timer = noiseLength;
+        //if(noiseLength == 0)
+        //{
+        //    while (true)
+        //    {
+                //RaycastHit2D[] nearbyRobots = Physics2D.CircleCastAll(transform.position, noiseRadius, Vector2.right, 0, robotLayer);
+                //if (nearbyRobots != null)
+                //{
+                //    foreach (RaycastHit2D robot in nearbyRobots)
+                //    {
+                //        Vector2 directionToRobot = robot.transform.position - transform.position;
+                //        float robotDistFromNoise = directionToRobot.magnitude;
+                //        float noiseVolume = CheckForNoiseRedction(directionToRobot);
+                //
+                //        if (robotDistFromNoise < noiseVolume)
+                //        {
+                //            robot.transform.GetComponent<RobotSenses>().HeardANoise(transform.position);
+                //        }
+                //    }
+                //}
+                //
+                //yield return new WaitForSeconds(.1f);
+       //     }
+       // }
+       // else
+       // {
+       //     while (timer > 0)
+       //     {
+       //         RaycastHit2D[] nearbyRobots = Physics2D.CircleCastAll(transform.position, noiseRadius, Vector2.right, 0, robotLayer);
+       //         if (nearbyRobots != null)
+       //         {
+       //             foreach (RaycastHit2D robot in nearbyRobots)
+       //             {
+       //                 Vector2 directionToRobot = robot.transform.position - transform.position;
+       //                 float robotDistFromNoise = directionToRobot.magnitude;
+       //                 float noiseVolume = CheckForNoiseRedction(directionToRobot);
+       //
+       //                 if (robotDistFromNoise < noiseVolume)
+       //                 {
+       //                     robot.transform.GetComponent<RobotSenses>().HeardANoise(transform.position);
+       //                 }
+       //                 else
+       //                 {
+       //                     Debug.Log(robot.transform.name + " did not hear this");
+       //                 }
+       //             }
+       //         }
+       //
+       //         yield return new WaitForSeconds(.1f);
+       //         timer -= .1f;
+       //     }
+       // }
+
+    //}
 
     private float CheckForNoiseRedction(Vector2 robotDirection)
     {

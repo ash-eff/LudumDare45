@@ -7,8 +7,8 @@ public class RobotController : MonoBehaviour
     public enum State { PatrolState, SearchState, InvestigateState, ReturnState, AlarmState, WaitState, BreakState }
     public State state;
 
-    //private PathFinder pathfinder;
-    //private RobotPatrol robotPatrol;
+    private PathFinder pathfinder;
+    private RobotPatrol robotPatrol;
     private RobotSenses robotSenses;
     //private RobotAlert robotAlert;
     //private RobotInvestigate robotInvestigate;
@@ -24,25 +24,25 @@ public class RobotController : MonoBehaviour
     private void Start()
     {
         //robotInvestigate = GetComponent<RobotInvestigate>();
-        //robotPatrol = GetComponent<RobotPatrol>();
+        robotPatrol = GetComponent<RobotPatrol>();
         robotSenses = GetComponent<RobotSenses>();
         //robotAlert = GetComponent<RobotAlert>();
-        //pathfinder = GetComponent<PathFinder>();
-        //StartCoroutine(WaitToStart());
-        state = State.PatrolState;
+        pathfinder = GetComponent<PathFinder>();
+        StartCoroutine(WaitToStart());
+        //state = State.PatrolState;
     }
 
-    //IEnumerator WaitToStart()
-    //{
-    //    while (pathfinder.isGeneratingMap)
-    //    {
-    //        yield return null;
-    //    }
-    //
-    //    state = State.PatrolState;
-    //    robotPatrol.GetNextWaypoints(transform.position);
-    //    robotPatrol.GetPathToFollow();
-    //}
+    IEnumerator WaitToStart()
+    {
+        while (pathfinder.isGeneratingMap)
+        {
+            yield return null;
+        }
+    
+        state = State.PatrolState;
+        robotPatrol.GetNextWaypoints(transform.position);
+        robotPatrol.GetPathToFollow();
+    }
 
     public void React()
     {
@@ -52,8 +52,8 @@ public class RobotController : MonoBehaviour
                 //robotSenses.lockHeadOnTarget = false;
                 //robotAlert.ReturnToStatusQuo();
                 //StartCoroutine(robotSenses.Vision());
-                //robotPatrol.GetNextWaypoints(transform.position);
-                //robotPatrol.GetPathToFollow();
+                robotPatrol.GetNextWaypoints(transform.position);
+                robotPatrol.GetPathToFollow();
                 break;
 
             //case State.InvestigateState:
@@ -75,6 +75,6 @@ public class RobotController : MonoBehaviour
 
     Vector3 GetVec3OfPosition(Vector3 ofPosition)
     {
-        return new Vector3(ofPosition.x, 0, ofPosition.z);
+        return new Vector3(ofPosition.x, ofPosition.y, 0f);
     }
 }
