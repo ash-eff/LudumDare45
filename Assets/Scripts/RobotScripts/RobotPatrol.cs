@@ -14,6 +14,7 @@ public class RobotPatrol : MonoBehaviour
 
     private PathFinder pathfinder;
     private RobotController robotController;
+    private GridMap gridMap;
 
     public float currentSpeed;
 
@@ -22,29 +23,29 @@ public class RobotPatrol : MonoBehaviour
     public Vector3 currentPos;
     private Vector3 currentTargetPos;
 
-    public int waypointIndex;
+    public int waypointIndex = 0;
 
     private void Start()
     {
         //anim = GetComponent<Animator>();
+        gridMap = FindObjectOfType<GridMap>();
         robotController = GetComponent<RobotController>();
         pathfinder = GetComponent<PathFinder>();
     }
 
-    public void GetNextWaypoints(Vector3 currPos)
+    public void GetNextWaypoints()
     {
         waypointIndex++;
         if (waypointIndex > waypoints.Length - 1)
         {
             waypointIndex = 0;
         }
-        SetPathStartAndEnd(currPos, waypoints[waypointIndex].GetGridPos());
     }
 
     public void SetPathStartAndEnd(Vector3 _start, Vector3 _end)
     {
-        startPos = _start;
-        endPos = _end;
+        startPos = GetLegalPosition(_start);
+        endPos = GetLegalPosition(_end);
     }
 
     public void ResetToPreviousWaypoint()
@@ -67,18 +68,16 @@ public class RobotPatrol : MonoBehaviour
 
     IEnumerator FollowPath(List<Vector3> path)
     {
-        int stateValue = (int)robotController.state;
+        int stateInt = (int)robotController.state;
         int nextIndexInPath = 1;
         StartCoroutine(SpeedUp());
         Vector3 lastPosInList = new Vector3(path[path.Count - 1].x, path[path.Count - 1].y, 0f);
-        Debug.Log("Path Count: " + path.Count);
         foreach (Vector3 vec in path)
         {
             Vector2 dir = (vec - transform.position).normalized;
             //anim.SetFloat("DirX", dir.x);
             //anim.SetFloat("DirY", dir.y);
             currentPos = vec;
-            Debug.Log("Next Index in Path: " + nextIndexInPath);
 
             if (nextIndexInPath == path.Count)
             {
@@ -101,17 +100,31 @@ public class RobotPatrol : MonoBehaviour
                 yield return null;
             }
 
-            nextIndexInPath++;
-            
+
+            if (stateInt != (int)robotController.state)
+            {
+                yield return new WaitForSeconds(1f);
+                robotController.React();
+                break;
+            }
+
+            nextIndexInPath++;         
         }
+
         yield return new WaitForSeconds(1f);
+
+        if(robotController.state == RobotController.State.InvestigateState)
+        {
+            robotController.state = RobotController.State.PatrolState;
+        }
+
         robotController.React();
     }
 
     IEnumerator SpeedUp()
     {
         float startSpeed = .25f;
-        float lerpTime = 2f;
+        float lerpTime = 1f;
         float currentLerpTime = 0;
 
         while (currentSpeed < moveSpeed)
@@ -134,6 +147,7 @@ public class RobotPatrol : MonoBehaviour
         float startSpeed = currentSpeed;
         float endSpeed = .25f;
         float lerpTime = byTime;
+        Debug.Log(lerpTime);
         float currentLerpTime = 0;
 
         while (currentSpeed > endSpeed)
@@ -149,6 +163,35 @@ public class RobotPatrol : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    Vector3 GetLegalPosition(Vector3 pos)
+    {
+        Vector3[] directions = { Vector3.up, -Vector3.right, -Vector3.up, Vector3.right,
+                                 new Vector3(1, 1, 0), new Vector3(1, -1, 0), new Vector3(-1, -1, 0), new Vector3(-1, 1, 0) };
+
+        int xIntVal = (int)pos.x;
+        int yIntVal = (int)pos.y;
+
+        Vector3 safePosition = new Vector3(Mathf.Abs(xIntVal) + .5f, Mathf.Abs(yIntVal) + .5f, 0f);
+
+        safePosition.x *= Mathf.Sign(xIntVal);
+        safePosition.y *= Mathf.Sign(yIntVal);
+
+        if (!gridMap.walkableTiles.Contains(safePosition))
+        {
+            foreach (Vector3 dir in directions)
+            {
+                Vector3 checkedPos = safePosition + dir;
+                if (pathfinder.map.ContainsKey(checkedPos))
+                {
+                    return checkedPos;
+                }
+            }
+            return transform.position;
+        }
+
+        return safePosition;
     }
 
     //public IEnumerator RotateTowardsTarget(Vector2 target)

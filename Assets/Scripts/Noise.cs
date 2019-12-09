@@ -7,10 +7,12 @@ public class Noise : MonoBehaviour
     public float noiseRadius;
     [Range(0,.25f)]
     public float noiseReductionPercent;
+    public float yOffset;
     public LayerMask robotLayer, obstacleLayer;
 
     private void Start()
     {
+        transform.position = new Vector3(transform.position.x, transform.position.y - yOffset, 0f);
         MakeNoise();
         Destroy(gameObject, 1f);
     }

@@ -14676,13 +14676,28 @@ PrefabInstance:
     - target: {fileID: 2937324545414866467, guid: 7d4cefe6029e8ce4ab59f91affd9bf84,
         type: 3}
       propertyPath: moveSpeed
-      value: 1.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6662162484018915628, guid: 7d4cefe6029e8ce4ab59f91affd9bf84,
         type: 3}
       propertyPath: tileMap
       value: 
       objectReference: {fileID: 797397044}
+    - target: {fileID: 8332213993920330768, guid: 7d4cefe6029e8ce4ab59f91affd9bf84,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8332213993920330768, guid: 7d4cefe6029e8ce4ab59f91affd9bf84,
+        type: 3}
+      propertyPath: investigateMoveSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2221507718550566816, guid: 7d4cefe6029e8ce4ab59f91affd9bf84,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d4cefe6029e8ce4ab59f91affd9bf84, type: 3}
 --- !u!114 &1070162627 stripped

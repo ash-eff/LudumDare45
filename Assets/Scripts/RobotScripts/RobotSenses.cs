@@ -68,14 +68,13 @@ public class RobotSenses : MonoBehaviour
     
     public void HeardANoise(Vector3 atPosition)
     {
-        //if(robotController.state == RobotController.State.PatrolState)
-        //{
-        //    locationOfSuspicion = atPosition;
-        //    heardSomething = true;
-        //    Vector2Int noiseLocation = new Vector2Int((int)atPosition.x, (int)atPosition.y);
-        //    robotController.state = RobotController.State.InvestigateState;
-        //}
-        Debug.DrawLine(transform.position, atPosition, Color.red, 1f);
+        if(robotController.state == RobotController.State.PatrolState)
+        {
+            locationOfSuspicion = atPosition;
+            heardSomething = true;
+            //Vector2Int noiseLocation = new Vector2Int((int)atPosition.x, (int)atPosition.y);
+            robotController.state = RobotController.State.InvestigateState;
+        }
     }
     
     //public IEnumerator Vision()

@@ -7,11 +7,12 @@ public class RobotController : MonoBehaviour
     public enum State { PatrolState, SearchState, InvestigateState, ReturnState, AlarmState, WaitState, BreakState }
     public State state;
 
+    public Vector2 targetPosition;
     private PathFinder pathfinder;
     private RobotPatrol robotPatrol;
     private RobotSenses robotSenses;
     //private RobotAlert robotAlert;
-    //private RobotInvestigate robotInvestigate;
+    private RobotInvestigate robotInvestigate;
 
     private GameObject itemOfInvestigation;
 
@@ -23,7 +24,7 @@ public class RobotController : MonoBehaviour
 
     private void Start()
     {
-        //robotInvestigate = GetComponent<RobotInvestigate>();
+        robotInvestigate = GetComponent<RobotInvestigate>();
         robotPatrol = GetComponent<RobotPatrol>();
         robotSenses = GetComponent<RobotSenses>();
         //robotAlert = GetComponent<RobotAlert>();
@@ -40,7 +41,9 @@ public class RobotController : MonoBehaviour
         }
     
         state = State.PatrolState;
-        robotPatrol.GetNextWaypoints(transform.position);
+        robotPatrol.GetNextWaypoints();
+        targetPosition = robotPatrol.waypoints[robotPatrol.waypointIndex].GetGridPos();
+        robotPatrol.SetPathStartAndEnd(transform.position, targetPosition);
         robotPatrol.GetPathToFollow();
     }
 
@@ -52,24 +55,27 @@ public class RobotController : MonoBehaviour
                 //robotSenses.lockHeadOnTarget = false;
                 //robotAlert.ReturnToStatusQuo();
                 //StartCoroutine(robotSenses.Vision());
-                robotPatrol.GetNextWaypoints(transform.position);
+                robotPatrol.GetNextWaypoints();
+                targetPosition = robotPatrol.waypoints[robotPatrol.waypointIndex].GetGridPos();
+                robotPatrol.SetPathStartAndEnd(transform.position, targetPosition);
                 robotPatrol.GetPathToFollow();
                 break;
 
-            //case State.InvestigateState:
-            //    robotPatrol.ResetToPreviousWaypoint();
-            //    Vector2 investigatePosition = robotSenses.locationOfSuspicion;
-            //    StartCoroutine(robotPatrol.RotateTowardsTarget(investigatePosition));
-            //    robotAlert.OnAlert();
-            //    StartCoroutine(robotInvestigate.StartInvestigation(GetVec3OfPosition(transform.position), GetVec3OfPosition(investigatePosition)));
-            //    break;
-            //
-            //case State.ReturnState:
-            //    robotSenses.lockHeadOnTarget = false;
-            //    robotAlert.ReturnToStatusQuo();
-            //    robotPatrol.SetPathStartAndEnd(GetVec3OfPosition(transform.position), robotInvestigate.GetReturnLocation);
-            //    robotPatrol.GetPathToFollow();
-            //    break;
+            case State.InvestigateState:                
+                Vector2 investigatePosition = robotSenses.locationOfSuspicion;
+                //StartCoroutine(robotPatrol.RotateTowardsTarget(investigatePosition));
+                //robotAlert.OnAlert();
+                //robotPatrol.ResetToPreviousWaypoint();
+                robotPatrol.SetPathStartAndEnd(transform.position, investigatePosition);
+                robotPatrol.GetPathToFollow();
+                break;
+            
+            case State.ReturnState:
+                //robotSenses.lockHeadOnTarget = false;
+                //robotAlert.ReturnToStatusQuo();
+                robotPatrol.ResetToPreviousWaypoint();
+                robotPatrol.GetNextWaypoints();
+                break;
         }
     }
 
