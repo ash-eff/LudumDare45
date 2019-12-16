@@ -25,6 +25,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject textInformationPanel;
     public TextMeshProUGUI textInformation;
     public PlayerAudio playerAudio;
+    public PlayerItemManager itemManager;
     //public TextMeshProUGUI floorText;
     //public TextMeshProUGUI storeText;
     //public GameObject deathPanel;
@@ -33,6 +34,7 @@ public class PlayerManager : MonoBehaviour
     //public TextMeshProUGUI livesTotalText;
     public GameObject interactPanel;
     public Image interactTimeFill;
+
     //public GameObject firstFloorDir;
     //public GameObject secondFloorDir;
     //public GameObject thirdFloorDir;
@@ -61,9 +63,7 @@ public class PlayerManager : MonoBehaviour
     //private Transporter currentTransporter;
     //private MenuController menuController;
 
-    public List<Item> inventoryItems = new List<Item>();
-    public Item heldItem;
-    public int itemIndex = 0;
+
 
     public bool CanMove { get { return canMove; } }
     public bool IsTeleporting { get { return isTeleporting; } }
@@ -78,6 +78,7 @@ public class PlayerManager : MonoBehaviour
         anim = GetComponent<Animator>();
         transform.position = transform.position;
         spr = GetComponent<SpriteRenderer>();
+        itemManager = GetComponent<PlayerItemManager>();
         //stolenValueText.text = "Money stolen: $0000";
         //livesTotalText.text = "Lives: " + lives.ToString();
         gameController = FindObjectOfType<GameController>();
@@ -92,6 +93,8 @@ public class PlayerManager : MonoBehaviour
         {
             return;
         }
+
+
 
         Vector3 castPosition = new Vector3(transform.position.x + xOffsetFromGround, transform.position.y + yOffsetFromGround, 0f);
         movement = Vector3.zero;
@@ -144,10 +147,7 @@ public class PlayerManager : MonoBehaviour
         CheckForButtonPress();
         MouseWheelScroll();
         CursorPos();
-        if(inventoryItems.Count != 0)
-        {
-            heldItem = inventoryItems[itemIndex];
-        }
+
 
         if (canMove)
         {
@@ -188,6 +188,20 @@ public class PlayerManager : MonoBehaviour
             actualCursorRadius = normalCursorRadius;
         }
 
+        if(itemManager.inventoryItems.Count > 0)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                itemManager.ThrowItem(mousePos);
+            }
+
+            //if (Input.GetMouseButtonDown(1))
+            //{
+            //    itemManager.ThrowItem(transform.position, transform.position);
+            //}
+        }
+
         //if (canInteract && !playerOccupied && isTargetable)
         //{
         //    if (Input.GetButtonDown("Interact"))
@@ -221,21 +235,21 @@ public class PlayerManager : MonoBehaviour
     {
         if(Input.mouseScrollDelta.y > 0)
         {
-            itemIndex++;
+            itemManager.itemIndex++;
         }
         else if(Input.mouseScrollDelta.y < 0)
         {
-            itemIndex--;
+            itemManager.itemIndex--;
         }
 
-        if(itemIndex > inventoryItems.Count - 1)
+        if(itemManager.itemIndex > itemManager.inventoryItems.Count - 1)
         {
-            itemIndex = 0;
+            itemManager.itemIndex = 0;
         }
 
-        if(itemIndex < 0)
+        if(itemManager.itemIndex < 0)
         {
-            itemIndex = inventoryItems.Count - 1;
+            itemManager.itemIndex = itemManager.inventoryItems.Count - 1;
         }
     }
 

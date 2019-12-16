@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Sprite itemSprite;
+    public float itemValue;
+
+    public Animator anim;
+    public SpriteRenderer spr;
+
+    public Vector3 startPos;
+    public Vector3 endPos;
+
+    private void Start()
     {
-        
+        spr.sprite = itemSprite;
     }
 
-    // Update is called once per frame
-    void Update()
+    public IEnumerator ThrowItem()
     {
-        
+        while(transform.position != endPos)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, endPos, 15f * Time.deltaTime);
+            yield return null;
+        }
     }
 }
