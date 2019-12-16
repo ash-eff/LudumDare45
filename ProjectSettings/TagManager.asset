@@ -10,6 +10,7 @@ TagManager:
   - Store
   - Robot
   - PlayerVision
+  - Fog
   layers:
   - Default
   - TransparentFX

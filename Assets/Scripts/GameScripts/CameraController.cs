@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour
     public bool followPlayer;
     private GameController gameController;
     private PlayerManager playerManager;
+    public GameObject playerCursor;
 
     private void Awake()
     {
@@ -28,13 +29,13 @@ public class CameraController : MonoBehaviour
                 return;
             }
 
-            if (!playerManager.IsTeleporting)
+            if (playerManager.CanMove)
             {
                 FollowPlayer();
             }
             else
             {
-                transform.position = new Vector3(playerManager.transform.position.x, playerManager.transform.position.y, -10f);
+                FloatCameraTowardCursor();
             }
         }
     }
@@ -42,6 +43,12 @@ public class CameraController : MonoBehaviour
     void FollowPlayer()
     {
         Vector3 targetPos = new Vector3(playerManager.transform.position.x, playerManager.transform.position.y, -10f);
+        transform.position = Vector3.Lerp(transform.position, targetPos, lerpSpeed * Time.deltaTime);
+    }
+
+    void FloatCameraTowardCursor()
+    {
+        Vector3 targetPos = new Vector3(playerCursor.transform.position.x, playerCursor.transform.position.y, -10f);
         transform.position = Vector3.Lerp(transform.position, targetPos, lerpSpeed * Time.deltaTime);
     }
 }

@@ -175,7 +175,7 @@ public class PathFinder : MonoBehaviour
         {
             foreach (Vector3 v in path)
             {
-                Gizmos.color = Color.yellow;
+                Gizmos.color = Color.cyan;
                 Gizmos.DrawSphere(new Vector3(v.x, v.y, 0), .1f);
             }
         }

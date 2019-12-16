@@ -7,6 +7,8 @@ public class RobotController : MonoBehaviour
     public enum State { PatrolState, SearchState, InvestigateState, ReturnState, AlarmState, WaitState, BreakState }
     public State state;
 
+    public bool inFogOfWar;
+    public GameObject noiseSprite;
     public Vector2 targetPosition;
     private PathFinder pathfinder;
     private RobotPatrol robotPatrol;
@@ -21,6 +23,7 @@ public class RobotController : MonoBehaviour
         get { return itemOfInvestigation; }
         set { itemOfInvestigation = value; }
     }
+
 
     private void Start()
     {
@@ -65,7 +68,7 @@ public class RobotController : MonoBehaviour
                 Vector2 investigatePosition = robotSenses.locationOfSuspicion;
                 //StartCoroutine(robotPatrol.RotateTowardsTarget(investigatePosition));
                 //robotAlert.OnAlert();
-                //robotPatrol.ResetToPreviousWaypoint();
+                robotPatrol.ResetToPreviousWaypoint();
                 robotPatrol.SetPathStartAndEnd(transform.position, investigatePosition);
                 robotPatrol.GetPathToFollow();
                 break;
@@ -82,5 +85,14 @@ public class RobotController : MonoBehaviour
     Vector3 GetVec3OfPosition(Vector3 ofPosition)
     {
         return new Vector3(ofPosition.x, ofPosition.y, 0f);
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.tag == "Fog")
+        {
+            Debug.Log("In FOg Of war");
+            noiseSprite.SetActive(collision.GetComponent<RoomReveal>().roomHidden);
+        }
     }
 }

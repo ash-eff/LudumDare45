@@ -35,11 +35,13 @@ public class RobotPatrol : MonoBehaviour
 
     public void GetNextWaypoints()
     {
+        waypoints[waypointIndex].ResetToBaseColor();
         waypointIndex++;
         if (waypointIndex > waypoints.Length - 1)
         {
             waypointIndex = 0;
         }
+        waypoints[waypointIndex].SetHighlightColor();
     }
 
     public void SetPathStartAndEnd(Vector3 _start, Vector3 _end)
@@ -67,13 +69,14 @@ public class RobotPatrol : MonoBehaviour
     }
 
     IEnumerator FollowPath(List<Vector3> path)
-    {
-        int stateInt = (int)robotController.state;
-        int nextIndexInPath = 1;
+    {   
+        int nextIndexInPath = 0;
         StartCoroutine(SpeedUp());
         Vector3 lastPosInList = new Vector3(path[path.Count - 1].x, path[path.Count - 1].y, 0f);
         foreach (Vector3 vec in path)
         {
+            int stateInt = (int)robotController.state;
+            nextIndexInPath++;
             Vector2 dir = (vec - transform.position).normalized;
             //anim.SetFloat("DirX", dir.x);
             //anim.SetFloat("DirY", dir.y);
@@ -100,15 +103,13 @@ public class RobotPatrol : MonoBehaviour
                 yield return null;
             }
 
-
             if (stateInt != (int)robotController.state)
             {
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(.25f);
                 robotController.React();
-                break;
+                yield break;
             }
 
-            nextIndexInPath++;         
         }
 
         yield return new WaitForSeconds(1f);
@@ -147,7 +148,6 @@ public class RobotPatrol : MonoBehaviour
         float startSpeed = currentSpeed;
         float endSpeed = .25f;
         float lerpTime = byTime;
-        Debug.Log(lerpTime);
         float currentLerpTime = 0;
 
         while (currentSpeed > endSpeed)

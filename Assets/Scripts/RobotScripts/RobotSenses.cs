@@ -17,7 +17,8 @@ public class RobotSenses : MonoBehaviour
     public bool heardSomething;
     
     public Vector2 locationOfSuspicion;
-    
+    public GameObject exclaim;
+
     private RobotController robotController;
     private RobotInvestigate robotInvestigate;
     private GameController gameController;
@@ -74,7 +75,15 @@ public class RobotSenses : MonoBehaviour
             heardSomething = true;
             //Vector2Int noiseLocation = new Vector2Int((int)atPosition.x, (int)atPosition.y);
             robotController.state = RobotController.State.InvestigateState;
+            StartCoroutine(Exclaim());
         }
+    }
+
+    IEnumerator Exclaim()
+    {
+        exclaim.SetActive(true);
+        yield return new WaitForSeconds(.5f);
+        exclaim.SetActive(false);
     }
     
     //public IEnumerator Vision()

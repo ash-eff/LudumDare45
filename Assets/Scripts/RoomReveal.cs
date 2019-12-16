@@ -7,7 +7,7 @@ public class RoomReveal : MonoBehaviour
 {
     public Tilemap room;
     public Color tilemapColor;
-    public bool hidden = true;
+    public bool roomHidden = true;
 
     private void Start()
     {
@@ -31,24 +31,9 @@ public class RoomReveal : MonoBehaviour
         }
     }
 
-    //private void OnTriggerExit(Collider other)
-    //{       
-    //    if(other.transform.tag == "Player")
-    //    {
-    //        hidden = !hidden;
-    //        if (hidden)
-    //        {
-    //            StartCoroutine(FadeTilesIn());
-    //        }
-    //        else
-    //        {
-    //            StartCoroutine(FadeTilesOut());
-    //        }
-    //    }
-    //}
-
     IEnumerator FadeTilesIn()
     {
+        roomHidden = true;
         //float startSpeed = .5f;
         float lerpTime = .5f;
         float currentLerpTime = 0;
@@ -66,11 +51,12 @@ public class RoomReveal : MonoBehaviour
             room.color = Color.Lerp(currentColor, new Color(currentColor.r, currentColor.g, currentColor.b, 1f), perc);
 
             yield return null;
-        }
+        }     
     }
 
     IEnumerator FadeTilesOut()
     {
+        roomHidden = false;
         //float startSpeed = .5f;
         float lerpTime = .5f;
         float currentLerpTime = 0;

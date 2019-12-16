@@ -7,16 +7,19 @@ using TMPro;
 public class PlayerManager : MonoBehaviour
 {
     public LayerMask wallLayer;
-    public float xRaylength;
-    public float yRaylength;
-    public float xOffset;
-    public float yOffset;
-    public float xNumOfRays;
-    public float yNumOfRays;
+    public float xRayCastLength;
+    public float yRayCastLength;
+    public float xOffsetFromGround;
+    public float yOffsetFromGround;
+
     public float stealTime;
     public float moveSpeed;
     public int lives = 3;
     public GameObject noise;
+    public GameObject cursor;
+    public float normalCursorRadius;
+    public float maxCursorRadius;
+    private float actualCursorRadius;
 
     //public GameObject mallDirectory;
     public GameObject textInformationPanel;
@@ -38,6 +41,7 @@ public class PlayerManager : MonoBehaviour
     //public Vector2 checkPoint;
 
     public bool playerOccupied;
+    private bool canMove = true;
     private bool isTeleporting;
     private bool isSpotted;
     private bool isKnocking;
@@ -53,11 +57,15 @@ public class PlayerManager : MonoBehaviour
     private Vector3 movement;
     private GameController gameController;
     private GameObject currentItemBeingInteractedWith;
-    public GameObject currentHeldItem;
     private SpriteRenderer spr;
     //private Transporter currentTransporter;
     //private MenuController menuController;
 
+    public List<Item> inventoryItems = new List<Item>();
+    public Item heldItem;
+    public int itemIndex = 0;
+
+    public bool CanMove { get { return canMove; } }
     public bool IsTeleporting { get { return isTeleporting; } }
     public bool IsSpotted { get { return isSpotted; } }
     public bool IsDead { get { return isDead; } }
@@ -65,6 +73,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
+        Cursor.visible = false;
         //menuController = FindObjectOfType<MenuController>();
         anim = GetComponent<Animator>();
         transform.position = transform.position;
@@ -84,22 +93,23 @@ public class PlayerManager : MonoBehaviour
             return;
         }
 
-        Vector3 castPosition = new Vector3(transform.position.x + xOffset, transform.position.y + yOffset, 0f);
+        Vector3 castPosition = new Vector3(transform.position.x + xOffsetFromGround, transform.position.y + yOffsetFromGround, 0f);
         movement = Vector3.zero;
         movement = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0f);
-        Debug.DrawRay(castPosition, Vector3.up * yRaylength, Color.red);
-        Debug.DrawRay(castPosition, -Vector3.up * yRaylength, Color.green);
-        Debug.DrawRay(castPosition, Vector3.right * xRaylength, Color.blue);
-        Debug.DrawRay(castPosition, -Vector3.right * xRaylength, Color.yellow);
+        Debug.DrawRay(castPosition, Vector3.up * yRayCastLength, Color.red);
+        Debug.DrawRay(castPosition, -Vector3.up * yRayCastLength, Color.green);
+        Debug.DrawRay(castPosition, Vector3.right * xRayCastLength, Color.blue);
+        Debug.DrawRay(castPosition, -Vector3.right * xRayCastLength, Color.yellow);
+
         if (movement.y != 0)
         {
             verticalWall = false;
-            if (Physics2D.Raycast(castPosition, Vector3.up, yRaylength, wallLayer) && movement.y == 1f)
+            if (Physics2D.Raycast(castPosition, Vector3.up, yRayCastLength, wallLayer) && movement.y == 1f)
             {
                 movement.y = 0f;
                 verticalWall = true;
             }
-            if (Physics2D.Raycast(castPosition, -Vector3.up, yRaylength, wallLayer) && movement.y == -1f)
+            if (Physics2D.Raycast(castPosition, -Vector3.up, yRayCastLength, wallLayer) && movement.y == -1f)
             {
                 movement.y = 0f;
                 verticalWall = true;
@@ -109,12 +119,12 @@ public class PlayerManager : MonoBehaviour
         if (movement.x != 0)
         {
             horizontalWall = false;
-            if (Physics2D.Raycast(castPosition, Vector3.right, xRaylength, wallLayer) && movement.x == 1f)
+            if (Physics2D.Raycast(castPosition, Vector3.right, xRayCastLength, wallLayer) && movement.x == 1f)
             {
                 horizontalWall = true;
                 movement.x = 0f;
             }
-            if (Physics2D.Raycast(castPosition, -Vector3.right, xRaylength, wallLayer) && movement.x == -1f)
+            if (Physics2D.Raycast(castPosition, -Vector3.right, xRayCastLength, wallLayer) && movement.x == -1f)
             {
                 horizontalWall = true;
                 movement.x = 0f;
@@ -132,7 +142,18 @@ public class PlayerManager : MonoBehaviour
 
 
         CheckForButtonPress();
-        MovePlayer(movement.normalized);
+        MouseWheelScroll();
+        CursorPos();
+        if(inventoryItems.Count != 0)
+        {
+            heldItem = inventoryItems[itemIndex];
+        }
+
+        if (canMove)
+        {
+            MovePlayer(movement.normalized);
+        }
+
         //audioSource.volume = menuController.SFXVolume;
     }
 
@@ -155,6 +176,18 @@ public class PlayerManager : MonoBehaviour
                 }
             }
         }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            canMove = false;
+            actualCursorRadius = maxCursorRadius;
+        }
+        else
+        {
+            canMove = true;
+            actualCursorRadius = normalCursorRadius;
+        }
+
         //if (canInteract && !playerOccupied && isTargetable)
         //{
         //    if (Input.GetButtonDown("Interact"))
@@ -182,6 +215,36 @@ public class PlayerManager : MonoBehaviour
         //        checkPoint = currentTransporter.exitLocation.transform.position;
         //    }
         //}
+    }
+
+    void MouseWheelScroll()
+    {
+        if(Input.mouseScrollDelta.y > 0)
+        {
+            itemIndex++;
+        }
+        else if(Input.mouseScrollDelta.y < 0)
+        {
+            itemIndex--;
+        }
+
+        if(itemIndex > inventoryItems.Count - 1)
+        {
+            itemIndex = 0;
+        }
+
+        if(itemIndex < 0)
+        {
+            itemIndex = inventoryItems.Count - 1;
+        }
+    }
+
+    void CursorPos()
+    {
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 direction = mousePos - (Vector2)transform.position;
+        direction = Vector2.ClampMagnitude(direction, actualCursorRadius);
+        cursor.transform.position = (Vector2)transform.position + direction;
     }
 
     IEnumerator KnockKnock()

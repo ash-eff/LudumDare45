@@ -15,7 +15,7 @@ Shader "Custom/DefaultSpriteVision"
     {
         Tags
         {
-            "Queue"="Geometry-1"
+            "Queue"="Overlay"
             "IgnoreProjector"="True"
             "RenderType"="Transparent"
             "PreviewType"="Plane"
