@@ -19,6 +19,9 @@ public class PlayerItemManager : MonoBehaviour
     public TextMeshProUGUI itemName;
     public float stealTime;
     public GameObject inventoryHolder;
+    public AudioSource audioSource;
+    public LayerMask robotLayer;
+    public float noiseRadius;
 
     private PlayerManager playerManager;
     public bool canTakeItem;
@@ -143,6 +146,7 @@ public class PlayerItemManager : MonoBehaviour
         stealPanel.SetActive(true);
         float timeOfInteraction = stealTime;
         interactTimeFill.fillAmount = 0f;
+        audioSource.Play();
         while (Input.GetButton("Interact"))
         {
             timeOfInteraction -= Time.deltaTime;
@@ -154,9 +158,11 @@ public class PlayerItemManager : MonoBehaviour
                 StealItem();
                 break;
             }
-
+            MakeNoise();
             yield return null;
         }
+
+        audioSource.Stop();
 
         if(currentItemBeingInteractedWith != null)
         {
@@ -166,5 +172,25 @@ public class PlayerItemManager : MonoBehaviour
         playerOccupied = false;      
         stealPanel.SetActive(false);
         interactTimeFill.fillAmount = 0f;
+    }
+
+    void MakeNoise()
+    {
+        RaycastHit2D[] nearbyRobots = Physics2D.CircleCastAll(transform.position, noiseRadius, Vector2.right, 0, robotLayer);
+        if (nearbyRobots.Length > 0)
+        {
+            foreach (RaycastHit2D robot in nearbyRobots)
+            {
+                //Vector2 directionToRobot = robot.transform.position - transform.position;
+                //float robotDistFromNoise = directionToRobot.magnitude;
+                //float noiseVolume = CheckForNoiseRedction(directionToRobot);
+                //
+                //if (robotDistFromNoise < noiseVolume)
+                //{
+                robot.transform.GetComponent<RobotSenses>().HeardANoise(transform.position);
+                //}
+            }
+        }
+        //nearbyRobots = null;
     }
 }

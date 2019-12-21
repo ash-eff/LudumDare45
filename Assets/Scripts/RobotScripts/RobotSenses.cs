@@ -82,7 +82,10 @@ public class RobotSenses : MonoBehaviour
     IEnumerator Exclaim()
     {
         exclaim.SetActive(true);
-        yield return new WaitForSeconds(.5f);
+        while (robotController.state == RobotController.State.InvestigateState)
+        {
+            yield return null;
+        }
         exclaim.SetActive(false);
     }
     

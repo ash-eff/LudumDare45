@@ -13,9 +13,12 @@ public class Item : MonoBehaviour
     public GameObject outline;
     public GameObject downArrow;
     public Animator anim;
+    public AudioSource audioSource;
+    public AudioClip pickup, drop;
     public SpriteRenderer spr;
     public SpriteRenderer outlineSpr;
     public Collider2D coll;
+    public Noise noise;
 
     public Vector3 startPos;
     public Vector3 endPos;
@@ -41,6 +44,8 @@ public class Item : MonoBehaviour
             yield return null;
         }
 
+        MakeNoise();
+
         if (alreadyStolen)
         {
             downArrow.SetActive(true);
@@ -55,5 +60,17 @@ public class Item : MonoBehaviour
         spr.enabled = false;
         coll.enabled = false;
         downArrow.SetActive(false);
+        PickUpNoise();
+    }
+
+    void PickUpNoise()
+    {
+        audioSource.PlayOneShot(pickup);
+    }
+
+    void MakeNoise()
+    {
+        Instantiate(noise.gameObject, transform.position, Quaternion.identity);
+        audioSource.PlayOneShot(drop);
     }
 }
