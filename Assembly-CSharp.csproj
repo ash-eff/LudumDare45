@@ -72,6 +72,8 @@
     <Compile Include="Assets\Scripts\GameScripts\MenuController.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
     <Compile Include="Assets\Scripts\ItemLocation.cs" />
+    <Compile Include="Assets\Scripts\Lock.cs" />
+    <Compile Include="Assets\Scripts\LockPad.cs" />
     <Compile Include="Assets\Scripts\MallDirectory.cs" />
     <Compile Include="Assets\Scripts\Node.cs" />
     <Compile Include="Assets\Scripts\Noise.cs" />

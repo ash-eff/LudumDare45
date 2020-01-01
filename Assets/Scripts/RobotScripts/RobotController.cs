@@ -91,7 +91,6 @@ public class RobotController : MonoBehaviour
     {
         if (collision.tag == "Fog")
         {
-            Debug.Log("In FOg Of war");
             noiseSprite.SetActive(collision.GetComponent<RoomReveal>().roomHidden);
         }
     }

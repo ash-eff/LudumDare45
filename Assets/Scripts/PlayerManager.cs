@@ -6,12 +6,13 @@ using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
-    public LayerMask wallLayer;
+    public LayerMask wallLayer, doorLayer;
     public float xRayCastLength;
     public float yRayCastLength;
     public float xOffsetFromGround;
     public float yOffsetFromGround;
 
+    public float maxSpeed;
     public float moveSpeed;
     public int lives = 3;
     public GameObject noise;
@@ -50,14 +51,15 @@ public class PlayerManager : MonoBehaviour
     private bool isTargetable;
     private int totalMoneyStolen;
     private bool isDead;
-    public bool horizontalWall;
-    public bool verticalWall;
+    public bool wallUp, wallRight, wallDown, wallLeft;
+    public bool lockedDoor;
 
     private Animator anim;
-    private Vector3 movement;
+    public Vector3 movement;
     private GameController gameController;
     private GameObject currentItemBeingInteractedWith;
     private SpriteRenderer spr;
+    public LockPad lockPad;
     //private Transporter currentTransporter;
     //private MenuController menuController;
 
@@ -81,11 +83,13 @@ public class PlayerManager : MonoBehaviour
         //CheckCurrentFloor();
         //checkPoint = transform.position;
         //StartCoroutine(SetPlayerUntargetable(2f));
+        moveSpeed = maxSpeed;
     }
 
     private void Update()
     {
-        if (verticalWall && !isKnocking || horizontalWall && !isKnocking || itemManager.currentItemBeingInteractedWith != null && !itemManager.playerOccupied)
+        if (wallUp && !isKnocking || wallRight && !isKnocking || wallDown && !isKnocking || wallLeft && !isKnocking 
+            || itemManager.currentItemBeingInteractedWith != null && !itemManager.playerOccupied)
         {
             DisplayInteractButton();
         }
@@ -105,42 +109,18 @@ public class PlayerManager : MonoBehaviour
         Vector3 castPosition = new Vector3(transform.position.x + xOffsetFromGround, transform.position.y + yOffsetFromGround, 0f);
         movement = Vector3.zero;
         movement = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0f);
-        Debug.DrawRay(castPosition, Vector3.up * yRayCastLength, Color.red);
-        Debug.DrawRay(castPosition, -Vector3.up * yRayCastLength, Color.green);
-        Debug.DrawRay(castPosition, Vector3.right * xRayCastLength, Color.blue);
-        Debug.DrawRay(castPosition, -Vector3.right * xRayCastLength, Color.yellow);
 
-        if (movement.y != 0)
+        CheckForWalls(castPosition);
+        if(wallUp && movement.y == 1 || wallDown && movement.y == -1 || wallRight && movement.x == 1 || wallLeft && movement.x == -1 || lockedDoor && movement.y == 1)
         {
-            verticalWall = false;
-            if (Physics2D.Raycast(castPosition, Vector3.up, yRayCastLength, wallLayer) && movement.y == 1f)
-            {
-                movement.y = 0f;
-                verticalWall = true;
-            }
-            if (Physics2D.Raycast(castPosition, -Vector3.up, yRayCastLength, wallLayer) && movement.y == -1f)
-            {
-                movement.y = 0f;
-                verticalWall = true;
-            }
+            moveSpeed = 0;
+        }
+        else
+        {
+            moveSpeed = maxSpeed;
         }
 
-        if (movement.x != 0)
-        {
-            horizontalWall = false;
-            if (Physics2D.Raycast(castPosition, Vector3.right, xRayCastLength, wallLayer) && movement.x == 1f)
-            {
-                horizontalWall = true;
-                movement.x = 0f;
-            }
-            if (Physics2D.Raycast(castPosition, -Vector3.right, xRayCastLength, wallLayer) && movement.x == -1f)
-            {
-                horizontalWall = true;
-                movement.x = 0f;
-            }
-        }
-
-
+        lockPad.gameObject.SetActive(lockedDoor);
 
         CheckForButtonPress();
         MouseWheelScroll();
@@ -161,9 +141,64 @@ public class PlayerManager : MonoBehaviour
                                          transform.position.y + (direction.y * moveSpeed * Time.deltaTime), 0f);
     }
 
+    private void CheckForWalls(Vector3 castPosition) //checks for doors too, move this to another function
+    {
+        Debug.DrawRay(castPosition, Vector3.up * yRayCastLength, Color.red);
+        Debug.DrawRay(castPosition, -Vector3.up * yRayCastLength, Color.green);
+        Debug.DrawRay(castPosition, Vector3.right * xRayCastLength, Color.blue);
+        Debug.DrawRay(castPosition, -Vector3.right * xRayCastLength, Color.yellow);
+        if (Physics2D.Raycast(castPosition, Vector3.up, yRayCastLength, wallLayer))
+        {
+            wallUp = true;
+        }
+        else
+        {
+            wallUp = false;
+        }
+
+        if (Physics2D.Raycast(castPosition, -Vector3.up, yRayCastLength, wallLayer))
+        {
+            wallDown = true;
+        }
+        else
+        {
+            wallDown = false;
+        }
+
+        if (Physics2D.Raycast(castPosition, Vector3.right, yRayCastLength, wallLayer))
+        {
+            wallRight = true;
+        }
+        else
+        {
+            wallRight = false;
+        }
+
+        if (Physics2D.Raycast(castPosition, -Vector3.right, yRayCastLength, wallLayer))
+        {
+            wallLeft = true;
+        }
+        else
+        {
+            wallLeft = false;
+        }
+
+        RaycastHit2D hit = Physics2D.Raycast(castPosition, Vector3.up, yRayCastLength, doorLayer);
+
+        if (hit)
+        {
+            lockPad.currentLock = hit.transform.gameObject.GetComponent<Lock>();
+            lockedDoor = true;
+        }
+        else
+        {
+            lockedDoor = false;
+        }
+    }
+
     private void CheckForButtonPress()
     {
-        if(verticalWall || horizontalWall)
+        if(wallUp ||wallRight || wallDown || wallLeft)
         {
             if (!isKnocking)
             {

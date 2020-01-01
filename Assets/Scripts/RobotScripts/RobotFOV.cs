@@ -5,7 +5,6 @@ using UnityEngine;
 public class RobotFOV : MonoBehaviour
 {
     public RobotSenses robotSenses;
-    public Material mat;
 
     public LayerMask targetMask;
     public LayerMask obstacleMask;
@@ -95,7 +94,7 @@ public class RobotFOV : MonoBehaviour
         {
             angleInDegrees += transform.eulerAngles.z;
         }
-        return new Vector3(Mathf.Cos(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Sin(angleInDegrees * Mathf.Deg2Rad));
+        return new Vector3(Mathf.Cos(angleInDegrees * Mathf.Deg2Rad), Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0f);
     }
 
     EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast)
