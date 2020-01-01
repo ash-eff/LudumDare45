@@ -12,6 +12,10 @@ public class LockPad : MonoBehaviour
     public Sprite[] availableDigitSprites;
     public Sprite defaultDigitSprite;
     public Sprite[] availablePinPadSprites;
+    public AudioSource audioSource;
+    public AudioClip button;
+    public AudioClip success;
+    public AudioClip failure;
 
     KeyCode[] availableKeys = { KeyCode.Alpha0, KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4,
                                 KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9 };
@@ -45,6 +49,7 @@ public class LockPad : MonoBehaviour
             {
                 if (Input.GetKeyDown(key))
                 {
+                    audioSource.PlayOneShot(button);
                     switch (key)
                     {
                         case KeyCode.Alpha0:
@@ -121,7 +126,6 @@ public class LockPad : MonoBehaviour
 
     private void CheckCode()
     {
-        pinPad.sprite = availablePinPadSprites[10];
         if(codeAttempt == currentLock.lockCode)
         {
             StartCoroutine(Success());
@@ -145,26 +149,32 @@ public class LockPad : MonoBehaviour
 
     IEnumerator Success()
     {
+        yield return new WaitForSeconds(.1f);
         digits[0].sprite = availableDigitSprites[10];
         digits[1].sprite = availableDigitSprites[11];
         digits[2].sprite = availableDigitSprites[12];
         digits[3].sprite = availableDigitSprites[14];
+        audioSource.PlayOneShot(success);
         pinPad.sprite = availablePinPadSprites[12];
         yield return new WaitForSeconds(.1f);
         pinPad.sprite = availablePinPadSprites[10];
         yield return new WaitForSeconds(.1f);
+        audioSource.PlayOneShot(success);
         pinPad.sprite = availablePinPadSprites[12];
         yield return new WaitForSeconds(.1f);
         pinPad.sprite = availablePinPadSprites[10];
         yield return new WaitForSeconds(.1f);
+        audioSource.PlayOneShot(success);
         pinPad.sprite = availablePinPadSprites[12];
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.25f);
         currentLock.gameObject.SetActive(false);
         this.gameObject.SetActive(false);
     }
 
     IEnumerator Failure()
     {
+        yield return new WaitForSeconds(.1f);
+        audioSource.PlayOneShot(failure);
         digits[0].sprite = availableDigitSprites[13];
         digits[1].sprite = availableDigitSprites[11];
         digits[2].sprite = availableDigitSprites[10];
@@ -178,7 +188,7 @@ public class LockPad : MonoBehaviour
         pinPad.sprite = availablePinPadSprites[10];
         yield return new WaitForSeconds(.1f);
         pinPad.sprite = availablePinPadSprites[11];
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.25f);
         ResetPinPad();
     }
 }
