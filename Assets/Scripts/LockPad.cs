@@ -1,34 +1,49 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class LockPad : MonoBehaviour
 {
     public Lock currentLock;
     public TextMeshProUGUI cheatText;
-    public SpriteRenderer[] digits;
-    public SpriteRenderer pinPad;
+    public Image[] digits;
+    public Image pinPad;
+    public Image fillBar;
+    public Image lights;
+    public Image wrong;
     public Sprite[] availableDigitSprites;
     public Sprite defaultDigitSprite;
     public Sprite[] availablePinPadSprites;
+    public Sprite[] availableLightSprites;
+    public Sprite[] availableWrongSprites;
     public AudioSource audioSource;
-    public AudioClip button;
-    public AudioClip success;
-    public AudioClip failure;
+    public AudioClip button, success, failure, correct, incorrect;
+    public int successfulHacks;
+
+    public Color[] colors;
 
     KeyCode[] availableKeys = { KeyCode.Alpha0, KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4,
                                 KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9 };
 
     private int digitIndex = 0;
     private string codeAttempt;
+    public List<int> lockCode;
 
     private void OnEnable()
     {
-        if(currentLock != null)
+
+        if (currentLock != null)
         {
             cheatText.text = "cheat code: " + currentLock.lockCode;
+            lockCode = new List<int>();
+            lockCode.Add(currentLock.lockCode[0] - '0');
+            lockCode.Add(currentLock.lockCode[1] - '0');
+            lockCode.Add(currentLock.lockCode[2] - '0');
+            lockCode.Add(currentLock.lockCode[3] - '0');
         }
+        ResetPinPad();
     }
 
     private void OnDisable()
@@ -37,7 +52,6 @@ public class LockPad : MonoBehaviour
         {
             currentLock = null;
             cheatText.text = "0000";
-            ResetPinPad();
         }
     }
 
@@ -138,6 +152,9 @@ public class LockPad : MonoBehaviour
 
     private void ResetPinPad()
     {
+        fillBar.color = colors[0];
+        lights.sprite = availableLightSprites[0];
+        wrong.sprite = availableWrongSprites[0];
         pinPad.sprite = availablePinPadSprites[10];
         digits[0].sprite = availableDigitSprites[0];
         digits[1].sprite = availableDigitSprites[0];
@@ -145,6 +162,7 @@ public class LockPad : MonoBehaviour
         digits[3].sprite = availableDigitSprites[0];
         digitIndex = 0;
         codeAttempt = "";
+        StartCoroutine(HackPinPad());
     }
 
     IEnumerator Success()
@@ -190,5 +208,52 @@ public class LockPad : MonoBehaviour
         pinPad.sprite = availablePinPadSprites[11];
         yield return new WaitForSeconds(.25f);
         ResetPinPad();
+    }
+
+    IEnumerator HackPinPad()
+    {
+        float hackSpeed = .5f;
+        float hackPos = 0f;
+        int totalFailures = 3;
+        successfulHacks = 0;
+        while(successfulHacks < 4)
+        {
+            float t = Mathf.PingPong(Time.time * hackSpeed, 1f);
+            fillBar.fillAmount = t;
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                hackPos = fillBar.fillAmount;
+                if (hackPos > .69f && hackPos < .83f)
+                {
+                    audioSource.PlayOneShot(correct);
+                    digits[successfulHacks].sprite = availableDigitSprites[lockCode[successfulHacks]];
+                    successfulHacks++;
+                    if(successfulHacks < 4)
+                    {
+                        lights.sprite = availableLightSprites[successfulHacks];
+                        fillBar.color = colors[successfulHacks];
+                    }
+
+                    hackSpeed += .25f;
+                    t = 0f;
+                    fillBar.fillAmount = t;
+                }
+                else
+                {
+                    audioSource.PlayOneShot(incorrect);
+                    wrong.sprite = availableWrongSprites[totalFailures];
+                    totalFailures--;                   
+                    if (totalFailures == 0)
+                    {
+                        StartCoroutine(Failure());
+                        yield break;
+                    }
+                }
+            }
+
+            yield return null;
+        }
+
+        StartCoroutine(Success());
     }
 }
