@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Lock : MonoBehaviour
 {
+    public GameObject lockImg, barrier, exitSign;
     public string lockCode;
 
     void Start()
@@ -13,5 +14,12 @@ public class Lock : MonoBehaviour
         int thirdDigit = Random.Range(0, 10);
         int fourthDigit = Random.Range(0, 10);
         lockCode = firstDigit.ToString() + secondDigit.ToString() + thirdDigit.ToString() + fourthDigit.ToString();
+    }
+
+    public void Unlock()
+    {
+        lockImg.SetActive(false);
+        barrier.SetActive(false);
+        exitSign.SetActive(true);
     }
 }

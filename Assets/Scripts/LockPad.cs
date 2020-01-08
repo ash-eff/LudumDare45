@@ -185,7 +185,7 @@ public class LockPad : MonoBehaviour
         audioSource.PlayOneShot(success);
         pinPad.sprite = availablePinPadSprites[12];
         yield return new WaitForSeconds(.25f);
-        currentLock.gameObject.SetActive(false);
+        currentLock.Unlock();
         this.gameObject.SetActive(false);
     }
 

@@ -187,7 +187,7 @@ public class PlayerManager : MonoBehaviour
 
         if (hit)
         {
-            lockPad.currentLock = hit.transform.gameObject.GetComponent<Lock>();
+            lockPad.currentLock = hit.transform.parent.gameObject.GetComponent<Lock>();
             lockedDoor = true;
         }
         else
