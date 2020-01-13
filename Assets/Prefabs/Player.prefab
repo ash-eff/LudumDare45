@@ -379,7 +379,7 @@ MonoBehaviour:
   doorLayer:
     serializedVersion: 2
     m_Bits: 131072
-  xRayCastLength: 0.25
+  xRayCastLength: 0.3
   yRayCastLength: 0.25
   xOffsetFromGround: 0
   yOffsetFromGround: -0.75

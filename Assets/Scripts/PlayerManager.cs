@@ -56,6 +56,7 @@ public class PlayerManager : MonoBehaviour
 
     private Animator anim;
     public Vector3 movement;
+    private Vector3 castPosition;
     private GameController gameController;
     private GameObject currentItemBeingInteractedWith;
     private SpriteRenderer spr;
@@ -106,18 +107,19 @@ public class PlayerManager : MonoBehaviour
 
         stolenValueText.text = "Value Stolen: " + valueStolen.ToString("00.00");
 
-        Vector3 castPosition = new Vector3(transform.position.x + xOffsetFromGround, transform.position.y + yOffsetFromGround, 0f);
+        
         movement = Vector3.zero;
         movement = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0f);
 
-        CheckForWalls(castPosition);
-        if(wallUp && movement.y == 1 || wallDown && movement.y == -1 || wallRight && movement.x == 1 || wallLeft && movement.x == -1 || lockedDoor && movement.y == 1)
+        
+        if(wallUp && movement.y == 1 || wallDown && movement.y == -1 || lockedDoor && movement.y == 1)
         {
-            moveSpeed = 0;
+            movement.y = 0;
         }
-        else
+
+        if(wallRight && movement.x == 1 || wallLeft && movement.x == -1)
         {
-            moveSpeed = maxSpeed;
+            movement.x = 0;
         }
 
         lockPad.gameObject.SetActive(lockedDoor);
@@ -133,6 +135,12 @@ public class PlayerManager : MonoBehaviour
         }
 
         //audioSource.volume = menuController.SFXVolume;
+    }
+
+    private void FixedUpdate()
+    {
+        castPosition = new Vector3(transform.position.x + xOffsetFromGround, transform.position.y + yOffsetFromGround, 0f);
+        CheckForWalls(castPosition);
     }
 
     private void MovePlayer(Vector3 direction)
