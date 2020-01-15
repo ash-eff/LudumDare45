@@ -9,6 +9,7 @@ public class Item : MonoBehaviour
     public float itemValue;
     public string itemName;
     public bool alreadyStolen = false;
+    public bool canBePickedUp = false;
 
     public GameObject outline;
     public GameObject downArrow;
@@ -23,17 +24,33 @@ public class Item : MonoBehaviour
     public Vector3 startPos;
     public Vector3 endPos;
 
+    private PlayerManager player;
+
     private void Start()
     {
+        player = FindObjectOfType<PlayerManager>();
         outlineSpr.sprite = itemOutline;
         itemName = name;
         spr.sprite = itemSprite;
+        Shader.SetGlobalTexture("_MainTex", spr.sprite.texture);
+        
         coll = GetComponent<Collider2D>();
+    }
+
+    private void Update()
+    {
+        if(transform.position.y < player.transform.position.y - .75f)
+        {
+            spr.sortingOrder = 3;
+        }
+        else
+        {
+            spr.sortingOrder = 1;
+        }
     }
 
     public IEnumerator ThrowItem()
     {
-
         anim.SetBool("Active", true);
         transform.parent = null;
         spr.enabled = true;
@@ -60,6 +77,7 @@ public class Item : MonoBehaviour
         spr.enabled = false;
         coll.enabled = false;
         downArrow.SetActive(false);
+        canBePickedUp = false;
         PickUpNoise();
     }
 

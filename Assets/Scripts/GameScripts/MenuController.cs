@@ -34,8 +34,8 @@ public class MenuController : MonoBehaviour
             return;
         }
 
-        volumeFillBar.fillAmount = musicVolume;
-        sfxFillBar.fillAmount = sfxVolume;
+        //volumeFillBar.fillAmount = musicVolume;
+        //sfxFillBar.fillAmount = sfxVolume;
         CheckForPlayerInput();
     }
 

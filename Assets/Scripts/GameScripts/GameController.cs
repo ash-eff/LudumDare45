@@ -56,7 +56,7 @@ public class GameController : MonoBehaviour
         isGameOver = true;
         if (isGameWon)
         {
-            StartCoroutine(CalculateScore());
+            //StartCoroutine(CalculateScore());
         }
         else
         {
@@ -65,49 +65,49 @@ public class GameController : MonoBehaviour
         }
     }
 
-    IEnumerator CalculateScore()
-    {
-        endTimeText.text = Time.timeSinceLevelLoad.ToString("00:00:00");
-        endRankText.text = "Rank: ";
-        endScoreText.text = "Money Stolen: $" + playerScore.ToString("0000");
-        winPanel.SetActive(true);
-        int moneyStolen = playerManager.TotalMoneyStolen;
-        while(moneyStolen > 0)
-        {
-            sfxSource.PlayOneShot(countSound);
-            playerScore++;
-            moneyStolen--;
-            //playerManager.UpdateMoneyStolenValue(moneyStolen);
-            endScoreText.text = "Money Stolen: $" + playerScore.ToString("0000");
-            yield return new WaitForSecondsRealtime(.01f);
-        }
-
-        float finalScoreTotal = (playerScore / 15) / valuableItems.Length;
-        float percentage = Mathf.RoundToInt(finalScoreTotal * 100f);
-
-        if (percentage == 100 && playerManager.lives == 3)
-        {
-            endRankText.text = "Rank: S+";
-        }
-        else if(percentage > 99)
-        {
-            endRankText.text = "Rank: S-";
-        }
-        else if (percentage > 90)
-        {
-            endRankText.text = "Rank: A";
-        }
-        else if (percentage > 80)
-        {
-            endRankText.text = "Rank: B";
-        }
-        else if (percentage > 70)
-        {
-            endRankText.text = "Rank: C";
-        }
-        else
-        {
-            endRankText.text = "Rank: D";
-        }
-    }
+    //IEnumerator CalculateScore()
+    //{
+    //    endTimeText.text = Time.timeSinceLevelLoad.ToString("00:00:00");
+    //    endRankText.text = "Rank: ";
+    //    endScoreText.text = "Money Stolen: $" + playerScore.ToString("0000");
+    //    winPanel.SetActive(true);
+    //    int moneyStolen = playerManager.TotalMoneyStolen;
+    //    while(moneyStolen > 0)
+    //    {
+    //        sfxSource.PlayOneShot(countSound);
+    //        playerScore++;
+    //        moneyStolen--;
+    //        //playerManager.UpdateMoneyStolenValue(moneyStolen);
+    //        endScoreText.text = "Money Stolen: $" + playerScore.ToString("0000");
+    //        yield return new WaitForSecondsRealtime(.01f);
+    //    }
+    //
+    //    float finalScoreTotal = (playerScore / 15) / valuableItems.Length;
+    //    float percentage = Mathf.RoundToInt(finalScoreTotal * 100f);
+    //
+    //    if (percentage == 100 && playerManager.lives == 3)
+    //    {
+    //        endRankText.text = "Rank: S+";
+    //    }
+    //    else if(percentage > 99)
+    //    {
+    //        endRankText.text = "Rank: S-";
+    //    }
+    //    else if (percentage > 90)
+    //    {
+    //        endRankText.text = "Rank: A";
+    //    }
+    //    else if (percentage > 80)
+    //    {
+    //        endRankText.text = "Rank: B";
+    //    }
+    //    else if (percentage > 70)
+    //    {
+    //        endRankText.text = "Rank: C";
+    //    }
+    //    else
+    //    {
+    //        endRankText.text = "Rank: D";
+    //    }
+    //}
 }

@@ -20,7 +20,9 @@ public class LockPad : MonoBehaviour
     public Sprite[] availableWrongSprites;
     public AudioSource audioSource;
     public AudioClip button, success, failure, correct, incorrect;
+    public GameObject noisePrefab;
     public int successfulHacks;
+    public bool isUnlocked = false;
 
     public Color[] colors;
 
@@ -150,7 +152,7 @@ public class LockPad : MonoBehaviour
         }
     }
 
-    private void ResetPinPad()
+    public void ResetPinPad()
     {
         fillBar.color = colors[0];
         lights.sprite = availableLightSprites[0];
@@ -185,13 +187,15 @@ public class LockPad : MonoBehaviour
         audioSource.PlayOneShot(success);
         pinPad.sprite = availablePinPadSprites[12];
         yield return new WaitForSeconds(.25f);
-        currentLock.Unlock();
-        this.gameObject.SetActive(false);
+        isUnlocked = true;
+        //currentLock.Unlock();
+        //this.gameObject.SetActive(false);
     }
 
     IEnumerator Failure()
     {
         yield return new WaitForSeconds(.1f);
+        Instantiate(noisePrefab, transform.position, Quaternion.identity);
         audioSource.PlayOneShot(failure);
         digits[0].sprite = availableDigitSprites[13];
         digits[1].sprite = availableDigitSprites[11];
@@ -206,7 +210,7 @@ public class LockPad : MonoBehaviour
         pinPad.sprite = availablePinPadSprites[10];
         yield return new WaitForSeconds(.1f);
         pinPad.sprite = availablePinPadSprites[11];
-        yield return new WaitForSeconds(.25f);
+        yield return new WaitForSeconds(.25f);   
         ResetPinPad();
     }
 

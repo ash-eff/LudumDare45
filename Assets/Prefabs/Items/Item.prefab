@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 693536237346754918}
   - component: {fileID: 8450399777908751476}
   - component: {fileID: 9017465370723645866}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Item
   m_TagString: Item
   m_Icon: {fileID: 0}
@@ -234,7 +234,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ba53d0d332a61cc41977d4dcd9434965, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -283,6 +283,7 @@ MonoBehaviour:
   itemValue: 0
   itemName: 
   alreadyStolen: 0
+  canBePickedUp: 1
   outline: {fileID: 2189202636309143513}
   downArrow: {fileID: 1330512459322431728}
   anim: {fileID: 693536237346754918}

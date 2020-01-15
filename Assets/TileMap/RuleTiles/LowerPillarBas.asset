@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
   m_Name: LowerPillarBas
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: -8884623302678316768, guid: 971fe52d90f0f8244addd40c0671fded,
+  m_DefaultSprite: {fileID: 8557138934059622493, guid: 971fe52d90f0f8244addd40c0671fded,
     type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1
   m_TilingRules:
   - m_Id: 0
     m_Sprites:
-    - {fileID: -957177812422019351, guid: 971fe52d90f0f8244addd40c0671fded, type: 3}
-    - {fileID: -957177812422019351, guid: 971fe52d90f0f8244addd40c0671fded, type: 3}
-    - {fileID: 93583396280131643, guid: 971fe52d90f0f8244addd40c0671fded, type: 3}
-    - {fileID: 6759998687698456399, guid: 971fe52d90f0f8244addd40c0671fded, type: 3}
+    - {fileID: 8557138934059622493, guid: 971fe52d90f0f8244addd40c0671fded, type: 3}
+    - {fileID: 8557138934059622493, guid: 971fe52d90f0f8244addd40c0671fded, type: 3}
+    - {fileID: -8813367636853043610, guid: 971fe52d90f0f8244addd40c0671fded, type: 3}
+    - {fileID: -7489352057964711649, guid: 971fe52d90f0f8244addd40c0671fded, type: 3}
     m_GameObject: {fileID: 0}
     m_AnimationSpeed: 1
     m_PerlinScale: 0.302

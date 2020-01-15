@@ -13,7 +13,7 @@ public class RobotInvestigate : MonoBehaviour
     
     public Vector3 startPos;
     public Vector3 endPos;
-    private Vector3 returnLocation;
+    private Vector3 returnLocation = Vector3.zero;
     
     public Vector3 GetReturnLocation
     {

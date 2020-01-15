@@ -4,17 +4,36 @@ using UnityEngine;
 
 public class Noise : MonoBehaviour
 {
+    public float maxNoiseRadius;
     public float noiseRadius;
+    public float noiseArc;
     [Range(0,.25f)]
     public float noiseReductionPercent;
     public float yOffset;
     public LayerMask robotLayer, obstacleLayer;
+    public GameObject indicator;
 
     private void Start()
     {
         transform.position = new Vector3(transform.position.x, transform.position.y - yOffset, 0f);
-        MakeNoise();
-        Destroy(gameObject, 1f);
+        StartCoroutine(GrowNoise());
+        //MakeNoise();
+        //Destroy(gameObject, 1f);
+    }
+
+    IEnumerator GrowNoise()
+    {
+        float lerpTime = .5f;
+        float currentLerpTime = 0;
+        while (currentLerpTime < lerpTime)
+        {
+            currentLerpTime += Time.deltaTime;
+            float perc = currentLerpTime / lerpTime;
+            noiseRadius = Mathf.Lerp(0, maxNoiseRadius, perc);
+            indicator.transform.localScale = Vector2.one * noiseRadius;
+            yield return null;
+        }
+        Destroy(this.gameObject);
     }
 
     void MakeNoise()
