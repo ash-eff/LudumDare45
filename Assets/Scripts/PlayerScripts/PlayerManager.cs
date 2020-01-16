@@ -6,58 +6,95 @@ using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
-    public LayerMask wallLayer, doorLayer, itemLayer, robotLayer;
+    #region Editor Variables
+    [Header("LayerMasks")]
+    [SerializeField] public LayerMask wallLayer;
+    [SerializeField] public LayerMask doorLayer;
+    [SerializeField] public LayerMask itemLayer;
+    [SerializeField] public LayerMask robotLayer;
+    [Space(2)]
 
-    public float xRayCastLength;
-    public float yRayCastLength;
-    public float yRayDownExtraLength;
-    public float yRayOffsetFromGround;
-    public float itemRadiusCast;
-    public float maxSpeed;
-    public float moveSpeed;
-    public float dashSpeed;
-    public float normalCursorRadius;
-    public float maxCursorRadius;
-    public float noiseRadius;
-    public float stealTime;
+    [Header("Raycast Values")]
+    [SerializeField] private float xRayCastLength =.4f;
+    [SerializeField] private float yRayCastLength = .05f;
+    [SerializeField] private float yRayDownExtraLength = .4f;
+    [SerializeField] private float yRayOffsetFromGround = -.6f;
+    [SerializeField] private float itemRadiusCast = 1;
+    [Space(2)]
 
-    public GameObject noisePrefab;
+    [Header("Speed Values")]
+    [SerializeField] private float baseMoveSpeed = 6;
+    [SerializeField] private float dashSpeed = 50;
+    [Space(2)]
+
+    [Header("Time Values")]
+    [SerializeField] private float dashTime = .25f;
+    [SerializeField] private float dashDelay = 1;
+    [SerializeField] private float stealTime = 1;
+    [Space(2)]
+
+    [Header("Energy Values")]
+    [SerializeField] private int dashEnergy = 23;
+    [SerializeField] private int maxEnergy = 100;
+    [SerializeField] private int currentEnergy = 0;
+    [Space(2)]
+
+    [Header("Cursor Values")]
+    [SerializeField] private float normalCursorRadius = 7.5f;
+    [SerializeField] private float maxCursorRadius = 9;
+    [Space(2)]
+
+    [Header("Components")]
+    public GameObject tr;
     public GameObject cursor;
-    public GameObject eButtonGUI;
-    public GameObject rButtonGUI;
     public LockPad lockPad;
     public PlayerAudio playerAudio;
+    [Space(2)]
+
+    [Header("GUI")]
+    public GameObject eButtonGUI;
+    public GameObject rButtonGUI;
     public Image heldItemSprite;
     public TextMeshProUGUI heldItemValueText;
+    [Space(2)]
+    #endregion
+
+    #region Private Variables
+    private float valueStolen;
+    private float actualCursorRadius;
+    private float moveSpeed;
 
     private bool canMove;
+    private bool isDashing;
     private bool playerOccupied;
     private bool isSpotted = false;
     private bool isKnocking;
     private bool canInteract;
     private bool isTargetable;
     private bool isDead = false;
-    public bool touchingWall;
-    public bool lockedDoor;
+    private bool canDash = true;
+    private bool touchingWall;
+    private bool lockedDoor;
 
-    private Animator anim;
-
+    private Vector2 dashDirection;
     private Vector3 castPosition = Vector3.zero;
     private GameController gameController;
-    public Item currentItemBeingInteractedWith;
-    //public Item lastItemInteractedWith;
-    public Collider2D[] itemsInRange;
+    private Item currentItemBeingInteractedWith;
+    private Collider2D[] itemsInRange;
     private SpriteRenderer spr;
+    private Animator anim;
     private PlayerInventory playerInventory;
     private PlayerActions playerActions;
+    private PlayerMove playerMove;
 
-    private float valueStolen;
-    private float actualCursorRadius;
-
+    public float MoveSpeed { get { return moveSpeed; } }
+    public float StealTime { get { return stealTime; } }
     public bool CanMove { get { return canMove; } }
     public bool PlayerOccupied { get { return playerOccupied; } set { playerOccupied = value; } }
     public bool IsSpotted { get { return isSpotted; } }
     public bool IsDead { get { return isDead; } }
+    public bool IsKnocking { set { isKnocking = value; } }
+    #endregion
 
     private void Awake()
     {
@@ -68,7 +105,10 @@ public class PlayerManager : MonoBehaviour
         gameController = FindObjectOfType<GameController>();
         playerInventory = GetComponent<PlayerInventory>();
         playerActions = GetComponent<PlayerActions>();
-        moveSpeed = maxSpeed;
+        playerMove = GetComponent<PlayerMove>();
+        moveSpeed = baseMoveSpeed;
+        currentEnergy = maxEnergy;
+        StartCoroutine(AddEnergyEverySecond());
     }
 
     private void Update()
@@ -87,6 +127,26 @@ public class PlayerManager : MonoBehaviour
         //    CancelTextInformation();
         //    return;
         //}
+
+        if(!playerOccupied)
+        {
+            if (isDashing)
+            {
+                moveSpeed = dashSpeed;
+                playerMove.Movement = new Vector2(dashDirection.x, dashDirection.y);
+            }
+            else
+            {
+                moveSpeed = baseMoveSpeed;
+                playerMove.Movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));              
+            }
+
+            playerMove.MovePlayer();
+        }
+        else
+        {
+            playerMove.Movement = Vector3.zero;
+        }
 
         CheckForBarriers();
         CheckForItems();
@@ -176,23 +236,38 @@ public class PlayerManager : MonoBehaviour
 
     private void CheckForButtonPress()
     {
+        // knock and hack
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (touchingWall && !isKnocking)
             {
                 isKnocking = true;
-                StartCoroutine(KnockKnock());
+                StartCoroutine(playerActions.Knock());
             }
 
             else if (lockedDoor && !playerActions.isHacking)
             {
-                playerActions.HackLock(true);
+                StartCoroutine(playerActions.HackLocks(true));
             }
 
             else if(lockedDoor && playerActions.isHacking)
             {
-                playerActions.HackLock(false);
+                StartCoroutine(playerActions.HackLocks(false));
             }
+        }
+
+        // dash
+        if ((Input.GetKeyDown(KeyCode.Space)))
+        {
+            if (!isDashing && canDash)
+            {
+                if((currentEnergy - dashEnergy) > 0)
+                {
+                    AdjustEnergy(-dashEnergy);
+                    dashDirection = (cursor.transform.position - transform.position).normalized;
+                    StartCoroutine(DashTimer());
+                }
+            }         
         }
 
         // look ahead
@@ -224,7 +299,6 @@ public class PlayerManager : MonoBehaviour
             {
                 if (currentItemBeingInteractedWith.alreadyStolen)
                 {
-                    Debug.Log("Taking");
                     playerInventory.AddItemToInventory(currentItemBeingInteractedWith);
                     currentItemBeingInteractedWith = null;
                 }
@@ -260,14 +334,6 @@ public class PlayerManager : MonoBehaviour
 
     }
 
-    IEnumerator KnockKnock()
-    {
-        Instantiate(noisePrefab, transform.position, Quaternion.identity);
-        playerAudio.PlayAudio(playerAudio.knock);
-        yield return new WaitForSeconds(1f);
-        isKnocking = false;
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.transform.gameObject.layer == 8)
@@ -281,6 +347,50 @@ public class PlayerManager : MonoBehaviour
         if (collision.transform.gameObject.layer == 8)
         {
             touchingWall = false;
+        }
+    }
+
+    IEnumerator DashTimer()
+    {
+        ParticleSystem.EmissionModule ps = tr.GetComponent<ParticleSystem>().emission;
+        ps.enabled = true;
+        tr.SetActive(true);
+        isDashing = true;
+        canDash = false;
+        float dashTimer = dashTime;
+        while (dashTimer > 0)
+        {
+            dashTimer -= Time.deltaTime;
+            yield return null;
+        }
+
+        
+        ps.enabled = false;
+        isDashing = false;
+        yield return new WaitForSeconds(dashDelay);
+        canDash = true;
+        tr.SetActive(false);
+
+    }
+
+    IEnumerator AddEnergyEverySecond()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
+            AdjustEnergy(1);
+        }
+    }
+
+    void AdjustEnergy(int amount)
+    {
+        if((currentEnergy + amount) >= maxEnergy)
+        {
+            currentEnergy = maxEnergy;
+        }
+        else
+        {
+            currentEnergy += amount;
         }
     }
 

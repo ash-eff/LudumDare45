@@ -7,6 +7,11 @@ public class PlayerMove : MonoBehaviour
     private PlayerManager playerManager;
     private Rigidbody2D rb2d;
     private Vector3 movement;
+    private Vector2 direction;
+    private Vector2 dashPosition;
+
+    public Vector2 Movement { set { movement = value; } }
+    public Vector2 Direction { set { direction = value; } }
 
     private void Awake()
     {
@@ -14,21 +19,8 @@ public class PlayerMove : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
     }
 
-    private void Update()
-    {     
-        if (!playerManager.PlayerOccupied)
-        {
-            MovePlayer();
-        }
-        else
-        {
-            rb2d.velocity = Vector2.zero;
-        }
-    }
-
-    private void MovePlayer()
+    public void MovePlayer()
     {
-        movement = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f);
-        rb2d.velocity = new Vector2(movement.x, movement.y) * playerManager.moveSpeed;
+        rb2d.velocity = new Vector2(movement.x, movement.y) * playerManager.MoveSpeed;
     }
 }

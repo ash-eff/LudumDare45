@@ -39,13 +39,13 @@ public class PlayerActions : MonoBehaviour
         playerManager.PlayerOccupied = true;
         StartCoroutine(InstantiateNoise());
         interactBar.SetActive(true);
-        float timeOfInteraction = playerManager.stealTime;
+        float timeOfInteraction = playerManager.StealTime;
         interactBarFill.fillAmount = 0f;
-        InvokeRepeating("InstantiateNoise", playerManager.stealTime, .25f);
+        InvokeRepeating("InstantiateNoise", playerManager.StealTime, .25f);
         while (Input.GetKey(KeyCode.R))
         {
             timeOfInteraction -= Time.deltaTime;
-            interactBarFill.fillAmount += Time.deltaTime / playerManager.stealTime;
+            interactBarFill.fillAmount += Time.deltaTime / playerManager.StealTime;
     
             if (timeOfInteraction <= 0)
             {
@@ -63,26 +63,29 @@ public class PlayerActions : MonoBehaviour
         interactBarFill.fillAmount = 0f;
     }
 
+    public IEnumerator Knock()
+    {
+        Instantiate(noisePrefab, transform.position, Quaternion.identity);
+        playerAudio.PlayAudio(playerAudio.knock);
+        yield return new WaitForSeconds(1f);
+        playerManager.IsKnocking = false;
+    }
+
     IEnumerator InstantiateNoise()
     {
         playerAudio.PlayAudio(playerAudio.steal);
         while (Input.GetKey(KeyCode.R) && playerManager.PlayerOccupied)
         {
             Instantiate(noisePrefab, transform.position, Quaternion.identity);
-            yield return new WaitForSeconds(playerManager.stealTime / 4);
+            yield return new WaitForSeconds(playerManager.StealTime / 4);
         }
         playerAudio.StopAudio();
     }
 
-    public void HackLock(bool b)
+    public IEnumerator HackLocks(bool b)
     {
         isHacking = b;
         playerManager.lockPad.gameObject.SetActive(b);
-        StartCoroutine(HackLocks());
-    }
-
-    IEnumerator HackLocks()
-    {
         playerManager.PlayerOccupied = true;
         while (isHacking)
         {
@@ -99,4 +102,6 @@ public class PlayerActions : MonoBehaviour
 
         playerManager.PlayerOccupied = false;
     }
+
+
 }
