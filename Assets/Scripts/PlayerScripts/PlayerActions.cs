@@ -33,7 +33,6 @@ public class PlayerActions : MonoBehaviour
 
     public IEnumerator StealItem(Item itemToSteal)
     {        
-        playerManager.rButtonGUI.SetActive(false);
         Item stealingItem = itemToSteal;
         stealingItem.canBePickedUp = false;      
         playerManager.PlayerOccupied = true;
@@ -42,8 +41,9 @@ public class PlayerActions : MonoBehaviour
         float timeOfInteraction = playerManager.StealTime;
         interactBarFill.fillAmount = 0f;
         InvokeRepeating("InstantiateNoise", playerManager.StealTime, .25f);
-        while (Input.GetKey(KeyCode.R))
+        while (Input.GetKey(KeyCode.Alpha3))
         {
+            playerManager.PlayerOccupied = true;
             timeOfInteraction -= Time.deltaTime;
             interactBarFill.fillAmount += Time.deltaTime / playerManager.StealTime;
     
@@ -74,8 +74,9 @@ public class PlayerActions : MonoBehaviour
     IEnumerator InstantiateNoise()
     {
         playerAudio.PlayAudio(playerAudio.steal);
-        while (Input.GetKey(KeyCode.R) && playerManager.PlayerOccupied)
+        while (Input.GetKey(KeyCode.Alpha3) && playerManager.PlayerOccupied)
         {
+           
             Instantiate(noisePrefab, transform.position, Quaternion.identity);
             yield return new WaitForSeconds(playerManager.StealTime / 4);
         }

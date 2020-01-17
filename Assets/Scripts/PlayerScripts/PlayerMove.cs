@@ -23,4 +23,9 @@ public class PlayerMove : MonoBehaviour
     {
         rb2d.velocity = new Vector2(movement.x, movement.y) * playerManager.MoveSpeed;
     }
+
+    public void StopPlayer()
+    {
+        rb2d.velocity = Vector2.zero;
+    }
 }

@@ -34,7 +34,7 @@ public class PlayerManager : MonoBehaviour
     [Space(2)]
 
     [Header("Energy Values")]
-    [SerializeField] private int dashEnergy = 23;
+    [SerializeField] private int dashEnergy = 5;
     [SerializeField] private int maxEnergy = 100;
     [SerializeField] private int currentEnergy = 0;
     [Space(2)]
@@ -49,11 +49,15 @@ public class PlayerManager : MonoBehaviour
     public GameObject cursor;
     public LockPad lockPad;
     public PlayerAudio playerAudio;
+    public Animator soundIconAnim;
+    public Animator dashIconAnim;
+    public Animator grabIconAnim;
+    public Animator hackIconAnim;
+    public Image dashTimerIndicator;
+    public Image energyFillIndicator;
     [Space(2)]
 
     [Header("GUI")]
-    public GameObject eButtonGUI;
-    public GameObject rButtonGUI;
     public Image heldItemSprite;
     public TextMeshProUGUI heldItemValueText;
     [Space(2)]
@@ -66,7 +70,8 @@ public class PlayerManager : MonoBehaviour
 
     private bool canMove;
     private bool isDashing;
-    private bool playerOccupied;
+    private bool itemInRange;
+    public bool playerOccupied;
     private bool isSpotted = false;
     private bool isKnocking;
     private bool canInteract;
@@ -74,7 +79,7 @@ public class PlayerManager : MonoBehaviour
     private bool isDead = false;
     private bool canDash = true;
     private bool touchingWall;
-    private bool lockedDoor;
+    private bool touchingLockedDoor;
 
     private Vector2 dashDirection;
     private Vector3 castPosition = Vector3.zero;
@@ -113,22 +118,27 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        if (touchingWall && !isKnocking || lockedDoor)
+        if (isSpotted || playerOccupied || gameController.IsGameOver)
         {
-            eButtonGUI.SetActive(true);
+            playerMove.Movement = Vector3.zero;
+            return;
         }
-        else
-        {
-            eButtonGUI.SetActive(false);
-        }
-        //
-        //if (isSpotted || playerOccupied || gameController.IsGameOver)
-        //{
-        //    CancelTextInformation();
-        //    return;
-        //}
 
-        if(!playerOccupied)
+        energyFillIndicator.fillAmount = ((float)currentEnergy / (float)maxEnergy);
+
+        SetIconAnimations();
+        CheckForBarriers();
+        CheckForItems();
+        CheckForButtonPress();
+        CursorPos();
+        UpdateGUI();
+
+        //audioSource.volume = menuController.SFXVolume;
+    }
+
+    private void FixedUpdate()
+    {
+        if (!playerOccupied)
         {
             if (isDashing)
             {
@@ -138,23 +148,54 @@ public class PlayerManager : MonoBehaviour
             else
             {
                 moveSpeed = baseMoveSpeed;
-                playerMove.Movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));              
+                playerMove.Movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             }
 
             playerMove.MovePlayer();
         }
         else
         {
-            playerMove.Movement = Vector3.zero;
+            playerMove.StopPlayer();
+        }
+    }
+
+    private void SetIconAnimations()
+    {
+        if (touchingWall && !isKnocking)
+        {
+            soundIconAnim.SetBool("Active", true);
+        }
+        else
+        {
+            soundIconAnim.SetBool("Active", false);
         }
 
-        CheckForBarriers();
-        CheckForItems();
-        CheckForButtonPress();
-        CursorPos();
-        UpdateGUI();
+        if (touchingLockedDoor)
+        {
+            hackIconAnim.SetBool("Active", true);
+        }
+        else
+        {
+            hackIconAnim.SetBool("Active", false);
+        }
 
-        //audioSource.volume = menuController.SFXVolume;
+        if (canDash && HasEnoughEnergy())
+        {
+            dashIconAnim.SetBool("Active", true);
+        }
+        else
+        {
+            dashIconAnim.SetBool("Active", false);
+        }
+
+        if (itemInRange)
+        {
+            grabIconAnim.SetBool("Active", true);
+        }
+        else
+        {
+            grabIconAnim.SetBool("Active", false);
+        }
     }
 
     private void CheckForBarriers()
@@ -173,11 +214,11 @@ public class PlayerManager : MonoBehaviour
         if (hitDoor)
         {
             lockPad.currentLock = hitDoor.transform.parent.gameObject.GetComponent<Lock>();
-            lockedDoor = true;
+            touchingLockedDoor = true;
         }
         else
         {
-            lockedDoor = false;
+            touchingLockedDoor = false;
         }
 
         if (hitWallUp || hitWallDown || hitWallLeft || hitWallRight)
@@ -201,10 +242,10 @@ public class PlayerManager : MonoBehaviour
 
             if (currentItemBeingInteractedWith != null)
             {
-                rButtonGUI.SetActive(false);
                 currentItemBeingInteractedWith.outline.SetActive(false);
                 currentItemBeingInteractedWith.canBePickedUp = false;
                 currentItemBeingInteractedWith = null;
+                itemInRange = false;
             }
 
             foreach(Collider2D item in itemsInRange)
@@ -217,51 +258,54 @@ public class PlayerManager : MonoBehaviour
                 }
             }
 
-            rButtonGUI.SetActive(true);
             currentItemBeingInteractedWith = closestsItem;
             closestsItem.outline.SetActive(true);
-            closestsItem.canBePickedUp = true;         
+            closestsItem.canBePickedUp = true;
+            itemInRange = true;
         }
         else
         {
             if(currentItemBeingInteractedWith != null)
             {
-                rButtonGUI.SetActive(false);
                 currentItemBeingInteractedWith.outline.SetActive(false);
                 currentItemBeingInteractedWith.canBePickedUp = false;
                 currentItemBeingInteractedWith = null;
+                itemInRange = false;
             }
         }
     }
 
     private void CheckForButtonPress()
     {
-        // knock and hack
-        if (Input.GetKeyDown(KeyCode.E))
+        // knock
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             if (touchingWall && !isKnocking)
             {
                 isKnocking = true;
                 StartCoroutine(playerActions.Knock());
             }
+        }
 
-            else if (lockedDoor && !playerActions.isHacking)
+        // hack
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {         
+            if (touchingLockedDoor && !playerActions.isHacking)
             {
                 StartCoroutine(playerActions.HackLocks(true));
             }
-
-            else if(lockedDoor && playerActions.isHacking)
+            else
             {
                 StartCoroutine(playerActions.HackLocks(false));
             }
         }
 
         // dash
-        if ((Input.GetKeyDown(KeyCode.Space)))
+        if ((Input.GetKeyDown(KeyCode.Alpha2)))
         {
             if (!isDashing && canDash)
             {
-                if((currentEnergy - dashEnergy) > 0)
+                if(HasEnoughEnergy())
                 {
                     AdjustEnergy(-dashEnergy);
                     dashDirection = (cursor.transform.position - transform.position).normalized;
@@ -295,8 +339,9 @@ public class PlayerManager : MonoBehaviour
         // pick up item
         if (currentItemBeingInteractedWith != null && currentItemBeingInteractedWith.canBePickedUp && !playerOccupied)
         {
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.Alpha3))
             {
+                Debug.Log("Pressing 3");
                 if (currentItemBeingInteractedWith.alreadyStolen)
                 {
                     playerInventory.AddItemToInventory(currentItemBeingInteractedWith);
@@ -350,6 +395,16 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    private bool HasEnoughEnergy()
+    {
+        if((currentEnergy - dashEnergy) > 0)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     IEnumerator DashTimer()
     {
         ParticleSystem.EmissionModule ps = tr.GetComponent<ParticleSystem>().emission;
@@ -357,6 +412,7 @@ public class PlayerManager : MonoBehaviour
         tr.SetActive(true);
         isDashing = true;
         canDash = false;
+        dashTimerIndicator.fillAmount = 0;
         float dashTimer = dashTime;
         while (dashTimer > 0)
         {
@@ -367,10 +423,17 @@ public class PlayerManager : MonoBehaviour
         
         ps.enabled = false;
         isDashing = false;
-        yield return new WaitForSeconds(dashDelay);
+        float cooldowntimer = 0;
+        while(cooldowntimer <= 1)
+        {
+            cooldowntimer += (Time.deltaTime / dashDelay);
+            dashTimerIndicator.fillAmount = cooldowntimer;
+
+            yield return null;
+        }
+
         canDash = true;
         tr.SetActive(false);
-
     }
 
     IEnumerator AddEnergyEverySecond()
