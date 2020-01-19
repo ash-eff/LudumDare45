@@ -83,18 +83,18 @@ public class PlayerActions : MonoBehaviour
         playerAudio.StopAudio();
     }
 
-    public IEnumerator HackLocks(bool b)
+    public IEnumerator HackLocks()
     {
-        isHacking = b;
-        playerManager.lockPad.gameObject.SetActive(b);
+        isHacking = true;
         playerManager.PlayerOccupied = true;
+        float timer = 5;
         while (isHacking)
         {
+            timer -= Time.deltaTime;
             playerManager.PlayerOccupied = true;
-            if (playerManager.lockPad.isUnlocked)
+            if (timer < 0)
             {
-                playerManager.lockPad.currentLock.Unlock();
-                playerManager.lockPad.gameObject.SetActive(false);
+                playerManager.currentLock.Unlock();
                 isHacking = false;
             }
 

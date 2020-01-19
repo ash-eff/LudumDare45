@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
+using System.Linq;
 
 public class PlayerManager : MonoBehaviour
 {
+    public List<RaycastResult> hitObjects = new List<RaycastResult>();
+
     #region Editor Variables
     [Header("LayerMasks")]
     [SerializeField] public LayerMask wallLayer;
     [SerializeField] public LayerMask doorLayer;
     [SerializeField] public LayerMask itemLayer;
     [SerializeField] public LayerMask robotLayer;
+    [SerializeField] public LayerMask screenLayer;
     [Space(2)]
 
     [Header("Raycast Values")]
@@ -45,16 +50,20 @@ public class PlayerManager : MonoBehaviour
     [Space(2)]
 
     [Header("Components")]
-    public GameObject tr;
+    public GameObject dashObject;
     public GameObject cursor;
-    public LockPad lockPad;
+    public Sprite targetCursor, pointerCursor;
+    public Lock currentLock;
     public PlayerAudio playerAudio;
     public Animator soundIconAnim;
     public Animator dashIconAnim;
     public Animator grabIconAnim;
     public Animator hackIconAnim;
+    public GameObject hackController;
     public Image dashTimerIndicator;
     public Image energyFillIndicator;
+    public AudioSource song;
+    public AudioSource bit;
     [Space(2)]
 
     [Header("GUI")]
@@ -71,7 +80,8 @@ public class PlayerManager : MonoBehaviour
     private bool canMove;
     private bool isDashing;
     private bool itemInRange;
-    public bool playerOccupied;
+    private bool playerOccupied;
+    private bool isTerminalOpen;
     private bool isSpotted = false;
     private bool isKnocking;
     private bool canInteract;
@@ -92,6 +102,8 @@ public class PlayerManager : MonoBehaviour
     private PlayerActions playerActions;
     private PlayerMove playerMove;
 
+    public Transform terminalObjectClicked;
+
     public float MoveSpeed { get { return moveSpeed; } }
     public float StealTime { get { return stealTime; } }
     public bool CanMove { get { return canMove; } }
@@ -103,7 +115,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
-        Cursor.visible = false;
+        //Cursor.visible = false;
         anim = GetComponent<Animator>();
         transform.position = transform.position;
         spr = GetComponent<SpriteRenderer>();
@@ -118,10 +130,20 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
+        if (hackController.transform.gameObject.activeInHierarchy)
+        {
+            song.volume = 0;
+            bit.volume = 1;
+        }
+        else
+        {
+            song.volume = .5f;
+            bit.volume = 0;
+        }
         if (isSpotted || playerOccupied || gameController.IsGameOver)
         {
             playerMove.Movement = Vector3.zero;
-            return;
+            //return;
         }
 
         energyFillIndicator.fillAmount = ((float)currentEnergy / (float)maxEnergy);
@@ -130,7 +152,7 @@ public class PlayerManager : MonoBehaviour
         CheckForBarriers();
         CheckForItems();
         CheckForButtonPress();
-        CursorPos();
+        //CursorPos();
         UpdateGUI();
 
         //audioSource.volume = menuController.SFXVolume;
@@ -188,7 +210,7 @@ public class PlayerManager : MonoBehaviour
             dashIconAnim.SetBool("Active", false);
         }
 
-        if (itemInRange)
+        if (currentItemBeingInteractedWith != null)
         {
             grabIconAnim.SetBool("Active", true);
         }
@@ -213,12 +235,13 @@ public class PlayerManager : MonoBehaviour
 
         if (hitDoor)
         {
-            lockPad.currentLock = hitDoor.transform.parent.gameObject.GetComponent<Lock>();
             touchingLockedDoor = true;
+            currentLock = hitDoor.collider.GetComponentInParent<Lock>();
         }
         else
         {
             touchingLockedDoor = false;
+            currentLock = null;
         }
 
         if (hitWallUp || hitWallDown || hitWallLeft || hitWallRight)
@@ -290,13 +313,17 @@ public class PlayerManager : MonoBehaviour
         // hack
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {         
-            if (touchingLockedDoor && !playerActions.isHacking)
+            if (!isTerminalOpen)
             {
-                StartCoroutine(playerActions.HackLocks(true));
+                isTerminalOpen = true;
+                hackController.SetActive(true);
+                //StartCoroutine(playerActions.HackLocks());
             }
             else
             {
-                StartCoroutine(playerActions.HackLocks(false));
+                isTerminalOpen = false;
+                hackController.SetActive(false);
+                //PlayerOccupied = false;
             }
         }
 
@@ -407,9 +434,9 @@ public class PlayerManager : MonoBehaviour
 
     IEnumerator DashTimer()
     {
-        ParticleSystem.EmissionModule ps = tr.GetComponent<ParticleSystem>().emission;
+        ParticleSystem.EmissionModule ps = dashObject.GetComponent<ParticleSystem>().emission;
         ps.enabled = true;
-        tr.SetActive(true);
+        dashObject.SetActive(true);
         isDashing = true;
         canDash = false;
         dashTimerIndicator.fillAmount = 0;
@@ -433,7 +460,7 @@ public class PlayerManager : MonoBehaviour
         }
 
         canDash = true;
-        tr.SetActive(false);
+        dashObject.SetActive(false);
     }
 
     IEnumerator AddEnergyEverySecond()

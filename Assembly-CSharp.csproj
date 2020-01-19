@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\GameScripts\GridMap.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Loader.cs" />
     <Compile Include="Assets\Scripts\GameScripts\MenuController.cs" />
+    <Compile Include="Assets\Scripts\HackingTest.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
     <Compile Include="Assets\Scripts\ItemLocation.cs" />
     <Compile Include="Assets\Scripts\Lock.cs" />
@@ -98,6 +99,10 @@
     <Compile Include="Assets\Scripts\StartPoint.cs" />
     <Compile Include="Assets\Scripts\Store.cs" />
     <Compile Include="Assets\Scripts\Transporter.cs" />
+    <Compile Include="Assets\Scripts\UIScripts\ConfirmWindowUI.cs" />
+    <Compile Include="Assets\Scripts\UIScripts\IconUI.cs" />
+    <Compile Include="Assets\Scripts\UIScripts\ProgressBarUI.cs" />
+    <Compile Include="Assets\Scripts\UIScripts\WindowUI.cs" />
     <Compile Include="Assets\Scripts\ValuableItem.cs" />
     <Compile Include="Assets\Scripts\VisionOcc.cs" />
     <Compile Include="Assets\VHSPack\VHSDistort.cs" />
