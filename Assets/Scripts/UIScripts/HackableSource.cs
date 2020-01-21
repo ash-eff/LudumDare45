@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class HackableSource : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public string consoleName;
+    public string manufacturersInformation;
+    public int difficultyRating;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

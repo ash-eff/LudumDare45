@@ -59,6 +59,12 @@ TextureImporter:
   - first:
       213: -1602773110843625482
     second: HackingTerminallOperatingSystem_25
+  - first:
+      213: 8559762392321834130
+    second: HackingTerminallOperatingSystem_4
+  - first:
+      213: 970100933783013878
+    second: HackingTerminallOperatingSystem_14
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -151,7 +157,7 @@ TextureImporter:
         width: 105
         height: 66
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -172,7 +178,7 @@ TextureImporter:
         width: 74
         height: 51
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -193,7 +199,7 @@ TextureImporter:
         width: 74
         height: 51
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -214,7 +220,7 @@ TextureImporter:
         width: 105
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -235,7 +241,7 @@ TextureImporter:
         width: 11
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -256,7 +262,7 @@ TextureImporter:
         width: 13
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -277,7 +283,7 @@ TextureImporter:
         width: 16
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -298,7 +304,7 @@ TextureImporter:
         width: 14
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -319,7 +325,7 @@ TextureImporter:
         width: 14
         height: 14
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -340,7 +346,7 @@ TextureImporter:
         width: 11
         height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -361,7 +367,7 @@ TextureImporter:
         width: 16
         height: 12
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -382,7 +388,7 @@ TextureImporter:
         width: 9
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -395,148 +401,43 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HackingTerminallOperatingSystem_13
+      name: HackingTerminallOperatingSystem_4
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 28
-        height: 18
+        x: 260
+        y: 60
+        width: 43
+        height: 10
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5efb80d7a9871ae4797936c561b2a1e2
-      internalID: 4642779460908317994
+      spriteID: a5bbf52d8851028458128f9bdf99b720
+      internalID: 8559762392321834130
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HackingTerminallOperatingSystem_18
+      name: HackingTerminallOperatingSystem_14
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
-        width: 28
-        height: 18
+        x: 308
+        y: 60
+        width: 17
+        height: 10
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fb958b651f81a604187b7e3d219e47c2
-      internalID: -7011559468955423794
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HackingTerminallOperatingSystem_21
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 28
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 708bb640de19dac44b1e62c6b6ce4a31
-      internalID: 1936086521686258424
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HackingTerminallOperatingSystem_22
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 0
-        width: 28
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e275d3064a8980849ade1418913a1253
-      internalID: 2544424454655539807
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HackingTerminallOperatingSystem_23
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 28
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5a8c322e2a64bf343aeaaa2723c1dbf4
-      internalID: 3382477683465060685
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HackingTerminallOperatingSystem_24
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 0
-        width: 28
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 499eb264fc2a18f44a61968cf99c3139
-      internalID: -6895693882395970310
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HackingTerminallOperatingSystem_25
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 0
-        width: 28
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 95d43d6f740601d458aff24ba8abe06a
-      internalID: -1602773110843625482
+      spriteID: 96306acfc39610940a29dbfaaac3f651
+      internalID: 970100933783013878
       vertices: []
       indices: 
       edges: []
