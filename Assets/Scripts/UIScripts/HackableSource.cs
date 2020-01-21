@@ -6,6 +6,7 @@ public class HackableSource : MonoBehaviour
 {
     public string consoleName;
     public string manufacturersInformation;
-    public int difficultyRating;
+    public string difficultyRating;
 
+    public WindowUI window;
 }

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ConfirmWindowUI : WindowUI
 {
-    public WindowUI secondaryWindow;
+    public HackingTest hackingTest;
 
-    public void OpenSecondWindow()
+    public void Confirm()
     {
-        secondaryWindow.gameObject.SetActive(true);
+        hackingTest.ConnectToHost();
         this.gameObject.SetActive(false);
     }
 }
