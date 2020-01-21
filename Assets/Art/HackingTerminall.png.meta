@@ -53,6 +53,36 @@ TextureImporter:
   - first:
       213: 4553890058170828148
     second: HackingTerminall_24
+  - first:
+      213: 7957014811869728315
+    second: HackingTerminall_3
+  - first:
+      213: -671424941752959405
+    second: HackingTerminall_5
+  - first:
+      213: -6778536728518670621
+    second: HackingTerminall_4
+  - first:
+      213: -8560351115058053778
+    second: HackingTerminall_7
+  - first:
+      213: -244196375721694016
+    second: HackingTerminall_9
+  - first:
+      213: 496365265380007686
+    second: HackingTerminall_10
+  - first:
+      213: 1441397964054205642
+    second: HackingTerminall_5
+  - first:
+      213: 1199451670095517801
+    second: HackingTerminall_17
+  - first:
+      213: -2653164592243735829
+    second: HackingTerminall_25
+  - first:
+      213: -7549157576513125815
+    second: HackingTerminall_26
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -151,7 +181,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d19feace599cddc4c86e0583f0c52c2d
+      spriteID: cbd6333759f3bc84aa1af827e842866c
       internalID: 2231593454286387503
       vertices: []
       indices: 
@@ -162,9 +192,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 161
-        y: 205
-        width: 105
-        height: 66
+        y: 0
+        width: 160
+        height: 272
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,7 +202,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 70c729acc16ee5d4ea6b5aca03fed368
+      spriteID: e1245966b82bd73429c4749a7f813269
       internalID: 2079060407129956819
       vertices: []
       indices: 
@@ -182,8 +212,8 @@ TextureImporter:
       name: HackingTerminall_2
       rect:
         serializedVersion: 2
-        x: 268
-        y: 231
+        x: 323
+        y: 230
         width: 40
         height: 40
       alignment: 0
@@ -193,8 +223,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dad86d76ff37bbc4fb2505ce8996616f
+      spriteID: 60c29dd36b5025745925bb102828ebe5
       internalID: 8677635995611543531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HackingTerminall_3
+      rect:
+        serializedVersion: 2
+        x: 365
+        y: 236
+        width: 33
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5170f78ff62e76f40b0ad62a9c17ee14
+      internalID: 7957014811869728315
       vertices: []
       indices: 
       edges: []
@@ -203,29 +254,8 @@ TextureImporter:
       name: HackingTerminall_4
       rect:
         serializedVersion: 2
-        x: 310
-        y: 236
-        width: 35
-        height: 36
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: db14cd83124f6744aa12b1022ed2ac0d
-      internalID: -1310995540179021932
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HackingTerminall_8
-      rect:
-        serializedVersion: 2
-        x: 271
-        y: 216
+        x: 399
+        y: 250
         width: 113
         height: 9
       alignment: 0
@@ -235,20 +265,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dca7f0ef2aa99824ab40e619ccc4b356
-      internalID: 7248658489322971985
+      spriteID: 264a6df831ff56841bae9ecf355b9183
+      internalID: -1310995540179021932
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HackingTerminall_12
+      name: HackingTerminall_5
       rect:
         serializedVersion: 2
-        x: 161
-        y: 190
-        width: 11
-        height: 14
+        x: 323
+        y: 166
+        width: 51
+        height: 62
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -256,239 +286,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 903c97c5625565b40b6a855d5ee19e4b
-      internalID: 6997156665333094955
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HackingTerminall_13
-      rect:
-        serializedVersion: 2
-        x: 176
-        y: 190
-        width: 13
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 874d4ed60606ba04d8ec3e928ad39732
-      internalID: -4820785211069401749
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HackingTerminall_14
-      rect:
-        serializedVersion: 2
-        x: 193
-        y: 190
-        width: 16
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 741f961b5265baf49bc90250446e5be5
-      internalID: -2169250936295392935
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HackingTerminall_15
-      rect:
-        serializedVersion: 2
-        x: 213
-        y: 190
-        width: 14
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9bfc16171bb27524abf24fd8d18249b9
-      internalID: 3308833360199592842
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HackingTerminall_16
-      rect:
-        serializedVersion: 2
-        x: 230
-        y: 189
-        width: 9
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 26547f27abc07fd49b42c068d3b4c75d
-      internalID: -8937283110901392813
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HackingTerminall_18
-      rect:
-        serializedVersion: 2
-        x: 161
-        y: 175
-        width: 11
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3b57b5ceab2b1a84ba012f6d5d7968db
-      internalID: 879490367370585858
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HackingTerminall_19
-      rect:
-        serializedVersion: 2
-        x: 176
-        y: 175
-        width: 13
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 573aafb7df3f9f64caa868157d1ffe5d
-      internalID: -8826708348685466427
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HackingTerminall_20
-      rect:
-        serializedVersion: 2
-        x: 193
-        y: 175
-        width: 16
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cd442f92731aeee45bf1631ade9d516d
-      internalID: 454998414762784637
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HackingTerminall_21
-      rect:
-        serializedVersion: 2
-        x: 213
-        y: 175
-        width: 14
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1f331dcb1a3c45046bc4b7d31c9721f1
-      internalID: 1083703084753332177
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HackingTerminall_22
-      rect:
-        serializedVersion: 2
-        x: 161
-        y: 142
-        width: 105
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6628ea45e84f1334d830b24246e37a7f
-      internalID: -8877518260226189347
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HackingTerminall_23
-      rect:
-        serializedVersion: 2
-        x: 161
-        y: 90
-        width: 74
-        height: 51
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ca610a6eaf7dc5f4190ad61178a60e5d
-      internalID: -6047858064682884142
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HackingTerminall_24
-      rect:
-        serializedVersion: 2
-        x: 161
-        y: 38
-        width: 74
-        height: 51
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5ca220401b5ca054880b7dcf645dba69
-      internalID: 4553890058170828148
+      spriteID: b95922352e413ec4b9a665bc14a2a69a
+      internalID: -671424941752959405
       vertices: []
       indices: 
       edges: []

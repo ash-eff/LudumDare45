@@ -59,7 +59,7 @@ public class PlayerManager : MonoBehaviour
     public Animator dashIconAnim;
     public Animator grabIconAnim;
     public Animator hackIconAnim;
-    public GameObject hackController;
+    public HackingTest hackController;
     public Image dashTimerIndicator;
     public Image energyFillIndicator;
     public AudioSource song;
@@ -130,7 +130,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        if (hackController.transform.gameObject.activeInHierarchy)
+        if (isTerminalOpen)
         {
             song.volume = 0;
             bit.volume = 1;
@@ -316,13 +316,13 @@ public class PlayerManager : MonoBehaviour
             if (!isTerminalOpen)
             {
                 isTerminalOpen = true;
-                hackController.SetActive(true);
+                hackController.OpenTerminal();
                 //StartCoroutine(playerActions.HackLocks());
             }
             else
             {
                 isTerminalOpen = false;
-                hackController.SetActive(false);
+                hackController.CloseTerminal();
                 //PlayerOccupied = false;
             }
         }

@@ -100,6 +100,7 @@
     <Compile Include="Assets\Scripts\Store.cs" />
     <Compile Include="Assets\Scripts\Transporter.cs" />
     <Compile Include="Assets\Scripts\UIScripts\ConfirmWindowUI.cs" />
+    <Compile Include="Assets\Scripts\UIScripts\HackableSource.cs" />
     <Compile Include="Assets\Scripts\UIScripts\IconUI.cs" />
     <Compile Include="Assets\Scripts\UIScripts\ProgressBarUI.cs" />
     <Compile Include="Assets\Scripts\UIScripts\WindowUI.cs" />
