@@ -65,6 +65,21 @@ TextureImporter:
   - first:
       213: 970100933783013878
     second: HackingTerminallOperatingSystem_14
+  - first:
+      213: 332430282935770226
+    second: HackingTerminallOperatingSystem_15
+  - first:
+      213: -3939850073097305845
+    second: HackingTerminallOperatingSystem_16
+  - first:
+      213: -70190301354442823
+    second: HackingTerminallOperatingSystem_17
+  - first:
+      213: 6120942854908146065
+    second: HackingTerminallOperatingSystem_19
+  - first:
+      213: 48890374427656155
+    second: HackingTerminallOperatingSystem_20
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -387,8 +402,8 @@ TextureImporter:
         y: 22
         width: 9
         height: 15
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -438,6 +453,216 @@ TextureImporter:
       bones: []
       spriteID: 96306acfc39610940a29dbfaaac3f651
       internalID: 970100933783013878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HackingTerminallOperatingSystem_13
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 3
+        width: 11
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c7197b6083a58a45bdc9a62c196ad5b
+      internalID: 4642779460908317994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HackingTerminallOperatingSystem_15
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 3
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5743bffeabccc65498517bfbbf90467b
+      internalID: 332430282935770226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HackingTerminallOperatingSystem_16
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 3
+        width: 16
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 149a38e9726d68c47878e97419d38ff0
+      internalID: -3939850073097305845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HackingTerminallOperatingSystem_17
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 3
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fdca370a381fa344aeeafbaa12dd3a7
+      internalID: -70190301354442823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HackingTerminallOperatingSystem_18
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 3
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fb8b66a0eb8e874b9fb65d76fa3915b
+      internalID: -7011559468955423794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HackingTerminallOperatingSystem_19
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 4
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8240c08bc376b2459aca450f189d3c3
+      internalID: 6120942854908146065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HackingTerminallOperatingSystem_20
+      rect:
+        serializedVersion: 2
+        x: 93
+        y: 4
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5eadf4ca666aa8540a91256b50bfd226
+      internalID: 48890374427656155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HackingTerminallOperatingSystem_21
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 3
+        width: 9
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c296bd5474b38b479cc15e4761e1dce
+      internalID: 1936086521686258424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HackingTerminallOperatingSystem_22
+      rect:
+        serializedVersion: 2
+        x: 122
+        y: 23
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d375357a4af06004ca173911d68d35a3
+      internalID: 2544424454655539807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HackingTerminallOperatingSystem_23
+      rect:
+        serializedVersion: 2
+        x: 122
+        y: 4
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 697b164eedfe2b04e948cd432c436ca9
+      internalID: 3382477683465060685
       vertices: []
       indices: 
       edges: []

@@ -4,11 +4,5 @@ using UnityEngine;
 
 public class ConfirmWindowUI : WindowUI
 {
-    public HackingTest hackingTest;
 
-    public void Confirm()
-    {
-        hackingTest.ConnectToHost();
-        this.gameObject.SetActive(false);
-    }
 }

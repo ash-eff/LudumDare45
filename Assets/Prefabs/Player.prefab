@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4058941048951273}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.2588191, w: 0.9659258}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1697352810582337575}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 30}
 --- !u!212 &6519655765315680628
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -329,6 +329,9 @@ MonoBehaviour:
   robotLayer:
     serializedVersion: 2
     m_Bits: 16384
+  screenLayer:
+    serializedVersion: 2
+    m_Bits: 0
   xRayCastLength: 0.4
   yRayCastLength: 0.05
   yRayDownExtraLength: 0.4
@@ -347,7 +350,7 @@ MonoBehaviour:
   dashObject: {fileID: 0}
   cursor: {fileID: 4058941048951273}
   targetCursor: {fileID: 21300000, guid: b53e7bc5b9664044fb0692c95035f146, type: 3}
-  pointerCursor: {fileID: -8937283110901392813, guid: 490805c59722b01459b171e4ba79cd66,
+  pointerCursor: {fileID: -473425472840943179, guid: d8e05dc8a116e71498f99c598d118ec1,
     type: 3}
   currentLock: {fileID: 0}
   playerAudio: {fileID: 2362761066590508914}
@@ -362,7 +365,7 @@ MonoBehaviour:
   bit: {fileID: 0}
   heldItemSprite: {fileID: 0}
   heldItemValueText: {fileID: 0}
-  playerOccupied: 0
+  terminalObjectClicked: {fileID: 0}
 --- !u!114 &4311046774811054504
 MonoBehaviour:
   m_ObjectHideFlags: 0

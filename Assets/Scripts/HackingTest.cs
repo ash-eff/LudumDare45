@@ -16,6 +16,7 @@ public class HackingTest : MonoBehaviour
     public TextMeshProUGUI signalTextGUI;
     public TextMeshProUGUI terminalText;
     public int outOfRangeChances = 3;
+    public float baseHackTime;
     public WindowUI currentWindow;
     public WindowUI defaultWindow;
 
@@ -26,6 +27,7 @@ public class HackingTest : MonoBehaviour
 
     private void Start()
     {
+        CloseTerminal();
         signalText.text = "no signal";
         signalTextGUI.text = signalText.text;
         signalFill.fillAmount = 0;
@@ -38,15 +40,36 @@ public class HackingTest : MonoBehaviour
         StartCoroutine(IEConnectToHost());
     }
 
+    public void CrackCode()
+    {
+        StartCoroutine(IECrackCode());
+    }
+
+    public void BruteForce(Image bar, WindowUI win, WindowUI parentWin)
+    {
+        StartCoroutine(IEBruteForce(bar, win, parentWin));
+    }
+
+    public void HostAvailable()
+    {
+        StartCoroutine(TypeOutText(hackableSource.consoleName + " available as host."));
+    }
+
+    public void NoHost()
+    {
+        StartCoroutine(TypeOutText("No available host in range."));
+    }
+
     IEnumerator IEConnectToHost()
     {
         if (!isConnectedToHost)
         {
             yield return StartCoroutine(TypeOutText("Connecting to " + hackableSource.consoleName));
             yield return StartCoroutine(TypeOutText("Host manufacturer: " + hackableSource.manufacturersInformation));
-            yield return StartCoroutine(TypeOutText("Host difiiculty rating" + hackableSource.difficultyRating));
+            yield return StartCoroutine(TypeOutText("Host difiiculty rating " + hackableSource.difficultyRating));
             yield return StartCoroutine(TypeOutText("Connection successful..."));
             isConnectedToHost = true;
+            hackableSource.window.gameObject.SetActive(true);
             StartCoroutine(ManageConnection());
         }
         else
@@ -54,6 +77,48 @@ public class HackingTest : MonoBehaviour
             yield return StartCoroutine(TypeOutText("Already Connected to " + hackableSource.consoleName));
         }
 
+    }
+
+    IEnumerator IECrackCode()
+    {
+        float crackTime = 2f;
+        TextMeshProUGUI tempText = hackableSource.window.GetComponentInChildren<TextMeshProUGUI>();
+        while (crackTime > 0)
+        {
+            int rand = Random.Range(1, 9999);
+            tempText.text = rand.ToString("0000");
+            yield return null;
+            crackTime -= Time.deltaTime;
+        }
+
+        isConnectedToHost = false;
+        tempText.text = hackableSource.GetComponent<Lock>().lockCode;
+        yield return new WaitForSeconds(1f);
+        hackableSource.window.gameObject.SetActive(false);
+        hackableSource.GetComponent<Lock>().Unlock();
+        hackableSource = null;
+    }
+
+    IEnumerator IEBruteForce(Image bar, WindowUI win, WindowUI parentWindow)
+    {
+        int multiplier = hackableSource.difficultyRating.Length;
+        float hackTime = baseHackTime * multiplier;
+        Image fillBar = bar;
+        while (isConnectedToHost)
+        {
+            fillBar.fillAmount += Time.deltaTime / hackTime;
+            yield return null;
+            if(fillBar.fillAmount >= 1)
+            {
+                break;
+            }
+        }
+
+        win.GetComponentInChildren<TextMeshProUGUI>().text = "Access Granted";
+        yield return new WaitForSeconds(.5f);
+        win.gameObject.SetActive(false);
+        parentWindow.gameObject.SetActive(false);
+        hackableSource.unlocked = true;
     }
 
     IEnumerator TypeOutText(string stringText)
@@ -67,20 +132,6 @@ public class HackingTest : MonoBehaviour
         }
 
         terminalText.text += "\n";
-    }
-
-    public void OpenHackBox()
-    {
-        if (!isConnectedToHost)
-        {
-            currentWindow = defaultWindow;
-        }
-        else
-        {
-            currentWindow = hackableSource.window;
-        }
-
-        currentWindow.gameObject.SetActive(true);
     }
 
     public void OpenTerminal()

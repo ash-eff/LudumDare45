@@ -115,7 +115,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
-        //Cursor.visible = false;
+        Cursor.visible = false;
         anim = GetComponent<Animator>();
         transform.position = transform.position;
         spr = GetComponent<SpriteRenderer>();
@@ -132,11 +132,13 @@ public class PlayerManager : MonoBehaviour
     {
         if (isTerminalOpen)
         {
+            cursor.GetComponent<SpriteRenderer>().sprite = pointerCursor;
             song.volume = 0;
             bit.volume = 1;
         }
         else
         {
+            cursor.GetComponent<SpriteRenderer>().sprite = targetCursor;
             song.volume = .5f;
             bit.volume = 0;
         }
@@ -147,12 +149,11 @@ public class PlayerManager : MonoBehaviour
         }
 
         energyFillIndicator.fillAmount = ((float)currentEnergy / (float)maxEnergy);
-
         SetIconAnimations();
         CheckForBarriers();
         CheckForItems();
         CheckForButtonPress();
-        //CursorPos();
+        CursorPos();
         UpdateGUI();
 
         //audioSource.volume = menuController.SFXVolume;
@@ -236,12 +237,12 @@ public class PlayerManager : MonoBehaviour
         if (hitDoor)
         {
             touchingLockedDoor = true;
-            currentLock = hitDoor.collider.GetComponentInParent<Lock>();
+            //hackController.hackableSource = hitDoor.collider.GetComponentInParent<HackableSource>();
         }
         else
         {
             touchingLockedDoor = false;
-            currentLock = null;
+            //currentLock = null;
         }
 
         if (hitWallUp || hitWallDown || hitWallLeft || hitWallRight)
@@ -411,6 +412,14 @@ public class PlayerManager : MonoBehaviour
         if (collision.transform.gameObject.layer == 8)
         {
             touchingWall = true;
+        }
+
+        if(collision.transform.tag == "Hackable")
+        {
+            hackController.hackableSource = null;
+            hackController.isConnectedToHost = false;
+            hackController.hackableSource = collision.transform.GetComponentInParent<HackableSource>();
+            hackController.HostAvailable();
         }
     }
 
