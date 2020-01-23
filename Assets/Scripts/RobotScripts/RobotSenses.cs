@@ -38,10 +38,10 @@ public class RobotSenses : MonoBehaviour
     
     void Update()
     {
-        if (gameController.IsGameOver)
-        {
-            return;
-        }
+        //if (gameController.IsGameOver)
+        //{
+        //    return;
+        //}
     
         //if(robotController.state == RobotController.State.PatrolState || robotController.state == RobotController.State.ReturnState)
         //{

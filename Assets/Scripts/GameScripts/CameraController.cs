@@ -26,10 +26,10 @@ public class CameraController : MonoBehaviour
     {
         if (followPlayer)
         {
-            if (gameController.IsGameOver)
-            {
-                return;
-            }
+            //if (gameController.IsGameOver)
+            //{
+            //    return;
+            //}
 
             if (playerManager.CanMove)
             {

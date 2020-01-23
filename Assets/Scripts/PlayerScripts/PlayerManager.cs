@@ -142,7 +142,7 @@ public class PlayerManager : MonoBehaviour
             song.volume = .5f;
             bit.volume = 0;
         }
-        if (isSpotted || playerOccupied || gameController.IsGameOver)
+        if (isSpotted || playerOccupied) //|| gameController.IsGameOver)
         {
             playerMove.Movement = Vector3.zero;
             //return;

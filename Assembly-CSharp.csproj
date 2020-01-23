@@ -62,29 +62,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\DoorWay.cs" />
-    <Compile Include="Assets\Scripts\Exit.cs" />
-    <Compile Include="Assets\Scripts\FakeRobot.cs" />
     <Compile Include="Assets\Scripts\GameScripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\GameScripts\GameController.cs" />
     <Compile Include="Assets\Scripts\GameScripts\GridMap.cs" />
-    <Compile Include="Assets\Scripts\GameScripts\Loader.cs" />
+    <Compile Include="Assets\Scripts\GameScripts\Item.cs" />
+    <Compile Include="Assets\Scripts\GameScripts\Lock.cs" />
     <Compile Include="Assets\Scripts\GameScripts\MenuController.cs" />
-    <Compile Include="Assets\Scripts\HackingTest.cs" />
-    <Compile Include="Assets\Scripts\Item.cs" />
-    <Compile Include="Assets\Scripts\ItemLocation.cs" />
-    <Compile Include="Assets\Scripts\Lock.cs" />
-    <Compile Include="Assets\Scripts\LockPad.cs" />
-    <Compile Include="Assets\Scripts\MallDirectory.cs" />
-    <Compile Include="Assets\Scripts\Node.cs" />
-    <Compile Include="Assets\Scripts\Noise.cs" />
-    <Compile Include="Assets\Scripts\NoiseIndicator.cs" />
+    <Compile Include="Assets\Scripts\GameScripts\Noise.cs" />
+    <Compile Include="Assets\Scripts\GameScripts\RoomReveal.cs" />
+    <Compile Include="Assets\Scripts\GameScripts\ValuableItem.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerActions.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerAudio.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerInventory.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerMove.cs" />
-    <Compile Include="Assets\Scripts\RobotScripts\CurrentlyUnused\RobotShoot.cs" />
+    <Compile Include="Assets\Scripts\RobotScripts\FakeRobot.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\PathFinder.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotAlert.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotController.cs" />
@@ -92,21 +84,14 @@
     <Compile Include="Assets\Scripts\RobotScripts\RobotInvestigate.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotPatrol.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotSenses.cs" />
-    <Compile Include="Assets\Scripts\RobotScripts\TileTest.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\Waypoint.cs" />
-    <Compile Include="Assets\Scripts\RoomReveal.cs" />
-    <Compile Include="Assets\Scripts\rWalk.cs" />
-    <Compile Include="Assets\Scripts\StartPoint.cs" />
-    <Compile Include="Assets\Scripts\Store.cs" />
-    <Compile Include="Assets\Scripts\Transporter.cs" />
     <Compile Include="Assets\Scripts\UIScripts\ConfirmWindowUI.cs" />
     <Compile Include="Assets\Scripts\UIScripts\HackableSource.cs" />
+    <Compile Include="Assets\Scripts\UIScripts\HackingTest.cs" />
     <Compile Include="Assets\Scripts\UIScripts\IconUI.cs" />
     <Compile Include="Assets\Scripts\UIScripts\ProgressBarUI.cs" />
     <Compile Include="Assets\Scripts\UIScripts\TerminalTicker.cs" />
     <Compile Include="Assets\Scripts\UIScripts\WindowUI.cs" />
-    <Compile Include="Assets\Scripts\ValuableItem.cs" />
-    <Compile Include="Assets\Scripts\VisionOcc.cs" />
     <Compile Include="Assets\VHSPack\VHSDistort.cs" />
     <Compile Include="Assets\VHSPack\VHSEdge.cs" />
     <Compile Include="Assets\VHSPack\VHSLines.cs" />
@@ -128,7 +113,6 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\VHSPack\ScreenTracking.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
-    <None Include="Assets\Shader\Vision.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />

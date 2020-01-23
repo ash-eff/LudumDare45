@@ -94,7 +94,7 @@ public class RobotFOV : MonoBehaviour
         {
             angleInDegrees += transform.eulerAngles.z;
         }
-        return new Vector3(Mathf.Cos(angleInDegrees * Mathf.Deg2Rad), Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0f);
+        return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad), 0f);
     }
 
     EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast)
@@ -129,14 +129,18 @@ public class RobotFOV : MonoBehaviour
     ViewCastInfo ViewCast(float globalAngle)
     {
         Vector3 dir = DirFromAngle(globalAngle, true);
-        RaycastHit hit;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, robotSenses.visionDistance, obstacleMask);
 
-        if (Physics.Raycast(transform.position, dir, out hit, robotSenses.visionDistance, obstacleMask.value))
+
+        if (hit)
         {
+            Debug.DrawRay(transform.position, dir * hit.distance, Color.green);
             return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
+
         }
         else
         {
+            Debug.DrawRay(transform.position, dir * robotSenses.visionDistance, Color.green);
             return new ViewCastInfo(false, transform.position + dir * robotSenses.visionDistance, robotSenses.visionDistance, globalAngle);
         }
     }

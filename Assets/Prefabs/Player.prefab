@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9143236544263392590
 Transform:
   m_ObjectHideFlags: 0
@@ -120,7 +120,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5190462597735411258}
   - component: {fileID: 8299072868472825326}
-  - component: {fileID: 4532121004428649500}
   m_Layer: 9
   m_Name: VisionTrigger
   m_TagString: PlayerVision
@@ -158,24 +157,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.5}
   serializedVersion: 2
   m_Radius: 0.1
---- !u!114 &4532121004428649500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 579392171154045560}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d99b975839f8c374f8fd312a2111214e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  occlusionMask:
-    serializedVersion: 2
-    m_Bits: 262144
-  anim: {fileID: 0}
-  rayOffset: 0.6
-  rayLength: -0.1
 --- !u!1 &1697352810582337570
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,6 +173,7 @@ GameObject:
   - component: {fileID: 4311046774811054504}
   - component: {fileID: 3079493882769814544}
   - component: {fileID: 4380831595739144185}
+  - component: {fileID: 8019497024510566423}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -257,7 +239,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 3ad7f9130ca50de419011ef83650c7ff, type: 3}
+  m_Sprite: {fileID: -277153921769468689, guid: bb0539d08a1462042882d451a35cd5c4,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -391,6 +374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6f3db22886ca434e9c26f000ae16031, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteAnim: {fileID: 8019497024510566423}
 --- !u!114 &4380831595739144185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,6 +392,25 @@ MonoBehaviour:
   noisePrefab: {fileID: 1077313815423057308, guid: b3eaf603b8e6d6d4db0fa0d2c5ebdfc2,
     type: 3}
   isHacking: 0
+--- !u!95 &8019497024510566423
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697352810582337570}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ee87e3e8956df8f4795b959ce5001a03, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2366780014061527843
 GameObject:
   m_ObjectHideFlags: 0

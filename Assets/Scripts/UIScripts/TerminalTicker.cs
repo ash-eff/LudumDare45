@@ -20,7 +20,6 @@ public class TerminalTicker : MonoBehaviour
     IEnumerator StartScroll()
     {
         float width = tickerText.preferredWidth / 2;
-        Debug.Log(width);
         Vector2 startPos = textRectTransform.localPosition;
 
         float scrollPos = -100;
