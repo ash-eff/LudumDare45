@@ -32,7 +32,7 @@ public class HackingTest : MonoBehaviour
         signalTextGUI.text = signalText.text;
         signalFill.fillAmount = 0;
         signalFillGUI.fillAmount = signalFill.fillAmount;
-        StartCoroutine(TypeOutText("No target host..."));
+        StartCoroutine(TypeOutText("No target host available..."));
     }
 
     public void ConnectToHost()
@@ -62,21 +62,26 @@ public class HackingTest : MonoBehaviour
 
     IEnumerator IEConnectToHost()
     {
-        if (!isConnectedToHost)
+        if(hackableSource != null)
         {
-            yield return StartCoroutine(TypeOutText("Connecting to " + hackableSource.consoleName));
-            yield return StartCoroutine(TypeOutText("Host manufacturer: " + hackableSource.manufacturersInformation));
-            yield return StartCoroutine(TypeOutText("Host difiiculty rating " + hackableSource.difficultyRating));
-            yield return StartCoroutine(TypeOutText("Connection successful..."));
-            isConnectedToHost = true;
-            hackableSource.window.gameObject.SetActive(true);
-            StartCoroutine(ManageConnection());
+            if (!isConnectedToHost)
+            {
+                yield return StartCoroutine(TypeOutText("Host manufacturer: " + hackableSource.manufacturersInformation));
+                yield return StartCoroutine(TypeOutText("Host difiiculty rating " + hackableSource.difficultyRating));
+                yield return StartCoroutine(TypeOutText("Connection successful..."));
+                isConnectedToHost = true;
+                hackableSource.window.gameObject.SetActive(true);
+                StartCoroutine(ManageConnection());
+            }
+            else
+            {
+                yield return StartCoroutine(TypeOutText("Already Connected to " + hackableSource.consoleName));
+            }
         }
         else
         {
-            yield return StartCoroutine(TypeOutText("Already Connected to " + hackableSource.consoleName));
+            yield return StartCoroutine(TypeOutText("No target host available..."));
         }
-
     }
 
     IEnumerator IECrackCode()
