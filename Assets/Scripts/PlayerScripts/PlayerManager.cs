@@ -49,6 +49,11 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private float maxCursorRadius = 9;
     [Space(2)]
 
+    [Header("Color Values")]
+    [SerializeField] private Color startingColor;
+    [SerializeField] private Color stealthedColor;
+    [Space(2)]
+
     [Header("Components")]
     public GameObject dashObject;
     public GameObject cursor;
@@ -90,6 +95,7 @@ public class PlayerManager : MonoBehaviour
     private bool canDash = true;
     private bool touchingWall;
     private bool touchingLockedDoor;
+    private bool isStealthed;
 
     private Vector2 dashDirection;
     private Vector3 castPosition = Vector3.zero;
@@ -119,6 +125,7 @@ public class PlayerManager : MonoBehaviour
         anim = GetComponent<Animator>();
         transform.position = transform.position;
         spr = GetComponent<SpriteRenderer>();
+        spr.color = startingColor;
         gameController = FindObjectOfType<GameController>();
         playerInventory = GetComponent<PlayerInventory>();
         playerActions = GetComponent<PlayerActions>();
@@ -245,6 +252,46 @@ public class PlayerManager : MonoBehaviour
             //currentLock = null;
         }
 
+        anim.SetBool("StealthedUp", hitWallUp);
+        anim.SetBool("StealthedDown", hitWallDown);
+        anim.SetBool("StealthedRight", hitWallRight);
+        anim.SetBool("StealthedLeft", hitWallLeft);
+
+        if (hitWallUp && !isStealthed)
+        {
+            isStealthed = true;
+            spr.sortingOrder = 2;
+            StartCoroutine(StealthTransition(startingColor, stealthedColor));
+        }
+
+        if (hitWallDown && !isStealthed)
+        {
+            isStealthed = true;
+            spr.sortingOrder = 4;
+            //StartCoroutine(StealthTransition(new Color(stealthedColor.r, stealthedColor.g, stealthedColor.b, startingColor.a), stealthedColor));
+        }
+
+        if (hitWallRight && !isStealthed)
+        {
+            isStealthed = true;
+            spr.sortingOrder = 2;
+            StartCoroutine(StealthTransition(startingColor, stealthedColor));
+        }
+
+        if (hitWallLeft && !isStealthed)
+        {
+            isStealthed = true;
+            spr.sortingOrder = 2;
+            StartCoroutine(StealthTransition(startingColor, stealthedColor));
+        }
+
+        if (!hitWallUp && !hitWallDown && !hitWallRight && !hitWallLeft && isStealthed)
+        {
+            isStealthed = false;
+            spr.sortingOrder = 2;
+            StartCoroutine(StealthTransition(stealthedColor, startingColor));
+        }
+
         if (hitWallUp || hitWallDown || hitWallLeft || hitWallRight)
         {
             touchingWall = true;
@@ -252,6 +299,20 @@ public class PlayerManager : MonoBehaviour
         else
         {
             touchingWall = false;
+        }
+    }
+
+    IEnumerator StealthTransition(Color fromColor, Color toColor)
+    {
+        float lerptime = .25f;
+        float currentLerptime = 0;
+        
+        while (currentLerptime < lerptime)
+        {
+            currentLerptime += Time.deltaTime;
+            float perc = currentLerptime / lerptime;
+            spr.color = Color.Lerp(fromColor, toColor, perc);
+            yield return null;
         }
     }
 

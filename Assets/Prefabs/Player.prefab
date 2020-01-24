@@ -285,8 +285,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.7}
-  m_Size: {x: 0.7, y: 0.4}
+  m_Offset: {x: 0, y: -0.8}
+  m_Size: {x: 0.52, y: 0.2}
   m_Direction: 1
 --- !u!114 &1697352810582337571
 MonoBehaviour:
@@ -314,23 +314,25 @@ MonoBehaviour:
     m_Bits: 16384
   screenLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 524288
   xRayCastLength: 0.4
   yRayCastLength: 0.05
   yRayDownExtraLength: 0.4
-  yRayOffsetFromGround: -0.6
+  yRayOffsetFromGround: -0.7
   itemRadiusCast: 1
   baseMoveSpeed: 6
   dashSpeed: 50
   dashTime: 0.1
-  dashDelay: 1
+  dashDelay: 1.5
   stealTime: 1
-  dashEnergy: 23
+  dashEnergy: 15
   maxEnergy: 100
   currentEnergy: 0
   normalCursorRadius: 7.5
   maxCursorRadius: 9
-  dashObject: {fileID: 0}
+  startingColor: {r: 0.9529412, g: 0.8392157, b: 0.9098039, a: 1}
+  stealthedColor: {r: 0.9529412, g: 0.8392157, b: 0.9098039, a: 0.7058824}
+  dashObject: {fileID: 5566210469952127411}
   cursor: {fileID: 4058941048951273}
   targetCursor: {fileID: 21300000, guid: b53e7bc5b9664044fb0692c95035f146, type: 3}
   pointerCursor: {fileID: -473425472840943179, guid: d8e05dc8a116e71498f99c598d118ec1,
@@ -1165,6 +1167,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bec70df1df0bb9949a89df7fd4021fa0, type: 3}
+--- !u!1 &5566210469952127411 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6335155990518910579, guid: bec70df1df0bb9949a89df7fd4021fa0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1933689249209503680}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3387696640926645563 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3879389309532943099, guid: bec70df1df0bb9949a89df7fd4021fa0,

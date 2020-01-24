@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: 1d5a255a75862f54ca455b568d9ab033
+guid: 6e315ace6aa33ee47a2273875b8d9c75
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8205340564961685327
-    second: PlayerRunUp_0
+      213: 2577621968656874794
+    second: PlayerStealthLeft_0
   - first:
-      213: 7535815632458172235
-    second: PlayerRunUp_1
+      213: 5500216014436724214
+    second: PlayerStealthLeft_1
   - first:
-      213: 7980918123995017190
-    second: PlayerRunUp_2
+      213: -8295819584483622496
+    second: PlayerStealthLeft_2
   - first:
-      213: 2736841608170262025
-    second: PlayerRunUp_3
+      213: 5373800869831390855
+    second: PlayerStealthLeft_3
   - first:
-      213: 4245724484913568577
-    second: PlayerRunUp_4
+      213: 7887877551356025567
+    second: PlayerStealthLeft_4
   - first:
-      213: -9031010791788235062
-    second: PlayerRunUp_5
+      213: -2459063639570154968
+    second: PlayerStealthLeft_5
   - first:
-      213: -1889738958622903779
-    second: PlayerRunUp_6
+      213: -3926232455751438188
+    second: PlayerStealthLeft_6
   - first:
-      213: 8760845190829833100
-    second: PlayerRunUp_7
+      213: 2378377885444969929
+    second: PlayerStealthLeft_7
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -110,169 +110,169 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayerRunUp_0
+      name: PlayerStealthLeft_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 2
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 72ccfd7bd0ff1a1479abf2607ebdfd6b
-      internalID: -8205340564961685327
+      spriteID: 698db4b223bee00458b08aa80295391c
+      internalID: 2577621968656874794
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerRunUp_1
+      name: PlayerStealthLeft_1
       rect:
         serializedVersion: 2
         x: 32
-        y: 0
+        y: 2
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 10e75c8a9d35e7849990f4ce30e4a8eb
-      internalID: 7535815632458172235
+      spriteID: 1da85c93fdb0fd94f921795e16bee330
+      internalID: 5500216014436724214
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerRunUp_2
+      name: PlayerStealthLeft_2
       rect:
         serializedVersion: 2
         x: 64
-        y: 0
+        y: 2
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f644a6215137ace429f25e8f802de1a9
-      internalID: 7980918123995017190
+      spriteID: adbac1e3ff818a940bf681928544e820
+      internalID: -8295819584483622496
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerRunUp_3
+      name: PlayerStealthLeft_3
       rect:
         serializedVersion: 2
         x: 96
-        y: 0
+        y: 2
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 178ea728e4a99144094d1e4649f14040
-      internalID: 2736841608170262025
+      spriteID: 5982aa1483047eb42bf429c4adde26c8
+      internalID: 5373800869831390855
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerRunUp_4
+      name: PlayerStealthLeft_4
       rect:
         serializedVersion: 2
         x: 128
-        y: 0
+        y: 2
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2dbf26dd8f59a0f4ea43a20001f78e26
-      internalID: 4245724484913568577
+      spriteID: ff33f31f4f0b47343bff19dddfcc334c
+      internalID: 7887877551356025567
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerRunUp_5
+      name: PlayerStealthLeft_5
       rect:
         serializedVersion: 2
         x: 160
-        y: 0
+        y: 2
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1fb5ccf6f60d3e444851d129f54f8965
-      internalID: -9031010791788235062
+      spriteID: 77d46456e4edc6441b4bc00c65bde81f
+      internalID: -2459063639570154968
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerRunUp_6
+      name: PlayerStealthLeft_6
       rect:
         serializedVersion: 2
         x: 192
-        y: 0
+        y: 2
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b91e302251e42794d82080d9b3b0cbf8
-      internalID: -1889738958622903779
+      spriteID: d2bd970566bed2946af31d561526d036
+      internalID: -3926232455751438188
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerRunUp_7
+      name: PlayerStealthLeft_7
       rect:
         serializedVersion: 2
         x: 224
-        y: 0
+        y: 2
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9878623907f078e49a1dee739acc7dc4
-      internalID: 8760845190829833100
+      spriteID: 5b0d2113d8970e94eac48f6c122671a1
+      internalID: 2378377885444969929
       vertices: []
       indices: 
       edges: []

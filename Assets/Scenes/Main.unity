@@ -682,12 +682,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 66242348}
   m_CullTransparentMesh: 0
---- !u!1 &88547974 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5566210469952127411, guid: 6f3f201e9ba0e5141911949c7db5fffc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1044879248}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &98086746
 GameObject:
   m_ObjectHideFlags: 0
@@ -10454,11 +10448,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1697352810582337571, guid: 6f3f201e9ba0e5141911949c7db5fffc,
         type: 3}
-      propertyPath: dashEnergy
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 1697352810582337571, guid: 6f3f201e9ba0e5141911949c7db5fffc,
-        type: 3}
       propertyPath: soundIconAnim
       value: 
       objectReference: {fileID: 608728709}
@@ -10489,16 +10478,6 @@ PrefabInstance:
       objectReference: {fileID: 1044743982}
     - target: {fileID: 1697352810582337571, guid: 6f3f201e9ba0e5141911949c7db5fffc,
         type: 3}
-      propertyPath: dashDelay
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1697352810582337571, guid: 6f3f201e9ba0e5141911949c7db5fffc,
-        type: 3}
-      propertyPath: baseMoveSpeed
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1697352810582337571, guid: 6f3f201e9ba0e5141911949c7db5fffc,
-        type: 3}
       propertyPath: hackController
       value: 
       objectReference: {fileID: 528844847}
@@ -10514,23 +10493,69 @@ PrefabInstance:
       objectReference: {fileID: 39231424}
     - target: {fileID: 1697352810582337571, guid: 6f3f201e9ba0e5141911949c7db5fffc,
         type: 3}
-      propertyPath: screenLayer.m_Bits
-      value: 524288
+      propertyPath: stealthedColor.r
+      value: 0.6431373
       objectReference: {fileID: 0}
     - target: {fileID: 1697352810582337571, guid: 6f3f201e9ba0e5141911949c7db5fffc,
         type: 3}
-      propertyPath: dashObject
+      propertyPath: stealthedColor.g
+      value: 0.6431373
+      objectReference: {fileID: 0}
+    - target: {fileID: 1697352810582337571, guid: 6f3f201e9ba0e5141911949c7db5fffc,
+        type: 3}
+      propertyPath: stealthedColor.b
+      value: 0.6431373
+      objectReference: {fileID: 0}
+    - target: {fileID: 1697352810582337571, guid: 6f3f201e9ba0e5141911949c7db5fffc,
+        type: 3}
+      propertyPath: stealthedColor.a
+      value: 0.74509805
+      objectReference: {fileID: 0}
+    - target: {fileID: 1697352810582337571, guid: 6f3f201e9ba0e5141911949c7db5fffc,
+        type: 3}
+      propertyPath: startingColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1697352810582337571, guid: 6f3f201e9ba0e5141911949c7db5fffc,
+        type: 3}
+      propertyPath: startingColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1697352810582337571, guid: 6f3f201e9ba0e5141911949c7db5fffc,
+        type: 3}
+      propertyPath: startingColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1697352810582337574, guid: 6f3f201e9ba0e5141911949c7db5fffc,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.9528302
+      objectReference: {fileID: 0}
+    - target: {fileID: 1697352810582337574, guid: 6f3f201e9ba0e5141911949c7db5fffc,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.84046817
+      objectReference: {fileID: 0}
+    - target: {fileID: 1697352810582337574, guid: 6f3f201e9ba0e5141911949c7db5fffc,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.9103148
+      objectReference: {fileID: 0}
+    - target: {fileID: 1697352810582337574, guid: 6f3f201e9ba0e5141911949c7db5fffc,
+        type: 3}
+      propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 88547974}
+      objectReference: {fileID: -2459063639570154968, guid: 6e315ace6aa33ee47a2273875b8d9c75,
+        type: 3}
     - target: {fileID: 1697352810582337575, guid: 6f3f201e9ba0e5141911949c7db5fffc,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.48
+      value: -2.19
       objectReference: {fileID: 0}
     - target: {fileID: 1697352810582337575, guid: 6f3f201e9ba0e5141911949c7db5fffc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.56
+      value: -3.12
       objectReference: {fileID: 0}
     - target: {fileID: 1697352810582337575, guid: 6f3f201e9ba0e5141911949c7db5fffc,
         type: 3}
@@ -10601,11 +10626,6 @@ PrefabInstance:
         type: 3}
       propertyPath: noiseRadius
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3131829263475624438, guid: 6f3f201e9ba0e5141911949c7db5fffc,
-        type: 3}
-      propertyPath: m_Offset.y
-      value: -0.8
       objectReference: {fileID: 0}
     - target: {fileID: 3246133089792748139, guid: 6f3f201e9ba0e5141911949c7db5fffc,
         type: 3}
