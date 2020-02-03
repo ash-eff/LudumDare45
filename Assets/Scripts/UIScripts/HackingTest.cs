@@ -25,14 +25,22 @@ public class HackingTest : MonoBehaviour
     public bool isConnectedToHost = false;
     private bool losingConnection;
 
+    private float currentXPos;
+
     private void Start()
     {
         CloseTerminal();
+        currentXPos = transform.localPosition.x;
         signalText.text = "no signal";
         signalTextGUI.text = signalText.text;
         signalFill.fillAmount = 0;
         signalFillGUI.fillAmount = signalFill.fillAmount;
         StartCoroutine(TypeOutText("No target host available..."));
+    }
+
+    private void Update()
+    {
+        transform.localPosition = new Vector2(currentXPos * player.transform.localScale.x, 0f);
     }
 
     public void ConnectToHost()

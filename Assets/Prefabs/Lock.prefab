@@ -46,6 +46,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07cb99bb4b61b5d43953ce46744cc876, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  consoleName: 
+  manufacturersInformation: 
+  difficultyRating: 
+  unlocked: 0
+  window: {fileID: 0}
   lockImg: {fileID: 6957935074076403692}
   barrier: {fileID: 2698821477360506830}
   exitSign: {fileID: 2418821419905292876}
@@ -96,6 +101,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -202,6 +208,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

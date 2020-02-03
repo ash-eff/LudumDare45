@@ -55,7 +55,7 @@ public class PlayerManager : MonoBehaviour
     [Space(2)]
 
     [Header("Components")]
-    public GameObject dashObject;
+
     public GameObject cursor;
     public Sprite targetCursor, pointerCursor;
     public Lock currentLock;
@@ -112,7 +112,11 @@ public class PlayerManager : MonoBehaviour
 
     public float MoveSpeed { get { return moveSpeed; } }
     public float StealTime { get { return stealTime; } }
-    public bool CanMove { get { return canMove; } }
+    public float DashDelay { get { return dashDelay; } set { dashDelay = value; } }
+    public float DashTime { get { return dashTime; } set { dashTime = value; } }
+    public bool IsDashing { get { return isDashing; } set { isDashing = value; } }
+    public bool CanDash { get { return canDash; } set { canDash = value; } }
+    public bool CanMove { get { return canMove; } set { canMove = value; } }
     public bool PlayerOccupied { get { return playerOccupied; } set { playerOccupied = value; } }
     public bool IsSpotted { get { return isSpotted; } }
     public bool IsDead { get { return isDead; } }
@@ -155,6 +159,22 @@ public class PlayerManager : MonoBehaviour
             //return;
         }
 
+        anim.SetBool("Hacking", isTerminalOpen);
+        
+        if (playerMove.Movement.x == 0 && playerMove.Movement.y == 0)
+        {
+            anim.SetBool("Moving", false);
+        }
+        else
+        {
+            anim.SetBool("Moving", true);
+        }
+
+        if(playerMove.Movement.x != 0 && !isDashing)
+        {
+            transform.localScale = new Vector2(playerMove.Movement.x, 1f);
+        }
+
         energyFillIndicator.fillAmount = ((float)currentEnergy / (float)maxEnergy);
         SetIconAnimations();
         CheckForBarriers();
@@ -182,6 +202,7 @@ public class PlayerManager : MonoBehaviour
             }
 
             playerMove.MovePlayer();
+
         }
         else
         {
@@ -234,12 +255,11 @@ public class PlayerManager : MonoBehaviour
         RaycastHit2D hitDoor = Physics2D.Raycast(castPosition, Vector3.up, yRayCastLength, doorLayer);
         RaycastHit2D hitWallUp = Physics2D.Raycast(castPosition, Vector3.up, yRayCastLength, wallLayer);
         RaycastHit2D hitWallDown = Physics2D.Raycast(castPosition, -Vector3.up, (yRayCastLength + yRayDownExtraLength), wallLayer);
-        RaycastHit2D hitWallRight = Physics2D.Raycast(castPosition, Vector3.right, xRayCastLength, wallLayer);
-        RaycastHit2D hitWallLeft = Physics2D.Raycast(castPosition, -Vector3.right, xRayCastLength, wallLayer);
+        RaycastHit2D hitWallRightLeft = Physics2D.Raycast(castPosition, Vector2.right * transform.localScale.x, xRayCastLength, wallLayer);
+
         Debug.DrawRay(castPosition, Vector3.up * yRayCastLength, Color.red);
         Debug.DrawRay(castPosition, -Vector3.up * (yRayCastLength + yRayDownExtraLength), Color.yellow);
-        Debug.DrawRay(castPosition, Vector3.right * xRayCastLength, Color.blue);
-        Debug.DrawRay(castPosition, -Vector3.right * xRayCastLength, Color.green);
+        Debug.DrawRay(castPosition, (Vector2.right * transform.localScale.x) * xRayCastLength, Color.blue);
 
         if (hitDoor)
         {
@@ -254,45 +274,38 @@ public class PlayerManager : MonoBehaviour
 
         anim.SetBool("StealthedUp", hitWallUp);
         anim.SetBool("StealthedDown", hitWallDown);
-        anim.SetBool("StealthedRight", hitWallRight);
-        anim.SetBool("StealthedLeft", hitWallLeft);
+        anim.SetBool("StealthedRightLeft", hitWallRightLeft);
+
 
         if (hitWallUp && !isStealthed)
         {
             isStealthed = true;
-            spr.sortingOrder = 2;
+            spr.sortingOrder = 3;
             StartCoroutine(StealthTransition(startingColor, stealthedColor));
         }
 
         if (hitWallDown && !isStealthed)
         {
             isStealthed = true;
-            spr.sortingOrder = 4;
+            spr.sortingOrder = 5;
             //StartCoroutine(StealthTransition(new Color(stealthedColor.r, stealthedColor.g, stealthedColor.b, startingColor.a), stealthedColor));
         }
 
-        if (hitWallRight && !isStealthed)
+        if (hitWallRightLeft && !isStealthed)
         {
             isStealthed = true;
-            spr.sortingOrder = 2;
+            spr.sortingOrder = 3;
             StartCoroutine(StealthTransition(startingColor, stealthedColor));
         }
 
-        if (hitWallLeft && !isStealthed)
-        {
-            isStealthed = true;
-            spr.sortingOrder = 2;
-            StartCoroutine(StealthTransition(startingColor, stealthedColor));
-        }
-
-        if (!hitWallUp && !hitWallDown && !hitWallRight && !hitWallLeft && isStealthed)
+        if (!hitWallUp && !hitWallDown && !hitWallRightLeft && isStealthed)
         {
             isStealthed = false;
-            spr.sortingOrder = 2;
+            spr.sortingOrder = 3;
             StartCoroutine(StealthTransition(stealthedColor, startingColor));
         }
 
-        if (hitWallUp || hitWallDown || hitWallLeft || hitWallRight)
+        if (hitWallUp || hitWallDown || hitWallRightLeft)
         {
             touchingWall = true;
         }
@@ -389,6 +402,15 @@ public class PlayerManager : MonoBehaviour
             }
         }
 
+        if (isTerminalOpen)
+        {
+            if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+            {
+                isTerminalOpen = false;
+                hackController.CloseTerminal();
+            }
+        }
+
         // dash
         if ((Input.GetKeyDown(KeyCode.Alpha2)))
         {
@@ -398,7 +420,7 @@ public class PlayerManager : MonoBehaviour
                 {
                     AdjustEnergy(-dashEnergy);
                     dashDirection = (cursor.transform.position - transform.position).normalized;
-                    StartCoroutine(DashTimer());
+                    playerMove.Dash(cursor.transform.position - transform.position);
                 }
             }         
         }
@@ -449,7 +471,11 @@ public class PlayerManager : MonoBehaviour
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = mousePos - (Vector2)transform.position;
-        direction = Vector2.ClampMagnitude(direction, actualCursorRadius);
+
+        if (!isTerminalOpen)
+        {
+            direction = Vector2.ClampMagnitude(direction, actualCursorRadius);
+        }
         cursor.transform.position = (Vector2)transform.position + direction;
     }
 
@@ -500,38 +526,7 @@ public class PlayerManager : MonoBehaviour
         }
 
         return false;
-    }
-
-    IEnumerator DashTimer()
-    {
-        ParticleSystem.EmissionModule ps = dashObject.GetComponent<ParticleSystem>().emission;
-        ps.enabled = true;
-        dashObject.SetActive(true);
-        isDashing = true;
-        canDash = false;
-        dashTimerIndicator.fillAmount = 0;
-        float dashTimer = dashTime;
-        while (dashTimer > 0)
-        {
-            dashTimer -= Time.deltaTime;
-            yield return null;
-        }
-
-        
-        ps.enabled = false;
-        isDashing = false;
-        float cooldowntimer = 0;
-        while(cooldowntimer <= 1)
-        {
-            cooldowntimer += (Time.deltaTime / dashDelay);
-            dashTimerIndicator.fillAmount = cooldowntimer;
-
-            yield return null;
-        }
-
-        canDash = true;
-        dashObject.SetActive(false);
-    }
+    }   
 
     IEnumerator AddEnergyEverySecond()
     {

@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4058941048951273}
-  m_LocalRotation: {x: 0, y: 0, z: 0.2588191, w: 0.9659258}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1697352810582337575}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 30}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6519655765315680628
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -45,10 +45,11 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -215,10 +216,11 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -238,7 +240,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: -277153921769468689, guid: bb0539d08a1462042882d451a35cd5c4,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -332,7 +334,6 @@ MonoBehaviour:
   maxCursorRadius: 9
   startingColor: {r: 0.9529412, g: 0.8392157, b: 0.9098039, a: 1}
   stealthedColor: {r: 0.9529412, g: 0.8392157, b: 0.9098039, a: 0.7058824}
-  dashObject: {fileID: 5566210469952127411}
   cursor: {fileID: 4058941048951273}
   targetCursor: {fileID: 21300000, guid: b53e7bc5b9664044fb0692c95035f146, type: 3}
   pointerCursor: {fileID: -473425472840943179, guid: d8e05dc8a116e71498f99c598d118ec1,
@@ -377,6 +378,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteAnim: {fileID: 8019497024510566423}
+  dashObject: {fileID: 0}
+  rightRunSprite: {fileID: 0}
+  leftRunSprite: {fileID: 0}
+  upRunSprite: {fileID: 0}
+  downRunSprite: {fileID: 0}
 --- !u!114 &4380831595739144185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,10 +580,11 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -680,10 +687,11 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1167,12 +1175,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bec70df1df0bb9949a89df7fd4021fa0, type: 3}
---- !u!1 &5566210469952127411 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6335155990518910579, guid: bec70df1df0bb9949a89df7fd4021fa0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1933689249209503680}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3387696640926645563 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3879389309532943099, guid: bec70df1df0bb9949a89df7fd4021fa0,
