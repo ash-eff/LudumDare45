@@ -272,38 +272,38 @@ public class PlayerManager : MonoBehaviour
             //currentLock = null;
         }
 
-        anim.SetBool("StealthedUp", hitWallUp);
-        anim.SetBool("StealthedDown", hitWallDown);
-        anim.SetBool("StealthedRightLeft", hitWallRightLeft);
-
-
-        if (hitWallUp && !isStealthed)
-        {
-            isStealthed = true;
-            spr.sortingOrder = 3;
-            StartCoroutine(StealthTransition(startingColor, stealthedColor));
-        }
-
-        if (hitWallDown && !isStealthed)
-        {
-            isStealthed = true;
-            spr.sortingOrder = 5;
-            //StartCoroutine(StealthTransition(new Color(stealthedColor.r, stealthedColor.g, stealthedColor.b, startingColor.a), stealthedColor));
-        }
-
-        if (hitWallRightLeft && !isStealthed)
-        {
-            isStealthed = true;
-            spr.sortingOrder = 3;
-            StartCoroutine(StealthTransition(startingColor, stealthedColor));
-        }
-
-        if (!hitWallUp && !hitWallDown && !hitWallRightLeft && isStealthed)
-        {
-            isStealthed = false;
-            spr.sortingOrder = 3;
-            StartCoroutine(StealthTransition(stealthedColor, startingColor));
-        }
+        //anim.SetBool("StealthedUp", hitWallUp);
+        //anim.SetBool("StealthedDown", hitWallDown);
+        //anim.SetBool("StealthedRightLeft", hitWallRightLeft);
+        //
+        //
+        //if (hitWallUp && !isStealthed)
+        //{
+        //    isStealthed = true;
+        //    spr.sortingOrder = 3;
+        //    StartCoroutine(StealthTransition(startingColor, stealthedColor));
+        //}
+        //
+        //if (hitWallDown && !isStealthed)
+        //{
+        //    isStealthed = true;
+        //    spr.sortingOrder = 5;
+        //    //StartCoroutine(StealthTransition(new Color(stealthedColor.r, stealthedColor.g, stealthedColor.b, startingColor.a), stealthedColor));
+        //}
+        //
+        //if (hitWallRightLeft && !isStealthed)
+        //{
+        //    isStealthed = true;
+        //    spr.sortingOrder = 3;
+        //    StartCoroutine(StealthTransition(startingColor, stealthedColor));
+        //}
+        //
+        //if (!hitWallUp && !hitWallDown && !hitWallRightLeft && isStealthed)
+        //{
+        //    isStealthed = false;
+        //    spr.sortingOrder = 3;
+        //    StartCoroutine(StealthTransition(stealthedColor, startingColor));
+        //}
 
         if (hitWallUp || hitWallDown || hitWallRightLeft)
         {
@@ -496,6 +496,13 @@ public class PlayerManager : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if(collision.transform.gameObject.layer == 17)
+        {
+            Debug.Log("Door");
+            Door doorToOpen = collision.transform.gameObject.GetComponentInParent<Door>();
+            doorToOpen.OpenDoor();
+        }
+
         if (collision.transform.gameObject.layer == 8)
         {
             touchingWall = true;
