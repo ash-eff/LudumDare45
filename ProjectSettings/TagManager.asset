@@ -15,6 +15,7 @@ TagManager:
   - TerminalTag
   - Hackable
   - LightCam
+  - Vent
   layers:
   - Default
   - TransparentFX
@@ -37,8 +38,8 @@ TagManager:
   - SeeThrough
   - TerminalScreen
   - TerminalTag
-  - 
-  - 
+  - OverWorld
+  - UnderWorld
   - 
   - 
   - 

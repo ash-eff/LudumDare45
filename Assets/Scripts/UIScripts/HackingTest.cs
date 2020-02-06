@@ -19,6 +19,7 @@ public class HackingTest : MonoBehaviour
     public float baseHackTime;
     public WindowUI currentWindow;
     public WindowUI defaultWindow;
+    public Door[] doors;
 
     public float hackRadius;
 
@@ -217,5 +218,16 @@ public class HackingTest : MonoBehaviour
             yield return null;
         }
        
+    }
+
+    public void UnlockDoors()
+    {
+        foreach (Door door in doors)
+        {
+            if (door.locked)
+            {
+                door.locked = false;
+            }
+        }
     }
 }

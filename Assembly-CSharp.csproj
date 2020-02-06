@@ -66,12 +66,15 @@
     <Compile Include="Assets\Scripts\GameScripts\Door.cs" />
     <Compile Include="Assets\Scripts\GameScripts\GameController.cs" />
     <Compile Include="Assets\Scripts\GameScripts\GridMap.cs" />
+    <Compile Include="Assets\Scripts\GameScripts\Interactable.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Item.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Lock.cs" />
     <Compile Include="Assets\Scripts\GameScripts\MenuController.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Noise.cs" />
     <Compile Include="Assets\Scripts\GameScripts\RoomReveal.cs" />
     <Compile Include="Assets\Scripts\GameScripts\ValuableItem.cs" />
+    <Compile Include="Assets\Scripts\GameScripts\Vent.cs" />
+    <Compile Include="Assets\Scripts\GameScripts\WorldSwap.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerActions.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerAudio.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerInventory.cs" />

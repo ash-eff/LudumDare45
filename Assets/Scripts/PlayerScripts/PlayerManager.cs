@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using System.Linq;
+using UnityEngine.Experimental.Rendering.Universal;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class PlayerManager : MonoBehaviour
 
     [Header("Speed Values")]
     [SerializeField] private float baseMoveSpeed = 6;
+    [SerializeField] private float crawlSpeed = 3;
     [SerializeField] private float dashSpeed = 50;
     [Space(2)]
 
@@ -69,6 +71,8 @@ public class PlayerManager : MonoBehaviour
     public Image energyFillIndicator;
     public AudioSource song;
     public AudioSource bit;
+    public Light2D ventLight;
+    
     [Space(2)]
 
     [Header("GUI")]
@@ -80,9 +84,10 @@ public class PlayerManager : MonoBehaviour
     #region Private Variables
     private float valueStolen;
     private float actualCursorRadius;
-    private float moveSpeed;
+    public float moveSpeed;
 
     private bool canMove;
+    public bool inVent;
     private bool isDashing;
     private bool itemInRange;
     private bool playerOccupied;
@@ -194,6 +199,11 @@ public class PlayerManager : MonoBehaviour
             {
                 moveSpeed = dashSpeed;
                 playerMove.Movement = new Vector2(dashDirection.x, dashDirection.y);
+            }
+            if (inVent)
+            {
+                moveSpeed = crawlSpeed;
+                playerMove.Movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             }
             else
             {
@@ -496,12 +506,12 @@ public class PlayerManager : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.transform.gameObject.layer == 17)
-        {
-            Debug.Log("Door");
-            Door doorToOpen = collision.transform.gameObject.GetComponentInParent<Door>();
-            doorToOpen.OpenDoor();
-        }
+        //if(collision.transform.gameObject.layer == 17)
+        //{
+        //    Debug.Log("Door");
+        //    Door doorToOpen = collision.transform.gameObject.GetComponentInParent<Door>();
+        //    doorToOpen.OpenDoor();
+        //}
 
         if (collision.transform.gameObject.layer == 8)
         {
@@ -522,6 +532,35 @@ public class PlayerManager : MonoBehaviour
         if (collision.transform.gameObject.layer == 8)
         {
             touchingWall = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.transform.gameObject.tag == "Vent")
+        {
+            WorldSwap swap = FindObjectOfType<WorldSwap>();
+            Vent thisVent = null;
+            thisVent = collision.gameObject.GetComponent<Vent>();
+            if (inVent)
+            {
+                inVent = false;
+                spr.enabled = true;
+                ventLight.gameObject.SetActive(false);
+                swap.swap = false;
+                swap.SwapWorlds();
+                transform.position = thisVent.exit.transform.position;
+            }
+            else
+            {
+                inVent = true;
+                spr.enabled = false;
+                ventLight.gameObject.SetActive(true);
+                swap.swap = true;
+                swap.SwapWorlds();
+                transform.position = thisVent.entrance.transform.position;
+            }
+
         }
     }
 

@@ -5,14 +5,38 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     public Animator anim;
-    public bool open = false;
+    public bool opening;
+    public bool closing;
+    public bool locked = true;
 
-    public void OpenDoor()
+    private void Update()
     {
-        if (!open)
+        anim.SetBool("Locked", locked);
+        anim.SetBool("Opening", opening);
+        anim.SetBool("Closing", closing);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
         {
-            open = true;
-            anim.SetBool("Opening", true);
+            if (!locked && !opening)
+            {
+                closing = false;
+                opening = true;
+            }
+        }
+    }
+    
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            if (!locked && opening)
+            {
+                opening = false;
+                closing = true;
+            }
         }
     }
 }
