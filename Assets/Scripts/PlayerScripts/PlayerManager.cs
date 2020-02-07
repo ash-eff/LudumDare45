@@ -9,18 +9,23 @@ using UnityEngine.Experimental.Rendering.Universal;
 
 public class PlayerManager : MonoBehaviour
 {
-    public List<RaycastResult> hitObjects = new List<RaycastResult>();
+    public List<GameObject> hitObstacles = new List<GameObject>();
+    public GameObject currentlyTouching;
 
     #region Editor Variables
     [Header("LayerMasks")]
-    [SerializeField] public LayerMask wallLayer;
-    [SerializeField] public LayerMask doorLayer;
-    [SerializeField] public LayerMask itemLayer;
-    [SerializeField] public LayerMask robotLayer;
-    [SerializeField] public LayerMask screenLayer;
+    //[SerializeField] public LayerMask doorLayer;
+    //[SerializeField] public LayerMask wallLayer;
+    [SerializeField] private LayerMask itemLayer;
+    [SerializeField] private LayerMask obstacleLayer;
+    //[SerializeField] public LayerMask robotLayer;
+    //[SerializeField] public LayerMask screenLayer;
     [Space(2)]
 
     [Header("Raycast Values")]
+    [SerializeField] private int numberOfRays;
+    [SerializeField] private float raysWidth;
+    [SerializeField] private float raysHeight;
     [SerializeField] private float xRayCastLength =.4f;
     [SerializeField] private float yRayCastLength = .05f;
     [SerializeField] private float yRayDownExtraLength = .4f;
@@ -30,7 +35,7 @@ public class PlayerManager : MonoBehaviour
 
     [Header("Speed Values")]
     [SerializeField] private float baseMoveSpeed = 6;
-    [SerializeField] private float crawlSpeed = 3;
+    [SerializeField] private float crawlSpeed = 2;
     [SerializeField] private float dashSpeed = 50;
     [Space(2)]
 
@@ -51,13 +56,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private float maxCursorRadius = 9;
     [Space(2)]
 
-    [Header("Color Values")]
-    [SerializeField] private Color startingColor;
-    [SerializeField] private Color stealthedColor;
-    [Space(2)]
-
     [Header("Components")]
-
     public GameObject cursor;
     public Sprite targetCursor, pointerCursor;
     public Lock currentLock;
@@ -78,6 +77,7 @@ public class PlayerManager : MonoBehaviour
     [Header("GUI")]
     public Image heldItemSprite;
     public TextMeshProUGUI heldItemValueText;
+    public TextMeshProUGUI interactText;
     [Space(2)]
     #endregion
 
@@ -99,9 +99,10 @@ public class PlayerManager : MonoBehaviour
     private bool isDead = false;
     private bool canDash = true;
     private bool touchingWall;
-    private bool touchingLockedDoor;
     private bool isStealthed;
 
+    private Vector2[] directionsVertical = { Vector2.up, Vector2.down };
+    private Vector2[] directionsHorizontal = { Vector2.right, Vector2.left };
     private Vector2 dashDirection;
     private Vector3 castPosition = Vector3.zero;
     private GameController gameController;
@@ -134,7 +135,6 @@ public class PlayerManager : MonoBehaviour
         anim = GetComponent<Animator>();
         transform.position = transform.position;
         spr = GetComponent<SpriteRenderer>();
-        spr.color = startingColor;
         gameController = FindObjectOfType<GameController>();
         playerInventory = GetComponent<PlayerInventory>();
         playerActions = GetComponent<PlayerActions>();
@@ -142,6 +142,7 @@ public class PlayerManager : MonoBehaviour
         moveSpeed = baseMoveSpeed;
         currentEnergy = maxEnergy;
         StartCoroutine(AddEnergyEverySecond());
+        StartCoroutine(CheckForObjects());
     }
 
     private void Update()
@@ -181,14 +182,10 @@ public class PlayerManager : MonoBehaviour
         }
 
         energyFillIndicator.fillAmount = ((float)currentEnergy / (float)maxEnergy);
-        SetIconAnimations();
-        CheckForBarriers();
         CheckForItems();
         CheckForButtonPress();
         CursorPos();
         UpdateGUI();
-
-        //audioSource.volume = menuController.SFXVolume;
     }
 
     private void FixedUpdate()
@@ -220,123 +217,118 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    private void SetIconAnimations()
+    IEnumerator CheckForObjects()
     {
-        if (touchingWall && !isKnocking)
+        while (true)
         {
-            soundIconAnim.SetBool("Active", true);
-        }
-        else
-        {
-            soundIconAnim.SetBool("Active", false);
-        }
+            hitObstacles = new List<GameObject>();
+            hitObstacles = CheckForObjectsUpAndDown();
 
-        if (touchingLockedDoor)
-        {
-            hackIconAnim.SetBool("Active", true);
-        }
-        else
-        {
-            hackIconAnim.SetBool("Active", false);
-        }
+            if(hitObstacles.Count == 0)
+            {
+                hitObstacles = CheckForObjectsLeftAndRight();
+            }
 
-        if (canDash && HasEnoughEnergy())
-        {
-            dashIconAnim.SetBool("Active", true);
-        }
-        else
-        {
-            dashIconAnim.SetBool("Active", false);
-        }
-
-        if (currentItemBeingInteractedWith != null)
-        {
-            grabIconAnim.SetBool("Active", true);
-        }
-        else
-        {
-            grabIconAnim.SetBool("Active", false);
-        }
-    }
-
-    private void CheckForBarriers()
-    {
-        castPosition = new Vector3(transform.position.x, transform.position.y + yRayOffsetFromGround, 0f);
-        RaycastHit2D hitDoor = Physics2D.Raycast(castPosition, Vector3.up, yRayCastLength, doorLayer);
-        RaycastHit2D hitWallUp = Physics2D.Raycast(castPosition, Vector3.up, yRayCastLength, wallLayer);
-        RaycastHit2D hitWallDown = Physics2D.Raycast(castPosition, -Vector3.up, (yRayCastLength + yRayDownExtraLength), wallLayer);
-        RaycastHit2D hitWallRightLeft = Physics2D.Raycast(castPosition, Vector2.right * transform.localScale.x, xRayCastLength, wallLayer);
-
-        Debug.DrawRay(castPosition, Vector3.up * yRayCastLength, Color.red);
-        Debug.DrawRay(castPosition, -Vector3.up * (yRayCastLength + yRayDownExtraLength), Color.yellow);
-        Debug.DrawRay(castPosition, (Vector2.right * transform.localScale.x) * xRayCastLength, Color.blue);
-
-        if (hitDoor)
-        {
-            touchingLockedDoor = true;
-            //hackController.hackableSource = hitDoor.collider.GetComponentInParent<HackableSource>();
-        }
-        else
-        {
-            touchingLockedDoor = false;
-            //currentLock = null;
-        }
-
-        //anim.SetBool("StealthedUp", hitWallUp);
-        //anim.SetBool("StealthedDown", hitWallDown);
-        //anim.SetBool("StealthedRightLeft", hitWallRightLeft);
-        //
-        //
-        //if (hitWallUp && !isStealthed)
-        //{
-        //    isStealthed = true;
-        //    spr.sortingOrder = 3;
-        //    StartCoroutine(StealthTransition(startingColor, stealthedColor));
-        //}
-        //
-        //if (hitWallDown && !isStealthed)
-        //{
-        //    isStealthed = true;
-        //    spr.sortingOrder = 5;
-        //    //StartCoroutine(StealthTransition(new Color(stealthedColor.r, stealthedColor.g, stealthedColor.b, startingColor.a), stealthedColor));
-        //}
-        //
-        //if (hitWallRightLeft && !isStealthed)
-        //{
-        //    isStealthed = true;
-        //    spr.sortingOrder = 3;
-        //    StartCoroutine(StealthTransition(startingColor, stealthedColor));
-        //}
-        //
-        //if (!hitWallUp && !hitWallDown && !hitWallRightLeft && isStealthed)
-        //{
-        //    isStealthed = false;
-        //    spr.sortingOrder = 3;
-        //    StartCoroutine(StealthTransition(stealthedColor, startingColor));
-        //}
-
-        if (hitWallUp || hitWallDown || hitWallRightLeft)
-        {
-            touchingWall = true;
-        }
-        else
-        {
-            touchingWall = false;
-        }
-    }
-
-    IEnumerator StealthTransition(Color fromColor, Color toColor)
-    {
-        float lerptime = .25f;
-        float currentLerptime = 0;
-        
-        while (currentLerptime < lerptime)
-        {
-            currentLerptime += Time.deltaTime;
-            float perc = currentLerptime / lerptime;
-            spr.color = Color.Lerp(fromColor, toColor, perc);
+            if (hitObstacles.Count > 0)
+            {
+                WhatIsThePlayerTouching(hitObstacles);
+            }
+            else
+            {
+                currentlyTouching = null;
+                interactText.text = "";
+            }
             yield return null;
         }
+    }
+
+    private void WhatIsThePlayerTouching(List<GameObject> theList)
+    {
+        GameObject currentGameObject = theList[0];
+        int numberOfTimes = 0;
+        if (theList.Count > 1)
+        {
+            foreach (GameObject obj in theList)
+            {
+                currentGameObject = obj;
+                numberOfTimes = 0;
+                for (int i = 0; i < theList.Count; i++)
+                {
+                    if (currentGameObject == theList[i])
+                    {
+                        numberOfTimes++;
+                    }
+                }
+                if (numberOfTimes > (theList.Count / 2))
+                {
+                    break;
+                }
+            }
+        }
+
+        currentlyTouching = currentGameObject;
+        if(currentlyTouching.transform.tag == "Wall")
+        {
+            interactText.text = "Press E to knock";
+        }
+        else if (currentlyTouching.transform.tag == "Locker")
+        {
+            interactText.text = "Press E to seach";
+        }
+        else if (currentlyTouching.transform.tag == "Door")
+        {
+            interactText.text = "Door is locked";
+        }
+        else if (currentlyTouching.transform.tag == "Vent")
+        {
+            interactText.text = "Press E to enter vent";
+        }
+        else
+        {
+            interactText.text = "Touching undefined";
+        }
+    }
+
+    private List<GameObject> CheckForObjectsUpAndDown()
+    {
+        List<GameObject> hitUpDown = new List<GameObject>();
+        float widthByRays = raysWidth / (numberOfRays - 1);
+        foreach(Vector2 dir in directionsVertical)
+        {
+            for(int i = 0; i < numberOfRays; i++)
+            {
+                Vector2 originPosition = (Vector2)transform.position - new Vector2(raysWidth / 2, yRayOffsetFromGround) + (new Vector2(widthByRays, 0) * i);
+                Debug.DrawRay(originPosition,  dir * yRayCastLength, Color.red);
+                RaycastHit2D hit = Physics2D.Raycast(originPosition, dir, yRayCastLength, obstacleLayer);
+                if (hit)
+                {
+                    hitUpDown.Add(hit.collider.gameObject);
+                }
+            }
+        }
+
+        return hitUpDown;
+    }
+
+    private List<GameObject> CheckForObjectsLeftAndRight()
+    {
+        List<GameObject> hitLeftRight = new List<GameObject>();
+        float heightByRays = raysHeight / (numberOfRays - 1);
+        foreach (Vector2 dir in directionsHorizontal)
+        {
+            for (int i = 0; i < numberOfRays; i++)
+            {
+                Vector2 originPosition = (Vector2)transform.position - new Vector2(0, raysHeight / 2 + yRayOffsetFromGround) + (new Vector2(0, heightByRays) * i);
+                Debug.DrawRay(originPosition, dir * xRayCastLength, Color.green);
+                RaycastHit2D hit = Physics2D.Raycast(originPosition, dir, xRayCastLength, obstacleLayer);
+                if (hit)
+                {
+                    hitLeftRight.Add(hit.collider.gameObject);
+                }
+            }
+        }
+
+        return hitLeftRight;
     }
 
     private void CheckForItems()
@@ -504,19 +496,34 @@ public class PlayerManager : MonoBehaviour
 
     }
 
+    private bool HasEnoughEnergy()
+    {
+        if ((currentEnergy - dashEnergy) > 0)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private void AdjustEnergy(int amount)
+    {
+        if ((currentEnergy + amount) >= maxEnergy)
+        {
+            currentEnergy = maxEnergy;
+        }
+        else
+        {
+            currentEnergy += amount;
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //if(collision.transform.gameObject.layer == 17)
+        //if (collision.transform.gameObject.layer == 8)
         //{
-        //    Debug.Log("Door");
-        //    Door doorToOpen = collision.transform.gameObject.GetComponentInParent<Door>();
-        //    doorToOpen.OpenDoor();
+        //    touchingWall = true;
         //}
-
-        if (collision.transform.gameObject.layer == 8)
-        {
-            touchingWall = true;
-        }
 
         if(collision.transform.tag == "Hackable")
         {
@@ -537,42 +544,32 @@ public class PlayerManager : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.gameObject.tag == "Vent")
-        {
-            WorldSwap swap = FindObjectOfType<WorldSwap>();
-            Vent thisVent = null;
-            thisVent = collision.gameObject.GetComponent<Vent>();
-            if (inVent)
-            {
-                inVent = false;
-                spr.enabled = true;
-                ventLight.gameObject.SetActive(false);
-                swap.swap = false;
-                swap.SwapWorlds();
-                transform.position = thisVent.exit.transform.position;
-            }
-            else
-            {
-                inVent = true;
-                spr.enabled = false;
-                ventLight.gameObject.SetActive(true);
-                swap.swap = true;
-                swap.SwapWorlds();
-                transform.position = thisVent.entrance.transform.position;
-            }
-
-        }
+        //if (collision.transform.gameObject.tag == "Vent")
+        //{
+        //    
+        //    //WorldSwap swap = FindObjectOfType<WorldSwap>();
+        //    //Vent thisVent = null;
+        //    //thisVent = collision.gameObject.GetComponent<Vent>();
+        //    //if (inVent)
+        //    //{
+        //    //    inVent = false;
+        //    //    spr.enabled = true;
+        //    //    ventLight.gameObject.SetActive(false);
+        //    //    swap.swap = false;
+        //    //    swap.SwapWorlds();
+        //    //    transform.position = thisVent.exit.transform.position;
+        //    //}
+        //    //else
+        //    //{
+        //    //    inVent = true;
+        //    //    spr.enabled = false;
+        //    //    ventLight.gameObject.SetActive(true);
+        //    //    swap.swap = true;
+        //    //    swap.SwapWorlds();
+        //    //    transform.position = thisVent.entrance.transform.position;
+        //    //}
+        //}
     }
-
-    private bool HasEnoughEnergy()
-    {
-        if((currentEnergy - dashEnergy) > 0)
-        {
-            return true;
-        }
-
-        return false;
-    }   
 
     IEnumerator AddEnergyEverySecond()
     {
@@ -580,18 +577,6 @@ public class PlayerManager : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
             AdjustEnergy(1);
-        }
-    }
-
-    void AdjustEnergy(int amount)
-    {
-        if((currentEnergy + amount) >= maxEnergy)
-        {
-            currentEnergy = maxEnergy;
-        }
-        else
-        {
-            currentEnergy += amount;
         }
     }
 

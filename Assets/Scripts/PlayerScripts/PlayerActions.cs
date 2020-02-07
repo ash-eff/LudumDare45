@@ -103,4 +103,9 @@ public class PlayerActions : MonoBehaviour
 
         playerManager.PlayerOccupied = false;
     }
+
+    public void CheckForInteraction()
+    {
+
+    }
 }

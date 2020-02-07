@@ -16,8 +16,6 @@ public class PlayerMove : MonoBehaviour
     private Vector2 direction;
     private Vector2 dashPosition;
 
-    private int idleInt = 2;
-
     public Vector2 Movement { get { return movement; } set { movement = value; } }
     public Vector2 Direction { set { direction = value; } }
 

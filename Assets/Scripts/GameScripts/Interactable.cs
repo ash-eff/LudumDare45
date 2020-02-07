@@ -5,12 +5,4 @@ using UnityEngine;
 public class Interactable : MonoBehaviour
 {
     public string interactMessage;
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.gameObject.tag == "Player")
-        {
-            Debug.Log(interactMessage);
-        }
-    }
 }

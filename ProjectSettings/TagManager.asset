@@ -16,6 +16,9 @@ TagManager:
   - Hackable
   - LightCam
   - Vent
+  - Wall
+  - Locker
+  - Door
   layers:
   - Default
   - TransparentFX
