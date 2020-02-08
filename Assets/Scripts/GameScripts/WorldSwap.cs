@@ -4,20 +4,17 @@ using UnityEngine;
 
 public class WorldSwap : MonoBehaviour
 {
-    public GameObject overworld;
     public GameObject underworld;
     public bool swap;
 
-    public void SwapWorlds()
+    public void SwapWorld()
     {
         if (swap)
         {
-            overworld.SetActive(false);
             underworld.SetActive(true);
         }
         else
         {
-            overworld.SetActive(true);
             underworld.SetActive(false);
         }
     }

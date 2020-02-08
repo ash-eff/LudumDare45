@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door : MonoBehaviour
+public class Door : MonoBehaviour, IInteractable
 {
     public Animator anim;
     public bool opening;
@@ -14,6 +14,21 @@ public class Door : MonoBehaviour
         anim.SetBool("Locked", locked);
         anim.SetBool("Opening", opening);
         anim.SetBool("Closing", closing);
+    }
+
+    public void Interact()
+    {
+
+    }
+
+    public string BeingTouched()
+    {
+        if (locked)
+        {
+            return "Door is Locked";
+        }
+
+        return "";
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

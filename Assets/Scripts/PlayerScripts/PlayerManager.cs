@@ -9,9 +9,6 @@ using UnityEngine.Experimental.Rendering.Universal;
 
 public class PlayerManager : MonoBehaviour
 {
-    public List<GameObject> hitObstacles = new List<GameObject>();
-    public GameObject currentlyTouching;
-
     #region Editor Variables
     [Header("LayerMasks")]
     //[SerializeField] public LayerMask doorLayer;
@@ -22,16 +19,7 @@ public class PlayerManager : MonoBehaviour
     //[SerializeField] public LayerMask screenLayer;
     [Space(2)]
 
-    [Header("Raycast Values")]
-    [SerializeField] private int numberOfRays;
-    [SerializeField] private float raysWidth;
-    [SerializeField] private float raysHeight;
-    [SerializeField] private float xRayCastLength =.4f;
-    [SerializeField] private float yRayCastLength = .05f;
-    [SerializeField] private float yRayDownExtraLength = .4f;
-    [SerializeField] private float yRayOffsetFromGround = -.6f;
     [SerializeField] private float itemRadiusCast = 1;
-    [Space(2)]
 
     [Header("Speed Values")]
     [SerializeField] private float baseMoveSpeed = 6;
@@ -58,6 +46,7 @@ public class PlayerManager : MonoBehaviour
 
     [Header("Components")]
     public GameObject cursor;
+    public GameObject playerSprite;
     public Sprite targetCursor, pointerCursor;
     public Lock currentLock;
     public PlayerAudio playerAudio;
@@ -77,7 +66,7 @@ public class PlayerManager : MonoBehaviour
     [Header("GUI")]
     public Image heldItemSprite;
     public TextMeshProUGUI heldItemValueText;
-    public TextMeshProUGUI interactText;
+
     [Space(2)]
     #endregion
 
@@ -87,6 +76,8 @@ public class PlayerManager : MonoBehaviour
     public float moveSpeed;
 
     private bool canMove;
+    public bool ignoreObstacles;
+    public bool isHidden;
     public bool inVent;
     private bool isDashing;
     private bool itemInRange;
@@ -101,8 +92,6 @@ public class PlayerManager : MonoBehaviour
     private bool touchingWall;
     private bool isStealthed;
 
-    private Vector2[] directionsVertical = { Vector2.up, Vector2.down };
-    private Vector2[] directionsHorizontal = { Vector2.right, Vector2.left };
     private Vector2 dashDirection;
     private Vector3 castPosition = Vector3.zero;
     private GameController gameController;
@@ -142,7 +131,6 @@ public class PlayerManager : MonoBehaviour
         moveSpeed = baseMoveSpeed;
         currentEnergy = maxEnergy;
         StartCoroutine(AddEnergyEverySecond());
-        StartCoroutine(CheckForObjects());
     }
 
     private void Update()
@@ -159,7 +147,7 @@ public class PlayerManager : MonoBehaviour
             song.volume = .5f;
             bit.volume = 0;
         }
-        if (isSpotted || playerOccupied) //|| gameController.IsGameOver)
+        if (isSpotted || playerOccupied)
         {
             playerMove.Movement = Vector3.zero;
             //return;
@@ -178,7 +166,7 @@ public class PlayerManager : MonoBehaviour
 
         if(playerMove.Movement.x != 0 && !isDashing)
         {
-            transform.localScale = new Vector2(playerMove.Movement.x, 1f);
+            playerSprite.transform.localScale = new Vector2(playerMove.Movement.x, 1f);
         }
 
         energyFillIndicator.fillAmount = ((float)currentEnergy / (float)maxEnergy);
@@ -186,11 +174,24 @@ public class PlayerManager : MonoBehaviour
         CheckForButtonPress();
         CursorPos();
         UpdateGUI();
+
+        if (ignoreObstacles)
+        {
+            Physics2D.IgnoreLayerCollision(9, 8, true);
+        }
+        else
+        {
+            Physics2D.IgnoreLayerCollision(9, 8, false);
+        }
     }
 
     private void FixedUpdate()
     {
-        if (!playerOccupied)
+        if (playerOccupied || isHidden)
+        {
+            playerMove.StopPlayer();
+        }
+        else
         {
             if (isDashing)
             {
@@ -209,126 +210,7 @@ public class PlayerManager : MonoBehaviour
             }
 
             playerMove.MovePlayer();
-
         }
-        else
-        {
-            playerMove.StopPlayer();
-        }
-    }
-
-    IEnumerator CheckForObjects()
-    {
-        while (true)
-        {
-            hitObstacles = new List<GameObject>();
-            hitObstacles = CheckForObjectsUpAndDown();
-
-            if(hitObstacles.Count == 0)
-            {
-                hitObstacles = CheckForObjectsLeftAndRight();
-            }
-
-            if (hitObstacles.Count > 0)
-            {
-                WhatIsThePlayerTouching(hitObstacles);
-            }
-            else
-            {
-                currentlyTouching = null;
-                interactText.text = "";
-            }
-            yield return null;
-        }
-    }
-
-    private void WhatIsThePlayerTouching(List<GameObject> theList)
-    {
-        GameObject currentGameObject = theList[0];
-        int numberOfTimes = 0;
-        if (theList.Count > 1)
-        {
-            foreach (GameObject obj in theList)
-            {
-                currentGameObject = obj;
-                numberOfTimes = 0;
-                for (int i = 0; i < theList.Count; i++)
-                {
-                    if (currentGameObject == theList[i])
-                    {
-                        numberOfTimes++;
-                    }
-                }
-                if (numberOfTimes > (theList.Count / 2))
-                {
-                    break;
-                }
-            }
-        }
-
-        currentlyTouching = currentGameObject;
-        if(currentlyTouching.transform.tag == "Wall")
-        {
-            interactText.text = "Press E to knock";
-        }
-        else if (currentlyTouching.transform.tag == "Locker")
-        {
-            interactText.text = "Press E to seach";
-        }
-        else if (currentlyTouching.transform.tag == "Door")
-        {
-            interactText.text = "Door is locked";
-        }
-        else if (currentlyTouching.transform.tag == "Vent")
-        {
-            interactText.text = "Press E to enter vent";
-        }
-        else
-        {
-            interactText.text = "Touching undefined";
-        }
-    }
-
-    private List<GameObject> CheckForObjectsUpAndDown()
-    {
-        List<GameObject> hitUpDown = new List<GameObject>();
-        float widthByRays = raysWidth / (numberOfRays - 1);
-        foreach(Vector2 dir in directionsVertical)
-        {
-            for(int i = 0; i < numberOfRays; i++)
-            {
-                Vector2 originPosition = (Vector2)transform.position - new Vector2(raysWidth / 2, yRayOffsetFromGround) + (new Vector2(widthByRays, 0) * i);
-                Debug.DrawRay(originPosition,  dir * yRayCastLength, Color.red);
-                RaycastHit2D hit = Physics2D.Raycast(originPosition, dir, yRayCastLength, obstacleLayer);
-                if (hit)
-                {
-                    hitUpDown.Add(hit.collider.gameObject);
-                }
-            }
-        }
-
-        return hitUpDown;
-    }
-
-    private List<GameObject> CheckForObjectsLeftAndRight()
-    {
-        List<GameObject> hitLeftRight = new List<GameObject>();
-        float heightByRays = raysHeight / (numberOfRays - 1);
-        foreach (Vector2 dir in directionsHorizontal)
-        {
-            for (int i = 0; i < numberOfRays; i++)
-            {
-                Vector2 originPosition = (Vector2)transform.position - new Vector2(0, raysHeight / 2 + yRayOffsetFromGround) + (new Vector2(0, heightByRays) * i);
-                Debug.DrawRay(originPosition, dir * xRayCastLength, Color.green);
-                RaycastHit2D hit = Physics2D.Raycast(originPosition, dir, xRayCastLength, obstacleLayer);
-                if (hit)
-                {
-                    hitLeftRight.Add(hit.collider.gameObject);
-                }
-            }
-        }
-
-        return hitLeftRight;
     }
 
     private void CheckForItems()
@@ -525,7 +407,9 @@ public class PlayerManager : MonoBehaviour
         //    touchingWall = true;
         //}
 
-        if(collision.transform.tag == "Hackable")
+
+
+        if (collision.transform.tag == "Hackable")
         {
             hackController.hackableSource = null;
             hackController.isConnectedToHost = false;
@@ -547,27 +431,7 @@ public class PlayerManager : MonoBehaviour
         //if (collision.transform.gameObject.tag == "Vent")
         //{
         //    
-        //    //WorldSwap swap = FindObjectOfType<WorldSwap>();
-        //    //Vent thisVent = null;
-        //    //thisVent = collision.gameObject.GetComponent<Vent>();
-        //    //if (inVent)
-        //    //{
-        //    //    inVent = false;
-        //    //    spr.enabled = true;
-        //    //    ventLight.gameObject.SetActive(false);
-        //    //    swap.swap = false;
-        //    //    swap.SwapWorlds();
-        //    //    transform.position = thisVent.exit.transform.position;
-        //    //}
-        //    //else
-        //    //{
-        //    //    inVent = true;
-        //    //    spr.enabled = false;
-        //    //    ventLight.gameObject.SetActive(true);
-        //    //    swap.swap = true;
-        //    //    swap.SwapWorlds();
-        //    //    transform.position = thisVent.entrance.transform.position;
-        //    //}
+
         //}
     }
 
