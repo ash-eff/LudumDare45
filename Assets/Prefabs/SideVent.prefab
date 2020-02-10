@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7684099468013615623}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Entrance
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 3812105828351063611}
   - component: {fileID: 1228687592853233537}
   - component: {fileID: 2392695432747899256}
-  m_Layer: 8
+  m_Layer: 21
   m_Name: SideVent
   m_TagString: Vent
   m_Icon: {fileID: 0}
@@ -4945,7 +4945,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.4, y: 0}
@@ -4970,7 +4970,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2928651014066406601}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Exit
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}

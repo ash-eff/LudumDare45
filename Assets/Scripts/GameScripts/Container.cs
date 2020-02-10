@@ -22,7 +22,7 @@ public class Container : MonoBehaviour, IInteractable
         {
             coll.isTrigger = false;
             player.isHidden = false;
-            player.playerSprite.GetComponent<SpriteRenderer>().enabled = true;
+            //player.playerSprite.GetComponent<SpriteRenderer>().enabled = true;
             containerOverlay.SetActive(false);
             player.transform.position = exit.transform.position;
         }
@@ -30,7 +30,7 @@ public class Container : MonoBehaviour, IInteractable
         {
             coll.isTrigger = true;
             player.isHidden = true;
-            player.playerSprite.GetComponent<SpriteRenderer>().enabled = false;
+            //player.playerSprite.GetComponent<SpriteRenderer>().enabled = false;
             containerOverlay.SetActive(true);
             player.transform.position = entrance.transform.position;
         }
@@ -38,10 +38,10 @@ public class Container : MonoBehaviour, IInteractable
 
     public string BeingTouched()
     {
-        if (player.isHidden)
-        {
-            return "press e to get out";
-        }
+        //if (player.isHidden)
+        //{
+        //    return "press e to get out";
+        //}
         return "press e to hide";
     }
 }

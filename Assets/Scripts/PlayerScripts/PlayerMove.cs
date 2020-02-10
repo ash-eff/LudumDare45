@@ -15,22 +15,81 @@ public class PlayerMove : MonoBehaviour
     private Vector3 movement;
     private Vector2 direction;
     private Vector2 dashPosition;
-
+    private bool isDashing;
+    private bool canMove;
+    private bool canDash = true;
     public Vector2 Movement { get { return movement; } set { movement = value; } }
     public Vector2 Direction { set { direction = value; } }
 
+    [Header("Speed Values")]
+    [SerializeField] private float baseMoveSpeed = 6;
+    [SerializeField] private float crawlSpeed = 2;
+    [SerializeField] private float dashSpeed = 50;
+    [SerializeField] private float dashTime = .25f;
+    [SerializeField] private float dashDelay = 1;
+    public float moveSpeed;
+    private Animator anim;
+    public GameObject playerSprite;
+
+    public bool CanMove { get { return canMove; } set { canMove = value; } }
+    public float MoveSpeed { get { return moveSpeed; } }
+    public float DashDelay { get { return dashDelay; } set { dashDelay = value; } }
+    public float DashTime { get { return dashTime; } set { dashTime = value; } }
+    public bool IsDashing { get { return isDashing; } set { isDashing = value; } }
+    public bool CanDash { get { return canDash; } set { canDash = value; } }
+
     private void Awake()
     {
+        anim = GetComponent<Animator>();
         playerManager = GetComponent<PlayerManager>();
         rb2d = GetComponent<Rigidbody2D>();
         ps = dashObject.GetComponent<ParticleSystem>();
         psEmission = ps.emission;
         psTextureSheet =ps.textureSheetAnimation;
+        moveSpeed = baseMoveSpeed;
+    }
+
+    private void Update()
+    {
+        if (movement.x == 0 && movement.y == 0)
+        {
+            anim.SetBool("Moving", false);
+        }
+        else
+        {
+            anim.SetBool("Moving", true);
+        }
+
+        if (movement.x != 0 && !isDashing)
+        {
+            playerSprite.transform.localScale = new Vector2(movement.x, 1f);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        //if (isDashing)
+        //{
+        //    moveSpeed = dashSpeed;
+        //    Movement = new Vector2(dashDirection.x, dashDirection.y);
+        //}
+        //if (inVent)
+        //{
+        //    moveSpeed = crawlSpeed;
+        //    Movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        //}
+        //else
+        //{
+        //    moveSpeed = baseMoveSpeed;
+        //    Movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        //}
+
+        MovePlayer();
     }
 
     public void MovePlayer()
     {
-        rb2d.velocity = new Vector2(movement.x, movement.y) * playerManager.MoveSpeed;
+        rb2d.velocity = new Vector2(movement.x, movement.y) * moveSpeed;
         if(movement.x != 0)
         {
             spriteAnim.SetBool("RunRightLeft", true);
@@ -55,8 +114,6 @@ public class PlayerMove : MonoBehaviour
             spriteAnim.SetBool("RunUp", false);
             spriteAnim.SetBool("RunDown", false);
         }
-
-
     }
 
     public void StopPlayer()
@@ -103,10 +160,10 @@ public class PlayerMove : MonoBehaviour
         //psTextureSheet.
         psEmission.enabled = true;
         dashObject.SetActive(true);
-        playerManager.IsDashing = true;
-        playerManager.CanDash = false;
+        isDashing = true;
+        canDash = false;
         //dashTimerIndicator.fillAmount = 0;
-        float dashTimer = playerManager.DashTime;
+        float dashTimer = dashTime;
         while (dashTimer > 0)
         {
             dashTimer -= Time.deltaTime;
@@ -115,17 +172,17 @@ public class PlayerMove : MonoBehaviour
 
 
         psEmission.enabled = false;
-        playerManager.IsDashing = false;
+        isDashing = false;
         float cooldowntimer = 0;
         while (cooldowntimer <= 1)
         {
-            cooldowntimer += (Time.deltaTime / playerManager.DashDelay);
+            cooldowntimer += (Time.deltaTime / dashDelay);
             //dashTimerIndicator.fillAmount = cooldowntimer;
 
             yield return null;
         }
 
-        playerManager.CanDash = true;
+        canDash = true;
         dashObject.SetActive(false);
     }
 }

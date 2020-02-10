@@ -1,13 +1,19 @@
-﻿using System.Collections;
+﻿using Ash.StateMachine;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class PlayerSurroundings : MonoBehaviour
 {
+    public StateMachine<PlayerSurroundings> stateMachine;
+    public static PlayerSurroundings player;
+
+    [SerializeField] private LayerMask allObstacleLayers;
+    [SerializeField] private LayerMask ventLayer;
+    [SerializeField] private LayerMask currentlyChecking;
+
     public List<IInteractable> interactableList = new List<IInteractable>();
     public IInteractable currentlyTouching;
-    [SerializeField] private LayerMask obstacleLayer;
 
     [Header("Raycast Values")]
     [SerializeField] private int numberOfRays = 3;
@@ -18,41 +24,40 @@ public class PlayerSurroundings : MonoBehaviour
     [SerializeField] private float yRayOffsetFromGround = .8f;
     [Space(2)]
 
-    public TextMeshProUGUI interactText;
-
-    private PlayerManager playerManager;
-
     private Vector2[] directionsVertical = { Vector2.up, Vector2.down };
     private Vector2[] directionsHorizontal = { Vector2.right, Vector2.left };
 
-    private void Start()
+    public TextMeshProUGUI interactText;
+
+    public void SetLayerToAllObstacles()
     {
-        playerManager = GetComponent<PlayerManager>();
-        StartCoroutine(CheckForObjects());
+        currentlyChecking = allObstacleLayers;
     }
 
-    IEnumerator CheckForObjects()
+    public void SetLayerToVentsLayer()
     {
-        while (true)
+        currentlyChecking = ventLayer;
+    }
+
+    public void CheckForObjects()
+    {
+        interactableList = new List<IInteractable>();
+        interactableList = CheckForObjectsUpAndDown();
+
+        if (interactableList.Count == 0)
         {
-            interactableList = new List<IInteractable>();
-            interactableList = CheckForObjectsUpAndDown();
+            interactableList = CheckForObjectsLeftAndRight();
+        }
 
-            if (interactableList.Count == 0)
-            {
-                interactableList = CheckForObjectsLeftAndRight();
-            }
+        if (interactableList.Count > 0)
+        {
+            WhatIsThePlayerTouching(interactableList);
 
-            if (interactableList.Count > 0)
-            {
-                WhatIsThePlayerTouching(interactableList);
-            }
-            else
-            {
-                currentlyTouching = null;
-            }
-
-            yield return null;
+        }
+        else
+        {
+            currentlyTouching = null;
+            interactText.text = "";
         }
     }
 
@@ -81,6 +86,7 @@ public class PlayerSurroundings : MonoBehaviour
         }
 
         currentlyTouching = currentInteractable;
+        interactText.text = currentlyTouching.BeingTouched();
     }
 
     private List<IInteractable> CheckForObjectsUpAndDown()
@@ -93,7 +99,7 @@ public class PlayerSurroundings : MonoBehaviour
             {
                 Vector2 originPosition = (Vector2)transform.position - new Vector2(raysWidth / 2, yRayOffsetFromGround) + (new Vector2(widthByRays, 0) * i);
                 Debug.DrawRay(originPosition, dir * yRayCastLength, Color.red);
-                RaycastHit2D hit = Physics2D.Raycast(originPosition, dir, yRayCastLength, obstacleLayer);
+                RaycastHit2D hit = Physics2D.Raycast(originPosition, dir, yRayCastLength, currentlyChecking);
                 if (hit)
                 {
                     if (hit.collider.transform.GetComponentInParent<IInteractable>() != null)
@@ -117,7 +123,7 @@ public class PlayerSurroundings : MonoBehaviour
             {
                 Vector2 originPosition = (Vector2)transform.position - new Vector2(0, raysHeight / 2 + yRayOffsetFromGround) + (new Vector2(0, heightByRays) * i);
                 Debug.DrawRay(originPosition, dir * xRayCastLength, Color.green);
-                RaycastHit2D hit = Physics2D.Raycast(originPosition, dir, xRayCastLength, obstacleLayer);
+                RaycastHit2D hit = Physics2D.Raycast(originPosition, dir, xRayCastLength, currentlyChecking);
                 if (hit)
                 {
                     if (hit.collider.transform.GetComponentInParent<IInteractable>() != null)

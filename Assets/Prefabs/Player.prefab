@@ -278,11 +278,9 @@ GameObject:
   - component: {fileID: 1697352810582337575}
   - component: {fileID: 256382592620153064}
   - component: {fileID: 3131829263475624438}
-  - component: {fileID: 1697352810582337571}
-  - component: {fileID: 6010381661778472194}
-  - component: {fileID: 4311046774811054504}
-  - component: {fileID: 3079493882769814544}
-  - component: {fileID: 4380831595739144185}
+  - component: {fileID: 8128053944240940381}
+  - component: {fileID: 4313175909331970887}
+  - component: {fileID: 6875272976663916783}
   - component: {fileID: 8019497024510566423}
   m_Layer: 9
   m_Name: Player
@@ -349,7 +347,7 @@ CapsuleCollider2D:
   m_Offset: {x: -0.004982328, y: -0.7937399}
   m_Size: {x: 1.0282251, y: 0.4325202}
   m_Direction: 1
---- !u!114 &1697352810582337571
+--- !u!114 &8128053944240940381
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -358,52 +356,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 1697352810582337570}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f85d52d5c40fc74a9e5f6e925568353, type: 3}
+  m_Script: {fileID: 11500000, guid: a8d1191415228a549897013dda17af62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemLayer:
-    serializedVersion: 2
-    m_Bits: 32768
-  objectLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  itemRadiusCast: 1
   baseMoveSpeed: 6
   crawlSpeed: 2
   dashSpeed: 50
-  dashTime: 0.1
-  dashDelay: 1.5
-  stealTime: 1
-  dashEnergy: 15
-  maxEnergy: 100
-  currentEnergy: 100
-  normalCursorRadius: 7.5
-  maxCursorRadius: 9
-  cursor: {fileID: 4058941048951273}
-  playerSprite: {fileID: 6633076847263905379}
-  targetCursor: {fileID: 21300000, guid: b53e7bc5b9664044fb0692c95035f146, type: 3}
-  pointerCursor: {fileID: -473425472840943179, guid: d8e05dc8a116e71498f99c598d118ec1,
-    type: 3}
-  currentLock: {fileID: 0}
-  playerAudio: {fileID: 2362761066590508914}
-  soundIconAnim: {fileID: 0}
-  dashIconAnim: {fileID: 0}
-  grabIconAnim: {fileID: 0}
-  hackIconAnim: {fileID: 0}
-  hackController: {fileID: 0}
-  dashTimerIndicator: {fileID: 0}
-  energyFillIndicator: {fileID: 0}
-  song: {fileID: 0}
-  bit: {fileID: 0}
-  ventLight: {fileID: 4363846408714301654}
-  heldItemSprite: {fileID: 0}
-  heldItemValueText: {fileID: 0}
-  moveSpeed: 6
-  ignoreObstacles: 0
-  isHidden: 0
-  inVent: 0
-  terminalObjectClicked: {fileID: 0}
---- !u!114 &6010381661778472194
+  playerSprite: {fileID: 7638215454333253833}
+  spriteAnim: {fileID: 0}
+  playerSurrounding: {fileID: 0}
+--- !u!114 &4313175909331970887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697352810582337570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f46334f35c40c6499e762737df5e82e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6875272976663916783
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -415,64 +389,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5305a3a1c87929c42a4c81e1d313cefc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleLayer:
+  allObstacleLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 2097408
+  ventLayer:
+    serializedVersion: 2
+    m_Bits: 2097152
+  currentlyChecking:
+    serializedVersion: 2
+    m_Bits: 0
   numberOfRays: 3
   raysWidth: 0.5
-  raysHeight: 0.4
+  raysHeight: 0.5
   xRayCastLength: 0.55
-  yRayCastLength: 0.4
+  yRayCastLength: 0.3
   yRayOffsetFromGround: 0.8
   interactText: {fileID: 6563780949244543606}
---- !u!114 &4311046774811054504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1697352810582337570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbdbc7201e5783041bd157226bb1f3ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventoryHolder: {fileID: 22845987488275196}
---- !u!114 &3079493882769814544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1697352810582337570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6f3db22886ca434e9c26f000ae16031, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteAnim: {fileID: 8019497024510566423}
-  dashObject: {fileID: 0}
-  rightRunSprite: {fileID: 0}
-  leftRunSprite: {fileID: 0}
-  upRunSprite: {fileID: 0}
-  downRunSprite: {fileID: 0}
---- !u!114 &4380831595739144185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1697352810582337570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 842ca4b91f06dfa408748a034c0a70b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactBar: {fileID: 0}
-  interactBarFill: {fileID: 0}
-  noisePrefab: {fileID: 1077313815423057308, guid: b3eaf603b8e6d6d4db0fa0d2c5ebdfc2,
-    type: 3}
-  isHacking: 0
 --- !u!95 &8019497024510566423
 Animator:
   serializedVersion: 3

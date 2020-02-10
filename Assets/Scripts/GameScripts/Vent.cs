@@ -23,8 +23,8 @@ public class Vent : MonoBehaviour, IInteractable
         {
             player.inVent = false;
             player.ignoreObstacles = false;
-            player.playerSprite.GetComponent<SpriteRenderer>().enabled = true;
-            player.ventLight.gameObject.SetActive(false);
+            //player.playerSprite.GetComponent<SpriteRenderer>().enabled = true;
+            //player.ventLight.gameObject.SetActive(false);
             swap.swap = false;
             swap.SwapWorld();
             ventOverlay.SetActive(false);
@@ -34,8 +34,8 @@ public class Vent : MonoBehaviour, IInteractable
         {
             player.inVent = true;
             player.ignoreObstacles = true;
-            player.playerSprite.GetComponent<SpriteRenderer>().enabled = false;
-            player.ventLight.gameObject.SetActive(true);
+            //player.playerSprite.GetComponent<SpriteRenderer>().enabled = false;
+            //player.ventLight.gameObject.SetActive(true);
             swap.swap = true;
             swap.SwapWorld();
             ventOverlay.SetActive(true);
@@ -45,10 +45,10 @@ public class Vent : MonoBehaviour, IInteractable
 
     public string BeingTouched()
     {
-        if (player.inVent)
-        {
-            return "press e to exit vent";
-        }
+        //if (player.inVent)
+        //{
+        //    return "press e to exit vent";
+        //}
 
         return "Press E to enter vent";
     }
