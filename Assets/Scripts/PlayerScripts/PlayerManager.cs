@@ -78,6 +78,7 @@ public class PlayerManager : MonoBehaviour
     private bool canMove;
     public bool ignoreObstacles;
     public bool isHidden;
+    public bool isHacking;
     public bool inVent;
     private bool isDashing;
     private bool itemInRange;
@@ -171,7 +172,7 @@ public class PlayerManager : MonoBehaviour
 
         energyFillIndicator.fillAmount = ((float)currentEnergy / (float)maxEnergy);
         CheckForItems();
-        CheckForButtonPress();
+        
         CursorPos();
         UpdateGUI();
 
@@ -257,100 +258,6 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    private void CheckForButtonPress()
-    {
-        // knock
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            if (touchingWall && !isKnocking)
-            {
-                isKnocking = true;
-                StartCoroutine(playerActions.Knock());
-            }
-        }
-
-        // hack
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {         
-            if (!isTerminalOpen)
-            {
-                isTerminalOpen = true;
-                hackController.OpenTerminal();
-                //StartCoroutine(playerActions.HackLocks());
-            }
-            else
-            {
-                isTerminalOpen = false;
-                hackController.CloseTerminal();
-                //PlayerOccupied = false;
-            }
-        }
-
-        if (isTerminalOpen)
-        {
-            if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
-            {
-                isTerminalOpen = false;
-                hackController.CloseTerminal();
-            }
-        }
-
-        // dash
-        if ((Input.GetKeyDown(KeyCode.Alpha2)))
-        {
-            if (!isDashing && canDash)
-            {
-                if(HasEnoughEnergy())
-                {
-                    AdjustEnergy(-dashEnergy);
-                    dashDirection = (cursor.transform.position - transform.position).normalized;
-                    playerMove.Dash(cursor.transform.position - transform.position);
-                }
-            }         
-        }
-
-        // look ahead
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            canMove = false;
-            actualCursorRadius = maxCursorRadius;
-        }
-        else
-        {
-            canMove = true;
-            actualCursorRadius = normalCursorRadius;
-        }
-
-        // throw item
-        if(playerInventory.InventoryCount > 0 && !Input.GetKey(KeyCode.LeftShift))
-        {
-            if (Input.GetMouseButtonDown(0))
-            {               
-                playerActions.ThrowItem(playerInventory.HeldItem, cursor.transform.position);
-                playerInventory.RemoveItemFromInventory(playerInventory.HeldItem);
-            }
-        }
-
-        // pick up item
-        if (currentItemBeingInteractedWith != null && currentItemBeingInteractedWith.canBePickedUp && !playerOccupied)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                Debug.Log("Pressing 3");
-                if (currentItemBeingInteractedWith.alreadyStolen)
-                {
-                    playerInventory.AddItemToInventory(currentItemBeingInteractedWith);
-                    currentItemBeingInteractedWith = null;
-                }
-                else
-                {
-                    StartCoroutine(playerActions.StealItem(currentItemBeingInteractedWith));
-                    currentItemBeingInteractedWith = null;
-                }
-            }
-        }
-    }
-
     private void CursorPos()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -402,13 +309,6 @@ public class PlayerManager : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //if (collision.transform.gameObject.layer == 8)
-        //{
-        //    touchingWall = true;
-        //}
-
-
-
         if (collision.transform.tag == "Hackable")
         {
             hackController.hackableSource = null;
@@ -424,15 +324,6 @@ public class PlayerManager : MonoBehaviour
         {
             touchingWall = false;
         }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        //if (collision.transform.gameObject.tag == "Vent")
-        //{
-        //    
-
-        //}
     }
 
     IEnumerator AddEnergyEverySecond()

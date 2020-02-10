@@ -31,22 +31,6 @@ public class PlayerSurroundings : MonoBehaviour
         StartCoroutine(CheckForObjects());
     }
 
-    private void Update()
-    {
-        if(currentlyTouching != null)
-        {
-            interactText.text = currentlyTouching.BeingTouched();
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                currentlyTouching.Interact();
-            }
-        }
-        else
-        {
-            interactText.text = "";
-        }
-    }
-
     IEnumerator CheckForObjects()
     {
         while (true)
