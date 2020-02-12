@@ -8,7 +8,7 @@ using System.Linq;
 using UnityEngine.Experimental.Rendering.Universal;
 using Ash.PlayerController;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerCon : MonoBehaviour
 {
     //[Header("Cursor Values")]
     //[SerializeField] private float normalCursorRadius = 7.5f;
@@ -74,7 +74,7 @@ public class PlayerManager : MonoBehaviour
     {
         playerSurroundings = GetComponent<PlayerSurroundings>();
         playerController = GetComponent<PlayerController>();
-        //Cursor.visible = false;
+
         //
         //transform.position = transform.position;
         //spr = GetComponent<SpriteRenderer>();

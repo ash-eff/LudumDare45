@@ -82,11 +82,13 @@
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerActions.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerAudio.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\PlayerScripts\PlayerInputs.cs" />
+    <Compile Include="Assets\Scripts\PlayerScripts\PlayerCursor.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerInventory.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerMove.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\BaseState.cs" />
+    <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\HideState.cs" />
+    <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\KnockState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\VentState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\WaitState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerSurroundings.cs" />

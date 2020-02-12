@@ -23,24 +23,44 @@ public class VentState : State<PlayerController>
         get { if (_instance == null) new VentState(); return _instance; }
     }
 
-    public override void EnterState(PlayerController _owner)
+    public override void EnterState(PlayerController player)
     {
-        _owner.SetPlayerSpriteActive(false);
-        _owner.playerSurrounding.SetLayerToVentsLayer();
+        Physics2D.IgnoreLayerCollision(8, 9, true);
+        EnterVent(player);
     }
 
-    public override void ExitState(PlayerController _owner)
+    public override void ExitState(PlayerController player)
     {
-
+        ExitVent(player);
+        Physics2D.IgnoreLayerCollision(8, 9, false);
     }
 
-    public override void UpdateState(PlayerController _owner)
+    public override void UpdateState(PlayerController player)
     {
-        _owner.playerSurrounding.CheckForObjects();
+        player.PlayerInput();
+        player.SetPlayerVelocity(player.CrawlSpeed, true);
+        player.SetSpriteDirection();
+        player.SetSpriteAnimation();
     }
 
-    public override void FixedUpdateState(PlayerController _owner)
+    public override void FixedUpdateState(PlayerController player)
     {
-        _owner.PlayerCrawl();
+        player.CheckForObjectsOnLayer(player.ventLayer);
+    }
+
+    private void EnterVent(PlayerController player)
+    {
+        player.SetPlayerSpriteVisible(false);
+        player.transform.position = player.currentlyTouching.GetComponentInParent<Vent>().entrance.transform.position;
+        player.currentlyTouching.GetComponentInParent<Vent>().PlayerEnterVent();
+        player.ventLight.gameObject.SetActive(true);
+    }
+
+    private void ExitVent(PlayerController player)
+    {
+        player.transform.position = player.currentlyTouching.GetComponentInParent<Vent>().exit.transform.position;
+        player.currentlyTouching.GetComponentInParent<Vent>().PlayerLeaveVent();
+        player.ventLight.gameObject.SetActive(false);
+        player.SetPlayerSpriteVisible(true);
     }
 }

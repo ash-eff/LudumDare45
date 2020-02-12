@@ -488,18 +488,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1044879248}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &39231417 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4313175909331970887, guid: 6f3f201e9ba0e5141911949c7db5fffc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1044879248}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 39231415}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f46334f35c40c6499e762737df5e82e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &39231424
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1358,6 +1346,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Locker (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2381580644591120745, guid: ff8e075ea48e9bc44894182b7a1b1b49,
+        type: 3}
+      propertyPath: m_Layer
+      value: 22
+      objectReference: {fileID: 0}
     - target: {fileID: 2381580644591120746, guid: ff8e075ea48e9bc44894182b7a1b1b49,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1396,7 +1389,7 @@ PrefabInstance:
     - target: {fileID: 2381580644591120746, guid: ff8e075ea48e9bc44894182b7a1b1b49,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2381580644591120746, guid: ff8e075ea48e9bc44894182b7a1b1b49,
         type: 3}
@@ -1418,6 +1411,11 @@ PrefabInstance:
       propertyPath: containerOverlay
       value: 
       objectReference: {fileID: 601836059}
+    - target: {fileID: 2381580644591120757, guid: ff8e075ea48e9bc44894182b7a1b1b49,
+        type: 3}
+      propertyPath: coll
+      value: 
+      objectReference: {fileID: 863999975}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff8e075ea48e9bc44894182b7a1b1b49, type: 3}
 --- !u!1 &141400205
@@ -1825,6 +1823,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6352625350734604271, guid: 31ad8bf3e30f5a843903bac82c8b65f1,
+        type: 3}
+      propertyPath: locked
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7303005662743819990, guid: 31ad8bf3e30f5a843903bac82c8b65f1,
         type: 3}
@@ -2888,7 +2891,7 @@ PrefabInstance:
     - target: {fileID: 4758818869084198256, guid: 18ff71bf10dfbdb4f8253f1051212e43,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4758818869084198256, guid: 18ff71bf10dfbdb4f8253f1051212e43,
         type: 3}
@@ -2958,7 +2961,7 @@ PrefabInstance:
     - target: {fileID: 4758818869084198287, guid: 18ff71bf10dfbdb4f8253f1051212e43,
         type: 3}
       propertyPath: m_CullingMask.m_Bits
-      value: 2608951
+      value: 6803255
       objectReference: {fileID: 0}
     - target: {fileID: 6486304192128940546, guid: 18ff71bf10dfbdb4f8253f1051212e43,
         type: 3}
@@ -4151,6 +4154,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Locker (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2381580644591120745, guid: ff8e075ea48e9bc44894182b7a1b1b49,
+        type: 3}
+      propertyPath: m_Layer
+      value: 22
+      objectReference: {fileID: 0}
     - target: {fileID: 2381580644591120746, guid: ff8e075ea48e9bc44894182b7a1b1b49,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4189,7 +4197,7 @@ PrefabInstance:
     - target: {fileID: 2381580644591120746, guid: ff8e075ea48e9bc44894182b7a1b1b49,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2381580644591120746, guid: ff8e075ea48e9bc44894182b7a1b1b49,
         type: 3}
@@ -6213,6 +6221,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Door
       objectReference: {fileID: 0}
+    - target: {fileID: 8757660406563856494, guid: 54cbefc4fc588054a88dd4ab90460577,
+        type: 3}
+      propertyPath: locked
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8834990723702861842, guid: 54cbefc4fc588054a88dd4ab90460577,
         type: 3}
       propertyPath: m_Layer
@@ -6220,6 +6233,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54cbefc4fc588054a88dd4ab90460577, type: 3}
+--- !u!61 &656218258 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 2381580644591120744, guid: ff8e075ea48e9bc44894182b7a1b1b49,
+    type: 3}
+  m_PrefabInstance: {fileID: 2068160825}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &658132291
 GameObject:
   m_ObjectHideFlags: 0
@@ -11119,6 +11138,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 854517877}
   m_CullTransparentMesh: 0
+--- !u!61 &863999975 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 2381580644591120744, guid: ff8e075ea48e9bc44894182b7a1b1b49,
+    type: 3}
+  m_PrefabInstance: {fileID: 125542887}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &867848095
 GameObject:
   m_ObjectHideFlags: 0
@@ -11279,7 +11304,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 31
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -11588,8 +11613,8 @@ Tilemap:
   - first: {x: 9, y: 8, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 326
-      m_TileSpriteIndex: 326
+      m_TileIndex: 325
+      m_TileSpriteIndex: 325
       m_TileMatrixIndex: 0
       m_TileColorIndex: 20
       m_TileObjectToInstantiateIndex: 65535
@@ -11597,8 +11622,8 @@ Tilemap:
   - first: {x: 11, y: 8, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 326
-      m_TileSpriteIndex: 326
+      m_TileIndex: 325
+      m_TileSpriteIndex: 325
       m_TileMatrixIndex: 0
       m_TileColorIndex: 20
       m_TileObjectToInstantiateIndex: 65535
@@ -11606,8 +11631,8 @@ Tilemap:
   - first: {x: 12, y: 8, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 326
-      m_TileSpriteIndex: 326
+      m_TileIndex: 325
+      m_TileSpriteIndex: 325
       m_TileMatrixIndex: 0
       m_TileColorIndex: 20
       m_TileObjectToInstantiateIndex: 65535
@@ -11615,8 +11640,8 @@ Tilemap:
   - first: {x: 13, y: 8, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 326
-      m_TileSpriteIndex: 326
+      m_TileIndex: 325
+      m_TileSpriteIndex: 325
       m_TileMatrixIndex: 0
       m_TileColorIndex: 20
       m_TileObjectToInstantiateIndex: 65535
@@ -11624,8 +11649,8 @@ Tilemap:
   - first: {x: 14, y: 8, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 326
-      m_TileSpriteIndex: 326
+      m_TileIndex: 325
+      m_TileSpriteIndex: 325
       m_TileMatrixIndex: 0
       m_TileColorIndex: 20
       m_TileObjectToInstantiateIndex: 65535
@@ -11633,8 +11658,8 @@ Tilemap:
   - first: {x: 15, y: 8, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 326
-      m_TileSpriteIndex: 326
+      m_TileIndex: 325
+      m_TileSpriteIndex: 325
       m_TileMatrixIndex: 0
       m_TileColorIndex: 20
       m_TileObjectToInstantiateIndex: 65535
@@ -11642,8 +11667,8 @@ Tilemap:
   - first: {x: 17, y: 8, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 326
-      m_TileSpriteIndex: 326
+      m_TileIndex: 325
+      m_TileSpriteIndex: 325
       m_TileMatrixIndex: 0
       m_TileColorIndex: 20
       m_TileObjectToInstantiateIndex: 65535
@@ -12507,9 +12532,9 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 34
+  - m_RefCount: 7
+    m_Data: {fileID: 11400000, guid: 82ecb2464fa94234aaa113bc950acbb2, type: 2}
+  - m_RefCount: 27
     m_Data: {fileID: 11400000, guid: 595414fc700305c48bcea283a844ba28, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 0
@@ -13163,9 +13188,10 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 34
+  - m_RefCount: 7
+    m_Data: {fileID: -5583887431580280076, guid: 1300f9c319bc1f446b1ce25870baa4a5,
+      type: 3}
+  - m_RefCount: 27
     m_Data: {fileID: -4077724293002545602, guid: 1300f9c319bc1f446b1ce25870baa4a5,
       type: 3}
   m_TileMatrixArray:
@@ -13246,7 +13272,7 @@ Tilemap:
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 0.7339368, g: 0, b: 1, a: 0}
+  m_Color: {r: 1, g: 0, b: 0.14786863, a: 0}
   m_Origin: {x: -38, y: -15, z: 0}
   m_Size: {x: 65, y: 35, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -13884,6 +13910,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6352625350734604271, guid: 31ad8bf3e30f5a843903bac82c8b65f1,
+        type: 3}
+      propertyPath: locked
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7303005662743819990, guid: 31ad8bf3e30f5a843903bac82c8b65f1,
         type: 3}
@@ -15190,7 +15221,22 @@ PrefabInstance:
         type: 3}
       propertyPath: playerInput
       value: 
-      objectReference: {fileID: 39231417}
+      objectReference: {fileID: 0}
+    - target: {fileID: 8128053944240940381, guid: 6f3f201e9ba0e5141911949c7db5fffc,
+        type: 3}
+      propertyPath: allObstacleLayers.m_Bits
+      value: 6291712
+      objectReference: {fileID: 0}
+    - target: {fileID: 8128053944240940381, guid: 6f3f201e9ba0e5141911949c7db5fffc,
+        type: 3}
+      propertyPath: ventLayer.m_Bits
+      value: 2097152
+      objectReference: {fileID: 0}
+    - target: {fileID: 8128053944240940381, guid: 6f3f201e9ba0e5141911949c7db5fffc,
+        type: 3}
+      propertyPath: containerLayer.m_Bits
+      value: 4194304
+      objectReference: {fileID: 0}
     - target: {fileID: 8268706354432735245, guid: 6f3f201e9ba0e5141911949c7db5fffc,
         type: 3}
       propertyPath: noisePrefab
@@ -15258,6 +15304,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1102638507}
   m_CullTransparentMesh: 0
+--- !u!61 &1125836022 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 2381580644591120744, guid: ff8e075ea48e9bc44894182b7a1b1b49,
+    type: 3}
+  m_PrefabInstance: {fileID: 2381580644526555621}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1128595824
 GameObject:
   m_ObjectHideFlags: 0
@@ -36836,7 +36888,7 @@ PrefabInstance:
     - target: {fileID: 740433313690728189, guid: c783b45fd919ad14bb760e11f5621c47,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 740433313690728189, guid: c783b45fd919ad14bb760e11f5621c47,
         type: 3}
@@ -39994,6 +40046,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Locker (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2381580644591120745, guid: ff8e075ea48e9bc44894182b7a1b1b49,
+        type: 3}
+      propertyPath: m_Layer
+      value: 22
+      objectReference: {fileID: 0}
     - target: {fileID: 2381580644591120746, guid: ff8e075ea48e9bc44894182b7a1b1b49,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -40032,7 +40089,7 @@ PrefabInstance:
     - target: {fileID: 2381580644591120746, guid: ff8e075ea48e9bc44894182b7a1b1b49,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2381580644591120746, guid: ff8e075ea48e9bc44894182b7a1b1b49,
         type: 3}
@@ -40054,6 +40111,11 @@ PrefabInstance:
       propertyPath: containerOverlay
       value: 
       objectReference: {fileID: 601836059}
+    - target: {fileID: 2381580644591120757, guid: ff8e075ea48e9bc44894182b7a1b1b49,
+        type: 3}
+      propertyPath: coll
+      value: 
+      objectReference: {fileID: 656218258}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff8e075ea48e9bc44894182b7a1b1b49, type: 3}
 --- !u!1 &2076108467
@@ -40748,6 +40810,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Locker
       objectReference: {fileID: 0}
+    - target: {fileID: 2381580644591120745, guid: ff8e075ea48e9bc44894182b7a1b1b49,
+        type: 3}
+      propertyPath: m_Layer
+      value: 22
+      objectReference: {fileID: 0}
     - target: {fileID: 2381580644591120746, guid: ff8e075ea48e9bc44894182b7a1b1b49,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -40786,7 +40853,7 @@ PrefabInstance:
     - target: {fileID: 2381580644591120746, guid: ff8e075ea48e9bc44894182b7a1b1b49,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2381580644591120746, guid: ff8e075ea48e9bc44894182b7a1b1b49,
         type: 3}
@@ -40808,5 +40875,10 @@ PrefabInstance:
       propertyPath: containerOverlay
       value: 
       objectReference: {fileID: 601836059}
+    - target: {fileID: 2381580644591120757, guid: ff8e075ea48e9bc44894182b7a1b1b49,
+        type: 3}
+      propertyPath: coll
+      value: 
+      objectReference: {fileID: 1125836022}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff8e075ea48e9bc44894182b7a1b1b49, type: 3}

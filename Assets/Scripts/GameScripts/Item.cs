@@ -24,11 +24,11 @@ public class Item : MonoBehaviour
     public Vector3 startPos;
     public Vector3 endPos;
 
-    private PlayerManager player;
+    private PlayerCon player;
 
     private void Start()
     {
-        player = FindObjectOfType<PlayerManager>();
+        player = FindObjectOfType<PlayerCon>();
         outlineSpr.sprite = itemOutline;
         itemName = name;
         spr.sprite = itemSprite;

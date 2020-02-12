@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ash.PlayerController;
 
-public class BaseState : State<PlayerController>
+public class KnockState : State<PlayerController>
 {
     #region setup
-    private static BaseState _instance;
+    private static KnockState _instance;
 
-    private BaseState()
+    private KnockState()
     {
         if (_instance != null) return;
         _instance = this;
@@ -16,19 +16,25 @@ public class BaseState : State<PlayerController>
 
     public override State<PlayerController> createInstance() { return Instance; }
 
-    public static BaseState Instance
+    public static KnockState Instance
     {
-        get { if (_instance == null) new BaseState(); return _instance; }
+        get { if (_instance == null) new KnockState(); return _instance; }
     }
     #endregion
 
+    float timer;
+    Noise noisePrefab;
+
     public override void EnterState(PlayerController player)
     {
-        player.layersToCheck = player.allObstacleLayers;
+        player.interactText.text = "";
+        noisePrefab = player.noisePrefab;
+        timer = 1f;
+        InstantiateKnock(player.transform.position);
     }
 
     public override void ExitState(PlayerController player)
-    {
+    {       
     }
 
     public override void UpdateState(PlayerController player)
@@ -37,10 +43,17 @@ public class BaseState : State<PlayerController>
         player.SetPlayerVelocity(player.RunSpeed, true);
         player.SetSpriteDirection();
         player.SetSpriteAnimation();
+        timer -= Time.deltaTime;
+        if (timer <= 0)
+            player.stateMachine.ChangeState(BaseState.Instance);
     }
 
     public override void FixedUpdateState(PlayerController player)
+    {       
+    }
+
+    private void InstantiateKnock(Vector2 _atPosition)
     {
-        player.CheckForObjectsOnLayer(player.allObstacleLayers);
+        GameObject.Instantiate(noisePrefab, _atPosition, Quaternion.identity);
     }
 }

@@ -10,7 +10,7 @@ public class PlayerMove : MonoBehaviour
     private ParticleSystem ps;
     private ParticleSystem.EmissionModule psEmission;
     private ParticleSystem.TextureSheetAnimationModule psTextureSheet;
-    private PlayerManager playerManager;
+    private PlayerCon playerManager;
     private Rigidbody2D rb2d;
     private Vector3 movement;
     private Vector2 direction;
@@ -41,7 +41,7 @@ public class PlayerMove : MonoBehaviour
     private void Awake()
     {
         anim = GetComponent<Animator>();
-        playerManager = GetComponent<PlayerManager>();
+        playerManager = GetComponent<PlayerCon>();
         rb2d = GetComponent<Rigidbody2D>();
         ps = dashObject.GetComponent<ParticleSystem>();
         psEmission = ps.emission;

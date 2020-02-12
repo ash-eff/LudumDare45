@@ -19,4 +19,9 @@ public class HackableSource : MonoBehaviour, IInteractable
     {
         return "press e to hack";
     }
+
+    public GameObject GetGameObject()
+    {
+        return this.gameObject;
+    }
 }

@@ -25,23 +25,17 @@ public class WaitState : State<PlayerController>
 
     public override void EnterState(PlayerController _owner)
     {
-        _owner.SetPlayerSpriteActive(true);
-        _owner.SetSpriteAnimation();
-        _owner.playerSurrounding.SetLayerToAllObstacles();
     }
 
     public override void ExitState(PlayerController _owner)
     {
-
     }
 
     public override void UpdateState(PlayerController _owner)
     {
-        _owner.playerSurrounding.CheckForObjects();
     }
 
     public override void FixedUpdateState(PlayerController _owner)
     {
-        _owner.StopPlayer();
     }
 }

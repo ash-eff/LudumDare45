@@ -10,13 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 9143236544263392590}
   - component: {fileID: 6519655765315680628}
+  - component: {fileID: 7545947800637064172}
   m_Layer: 0
   m_Name: Cursor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &9143236544263392590
 Transform:
   m_ObjectHideFlags: 0
@@ -81,6 +82,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7545947800637064172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4058941048951273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad7d757b6ed8a924591b0bde1f6cbf73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &22845987488275196
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,8 +292,6 @@ GameObject:
   - component: {fileID: 256382592620153064}
   - component: {fileID: 3131829263475624438}
   - component: {fileID: 8128053944240940381}
-  - component: {fileID: 4313175909331970887}
-  - component: {fileID: 6875272976663916783}
   - component: {fileID: 8019497024510566423}
   m_Layer: 9
   m_Name: Player
@@ -359,52 +370,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d1191415228a549897013dda17af62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseMoveSpeed: 6
-  crawlSpeed: 2
-  dashSpeed: 50
-  playerSprite: {fileID: 7638215454333253833}
-  spriteAnim: {fileID: 0}
-  playerSurrounding: {fileID: 0}
---- !u!114 &4313175909331970887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1697352810582337570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f46334f35c40c6499e762737df5e82e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6875272976663916783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1697352810582337570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5305a3a1c87929c42a4c81e1d313cefc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  layersToCheck:
+    serializedVersion: 2
+    m_Bits: 2097408
   allObstacleLayers:
     serializedVersion: 2
     m_Bits: 2097408
   ventLayer:
     serializedVersion: 2
     m_Bits: 2097152
-  currentlyChecking:
-    serializedVersion: 2
-    m_Bits: 0
   numberOfRays: 3
   raysWidth: 0.5
-  raysHeight: 0.5
+  raysHeight: 0.4
   xRayCastLength: 0.55
-  yRayCastLength: 0.3
+  yRayCastLength: 0.25
   yRayOffsetFromGround: 0.8
+  runSpeed: 6
+  crawlSpeed: 2
+  dashSpeed: 50
   interactText: {fileID: 6563780949244543606}
+  ventLight: {fileID: 6356365909163960814}
+  noisePrefab: {fileID: 360265237429740464, guid: b3eaf603b8e6d6d4db0fa0d2c5ebdfc2,
+    type: 3}
+  playerSprite: {fileID: 7638215454333253833}
+  interactableList: []
+  currentlyTouching: {fileID: 0}
+  spriteAnim: {fileID: 8019497024510566423}
 --- !u!95 &8019497024510566423
 Animator:
   serializedVersion: 3
@@ -539,7 +530,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3819054751058438735
 Transform:
   m_ObjectHideFlags: 0
@@ -665,7 +656,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 3173197538397131907, guid: 1462d3b86348d0147a2ad70792315417,
+  m_Sprite: {fileID: -277153921769468689, guid: bb0539d08a1462042882d451a35cd5c4,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

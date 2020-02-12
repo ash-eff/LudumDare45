@@ -31,7 +31,7 @@ public class HackingTest : MonoBehaviour
     private void Start()
     {
         CloseTerminal();
-        currentXPos = transform.localPosition.x;
+        //currentXPos = transform.localPosition.x;
         signalText.text = "no signal";
         signalTextGUI.text = signalText.text;
         signalFill.fillAmount = 0;
@@ -41,7 +41,7 @@ public class HackingTest : MonoBehaviour
 
     private void Update()
     {
-        transform.localPosition = new Vector2(currentXPos * player.transform.localScale.x, 0f);
+        //transform.localPosition = new Vector2(currentXPos * player.transform.localScale.x, 0f);
     }
 
     public void ConnectToHost()
