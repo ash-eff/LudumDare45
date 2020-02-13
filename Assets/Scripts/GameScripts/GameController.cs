@@ -20,7 +20,6 @@ public class GameController : MonoBehaviour
     public AudioSource sfxSource;
     public AudioClip countSound;
     private MenuController menuController;
-    private PlayerCon playerManager;
 
     public bool IsGameOver { get { return isGameOver; } }
     //public bool IsGameRunning { get { return isGameRunning; } }
@@ -40,7 +39,6 @@ public class GameController : MonoBehaviour
     public void Awake()
     {
         valuableItems = FindObjectsOfType<ValuableItem>();
-        playerManager = FindObjectOfType<PlayerCon>();
         menuController = FindObjectOfType<MenuController>();
     }
 

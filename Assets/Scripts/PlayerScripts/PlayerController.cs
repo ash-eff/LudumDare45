@@ -39,6 +39,7 @@ namespace Ash.PlayerController
         public TextMeshProUGUI interactText;
         public GameObject ventLight;
         public Noise noisePrefab;
+        public CanvasGroup terminalGUI;
         //[SerializeField] private GameObject cursor;
         [SerializeField] private SpriteRenderer playerSprite;
         [Space(2)]
@@ -179,9 +180,12 @@ namespace Ash.PlayerController
                 if(stateMachine.currentState == BaseState.Instance)
                     stateMachine.ChangeState(KnockState.Instance);
             }
-            if (currentlyTouching.tag == "Door")
+            if (currentlyTouching.tag == "Hackable")
             {
-                // door state
+                if (stateMachine.currentState == BaseState.Instance)
+                    stateMachine.ChangeState(HackState.Instance);
+                else
+                    stateMachine.ChangeState(BaseState.Instance);
             }
         }
 

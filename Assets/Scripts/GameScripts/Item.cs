@@ -24,11 +24,11 @@ public class Item : MonoBehaviour
     public Vector3 startPos;
     public Vector3 endPos;
 
-    private PlayerCon player;
+
 
     private void Start()
     {
-        player = FindObjectOfType<PlayerCon>();
+
         outlineSpr.sprite = itemOutline;
         itemName = name;
         spr.sprite = itemSprite;
@@ -39,14 +39,14 @@ public class Item : MonoBehaviour
 
     private void Update()
     {
-        if(transform.position.y < player.transform.position.y - .75f)
-        {
-            spr.sortingOrder = 3;
-        }
-        else
-        {
-            spr.sortingOrder = 1;
-        }
+        //if(transform.position.y < player.transform.position.y - .75f)
+        //{
+        //    spr.sortingOrder = 3;
+        //}
+        //else
+        //{
+        //    spr.sortingOrder = 1;
+        //}
     }
 
     public IEnumerator ThrowItem()

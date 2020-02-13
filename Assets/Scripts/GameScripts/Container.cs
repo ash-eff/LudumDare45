@@ -7,13 +7,11 @@ public class Container : MonoBehaviour, IInteractable
     public GameObject containerOverlay;
     public GameObject entrance;
     public GameObject exit;
-    private PlayerCon player;
     private Collider2D coll;
     private bool isOccupied;
 
     private void Awake()
     {
-        player = FindObjectOfType<PlayerCon>();
         coll = GetComponent<BoxCollider2D>();
     }
 

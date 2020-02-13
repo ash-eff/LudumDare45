@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lock : HackableSource
+public class Lock : Terminal
 {
     public GameObject lockImg, barrier, exitSign;
     public string lockCode;

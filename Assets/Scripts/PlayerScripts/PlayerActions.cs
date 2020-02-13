@@ -8,13 +8,11 @@ public class PlayerActions : MonoBehaviour
     public GameObject interactBar;
     public Image interactBarFill;
     public GameObject noisePrefab;
-    private PlayerCon playerManager;
     private PlayerInventory playerInventory;
     private PlayerAudio playerAudio;
 
     private void Awake()
     {
-        playerManager = GetComponent<PlayerCon>();
         playerInventory = GetComponent<PlayerInventory>();
         playerAudio = GetComponentInChildren<PlayerAudio>();
     }
