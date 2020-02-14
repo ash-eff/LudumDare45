@@ -25,14 +25,14 @@ public class VentState : State<PlayerController>
 
     public override void EnterState(PlayerController player)
     {
-        Physics2D.IgnoreLayerCollision(8, 9, true);
+        player.IgnoreCollisionWithObstacles(true);
         EnterVent(player);
     }
 
     public override void ExitState(PlayerController player)
     {
+        player.IgnoreCollisionWithObstacles(false);
         ExitVent(player);
-        Physics2D.IgnoreLayerCollision(8, 9, false);
     }
 
     public override void UpdateState(PlayerController player)

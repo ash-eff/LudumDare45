@@ -28,7 +28,7 @@ public class HackState : State<PlayerController>
     public override void EnterState(PlayerController player)
     {
         terminalGUI = player.terminalGUI;
-        currentTerminal = player.currentlyTouching.GetComponentInParent<Terminal>();
+        currentTerminal = player.currentlyTouching.GetComponent<Terminal>();
         player.interactText.text = "Press E to close";
         OpenTerminal();
     }

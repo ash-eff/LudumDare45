@@ -80,6 +80,24 @@ TextureImporter:
   - first:
       213: 48890374427656155
     second: HackingTerminallOperatingSystem_20
+  - first:
+      213: -7400543456947078468
+    second: HackingTerminallOperatingSystem_26
+  - first:
+      213: 4398043330961019393
+    second: HackingTerminallOperatingSystem_27
+  - first:
+      213: 761840268085879244
+    second: HackingTerminallOperatingSystem_28
+  - first:
+      213: -7038850511975416105
+    second: HackingTerminallOperatingSystem_29
+  - first:
+      213: -3618009814614544380
+    second: HackingTerminallOperatingSystem_30
+  - first:
+      213: -5853094309744046950
+    second: HackingTerminallOperatingSystem_31
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -663,6 +681,132 @@ TextureImporter:
       bones: []
       spriteID: 697b164eedfe2b04e948cd432c436ca9
       internalID: 3382477683465060685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HackingTerminallOperatingSystem_24
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 23
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af434fbe2f29d40a0800000000000000
+      internalID: -6895693882395970310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HackingTerminallOperatingSystem_25
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 23
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ff2e98f85ec1c9e0800000000000000
+      internalID: -1602773110843625482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HackingTerminallOperatingSystem_26
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 4
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbaf3d78fecfb4990800000000000000
+      internalID: -7400543456947078468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HackingTerminallOperatingSystem_27
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 4
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10215b09b1df80d30800000000000000
+      internalID: 4398043330961019393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HackingTerminallOperatingSystem_28
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 48
+        width: 43
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc1e8daffa9929a00800000000000000
+      internalID: 761840268085879244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HackingTerminallOperatingSystem_29
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 36
+        width: 61
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7def0a6b0caf05e90800000000000000
+      internalID: -7038850511975416105
       vertices: []
       indices: 
       edges: []

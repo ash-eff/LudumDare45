@@ -33,6 +33,7 @@ public class BaseState : State<PlayerController>
 
     public override void UpdateState(PlayerController player)
     {
+        //player.GetComponentInChildren<SpriteRenderer>().
         player.PlayerInput();
         player.SetPlayerVelocity(player.RunSpeed, true);
         player.SetSpriteDirection();
@@ -42,5 +43,6 @@ public class BaseState : State<PlayerController>
     public override void FixedUpdateState(PlayerController player)
     {
         player.CheckForObjectsOnLayer(player.allObstacleLayers);
+        player.CheckForStealth();
     }
 }

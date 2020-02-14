@@ -27,6 +27,8 @@ public class TerminalAccessState : State<Terminal>
     public override void EnterState(Terminal terminal)
     {
         terminalOS = terminal.terminalOS;
+        terminalOS.AttachTerminal(terminal);
+        terminalOS.loadingBarWindow.SetActive(false);
         terminalOS.terminalAccessWindow.SetActive(true);
         terminalOS.terminalAccessIcon.SetActive(true);
     }

@@ -69,10 +69,12 @@
     <Compile Include="Assets\Scripts\GameScripts\GridMap.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Interactable.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Item.cs" />
+    <Compile Include="Assets\Scripts\GameScripts\Laser.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Lock.cs" />
     <Compile Include="Assets\Scripts\GameScripts\MenuController.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Noise.cs" />
     <Compile Include="Assets\Scripts\GameScripts\RoomReveal.cs" />
+    <Compile Include="Assets\Scripts\GameScripts\SingleLight.cs" />
     <Compile Include="Assets\Scripts\GameScripts\State.cs" />
     <Compile Include="Assets\Scripts\GameScripts\StateMachine.cs" />
     <Compile Include="Assets\Scripts\GameScripts\ValuableItem.cs" />

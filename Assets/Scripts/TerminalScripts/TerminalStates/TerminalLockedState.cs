@@ -35,7 +35,7 @@ public class TerminalLockedState : State<Terminal>
 
     public override void UpdateState(Terminal terminal)
     {
-        if (GetTerminalAccess())
+        if (GetTerminalAccess(terminal))
             terminal.stateMachine.ChangeState(TerminalAccessState.Instance);
     }
 
@@ -43,7 +43,7 @@ public class TerminalLockedState : State<Terminal>
     {
     }
 
-    private bool GetTerminalAccess()
+    private bool GetTerminalAccess(Terminal _terminal)
     {
         terminalOS.loadingBar.fillAmount += Time.deltaTime;
         if (terminalOS.loadingBar.fillAmount < 1)
@@ -51,6 +51,6 @@ public class TerminalLockedState : State<Terminal>
             return false;
         }
 
-        return true;
+        return _terminal.accessGranted = true;
     }
 }

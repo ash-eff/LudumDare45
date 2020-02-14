@@ -27,7 +27,7 @@ public class HideState : State<PlayerController>
     public override void EnterState(PlayerController player)
     {
         currentContainer = player.currentlyTouching.GetComponentInParent<Container>();
-        Physics2D.IgnoreLayerCollision(8, 9, true);
+        player.IgnoreCollisionWithObstacles(true);
         EnterHiding(player);
         
     }
@@ -35,7 +35,7 @@ public class HideState : State<PlayerController>
     public override void ExitState(PlayerController player)
     {
         ExitHiding(player);
-        Physics2D.IgnoreLayerCollision(8, 9, false);
+        player.IgnoreCollisionWithObstacles(false);
     }
 
     public override void UpdateState(PlayerController player)

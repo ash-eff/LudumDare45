@@ -47,9 +47,9 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 1
   m_Color: {r: 0, g: 0.9529412, b: 1, a: 1}
-  m_Intensity: 1.84
+  m_Intensity: 2.4
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 00000000132558b5f779da3b
+  m_ApplyToSortingLayers: 00000000132558b5
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -84,7 +84,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1057930544850585614}
   - component: {fileID: 1057930544850585649}
-  m_Layer: 0
+  - component: {fileID: -5311270599036690194}
+  - component: {fileID: 5166795875655421577}
+  m_Layer: 23
   m_Name: Light Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,6 +160,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-5311270599036690194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057930544850585648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01738b0cdfa9a334da892dc6258dabc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointLight: {fileID: 3217459198941526408}
+  freeformLight: {fileID: 1057930544420919523}
+  isActive: 1
+--- !u!58 &5166795875655421577
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057930544850585648}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.25}
+  serializedVersion: 2
+  m_Radius: 0.1
 --- !u!1 &6709801025048207556
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +238,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 0, g: 0.9529412, b: 1, a: 1}
-  m_Intensity: 0.71
+  m_Intensity: 0.63
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000132558b5f779da3b
   m_LightCookieSprite: {fileID: 0}
@@ -215,7 +248,7 @@ MonoBehaviour:
   m_ShadowIntensity: 0
   m_ShadowVolumeIntensity: 0
   m_PointLightInnerAngle: 81.73
-  m_PointLightOuterAngle: 168.67
+  m_PointLightOuterAngle: 145
   m_PointLightInnerRadius: 0.4736089
   m_PointLightOuterRadius: 5.517163
   m_PointLightDistance: 3

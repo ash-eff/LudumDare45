@@ -84,7 +84,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1057930544850585614}
   - component: {fileID: 1057930544850585649}
-  m_Layer: 0
+  - component: {fileID: 5871184159286843749}
+  - component: {fileID: 7209681599248385263}
+  m_Layer: 23
   m_Name: Light Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,6 +160,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5871184159286843749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057930544850585648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01738b0cdfa9a334da892dc6258dabc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointLight: {fileID: 3217459198941526408}
+  freeformLight: {fileID: 1057930544420919523}
+  isActive: 1
+--- !u!58 &7209681599248385263
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057930544850585648}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.25}
+  serializedVersion: 2
+  m_Radius: 0.1
 --- !u!1 &6709801025048207556
 GameObject:
   m_ObjectHideFlags: 0

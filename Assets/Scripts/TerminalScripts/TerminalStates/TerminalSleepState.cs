@@ -28,6 +28,7 @@ public class TerminalSleepState : State<Terminal>
 
     public override void ExitState(Terminal terminal)
     {
+        terminal.terminalOS.ResetOS();
     }
 
     public override void UpdateState(Terminal terminal)

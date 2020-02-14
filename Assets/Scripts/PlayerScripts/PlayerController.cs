@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using Ash.StateMachine;
 
@@ -8,16 +9,22 @@ namespace Ash.PlayerController
 {
     public class PlayerController : MonoBehaviour
     {
-
+        public Color newStealthColor;
+        public Color startingColor;
         public LayerMask layersToCheck;
         public StateMachine<PlayerController> stateMachine;
         public static PlayerController player;
+
+        public float stealthAmount;
+        public float stealthRadius;
 
         #region Exposed Variables and Components
         [Header("Layer Masks")]
         public LayerMask allObstacleLayers;
         public LayerMask ventLayer;
         public LayerMask containerLayer;
+        public LayerMask lightsLayer;
+        public LayerMask lightVisLayer;
         [Space(2)]
 
         [Header("Raycast Values")]
@@ -40,6 +47,7 @@ namespace Ash.PlayerController
         public GameObject ventLight;
         public Noise noisePrefab;
         public CanvasGroup terminalGUI;
+        public TextMeshProUGUI stealthPerc;
         //[SerializeField] private GameObject cursor;
         [SerializeField] private SpriteRenderer playerSprite;
         [Space(2)]
@@ -158,6 +166,44 @@ namespace Ash.PlayerController
             }
         }
 
+        public void IgnoreCollisionWithObstacles(bool _ignore)
+        {
+            Physics2D.IgnoreLayerCollision(8, 9, _ignore);
+        }
+
+        public void CheckForStealth()
+        {
+            List<Collider2D> lightsToCheckAgainstStealth = GetLightsHittingPlayer();
+            float distanceToClosestLight = GetDistanceToClosestLight(lightsToCheckAgainstStealth);
+            if (lightsToCheckAgainstStealth == null)
+                stealthAmount = 100;
+            else
+            {
+                
+                if (stateMachine.currentState != VentState.Instance && stateMachine.currentState != HideState.Instance)
+                {
+                    if (distanceToClosestLight >= stealthRadius)
+                    {
+                        stealthAmount = 100;
+                    }
+                    else
+                    {
+                        stealthAmount = Mathf.RoundToInt(((stealthRadius - (stealthRadius - distanceToClosestLight)) / stealthRadius) * 100);
+                    }
+                }
+                else
+                {
+                    stealthAmount = 100;
+                }
+            }
+
+            stealthPerc.text = "Stealth: " + stealthAmount.ToString() + "%";
+            Color tmp = playerSprite.color;
+            tmp.a = ((stealthRadius - distanceToClosestLight) * 2) / stealthRadius;
+            playerSprite.color = tmp;
+
+        }
+
         #region helper functions
         private void InteractWithObject()
         {
@@ -265,6 +311,44 @@ namespace Ash.PlayerController
             }
 
             return hitLeftRight;
+        }
+
+        private List<Collider2D> GetLightsHittingPlayer()
+        {
+            List<Collider2D> lightsHittingPlayer = new List<Collider2D>();
+            Collider2D[] lightsInRadius = Physics2D.OverlapCircleAll(transform.position, stealthRadius, lightsLayer);
+            foreach (Collider2D col in lightsInRadius)
+            {
+                Vector3 dir = col.transform.position - transform.position;
+                float dst = dir.magnitude;
+
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dst, lightVisLayer);
+                if (!hit)
+                {
+                    lightsHittingPlayer.Add(col);
+                }
+            }
+
+            return lightsHittingPlayer;
+        }
+
+        private float GetDistanceToClosestLight(List<Collider2D> fromList)
+        {
+            float distanceToClosest = stealthRadius;
+            GameObject closestLight = null;
+            if (fromList != null)
+            {
+                foreach (Collider2D col in fromList)
+                {
+                    if ((col.transform.position - transform.position).magnitude < distanceToClosest)
+                    {
+                        closestLight = col.gameObject;
+                        distanceToClosest = (col.transform.position - transform.position).magnitude;
+                    }
+                }
+            }
+
+            return distanceToClosest;
         }
         #endregion
     }

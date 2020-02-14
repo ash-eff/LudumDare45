@@ -378,7 +378,7 @@ GameObject:
   - component: {fileID: 8019497024510566423}
   m_Layer: 9
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -457,15 +457,23 @@ MonoBehaviour:
   layersToCheck:
     serializedVersion: 2
     m_Bits: 2097408
+  lightsInRadius: []
+  lightsHittingPlayer: []
   allObstacleLayers:
     serializedVersion: 2
-    m_Bits: 2097408
+    m_Bits: 6291712
   ventLayer:
     serializedVersion: 2
     m_Bits: 2097152
   containerLayer:
     serializedVersion: 2
     m_Bits: 4194304
+  lightsLayer:
+    serializedVersion: 2
+    m_Bits: 8388608
+  lightVisLayer:
+    serializedVersion: 2
+    m_Bits: 16777216
   numberOfRays: 3
   raysWidth: 0.5
   raysHeight: 0.4

@@ -5,13 +5,23 @@ using UnityEngine;
 public class Door : MonoBehaviour, IInteractable
 {
     public Animator anim;
+    public SpriteRenderer minimapSprite;
+    public Color lockedColor;
+    public Color unlockedColor;
     public bool opening;
     public bool closing;
-    public bool locked = true;
+    private bool isLocked;
+
+    public bool IsLocked { get { return isLocked; } set { isLocked = value; SetMinimapColor(); } }
+
+    private void Awake()
+    {
+        IsLocked = true;
+    }
 
     private void Update()
     {
-        anim.SetBool("Locked", locked);
+        anim.SetBool("Locked", isLocked);
         anim.SetBool("Opening", opening);
         anim.SetBool("Closing", closing);
     }
@@ -23,7 +33,7 @@ public class Door : MonoBehaviour, IInteractable
 
     public string BeingTouched()
     {
-        if (locked)
+        if (isLocked)
         {
             return "Door is Locked";
         }
@@ -35,7 +45,7 @@ public class Door : MonoBehaviour, IInteractable
     {
         if (collision.gameObject.tag == "Player")
         {
-            if (!locked && !opening)
+            if (!isLocked && !opening)
             {
                 closing = false;
                 opening = true;
@@ -47,11 +57,19 @@ public class Door : MonoBehaviour, IInteractable
     {
         if (collision.gameObject.tag == "Player")
         {
-            if (!locked && opening)
+            if (!isLocked && opening)
             {
                 opening = false;
                 closing = true;
             }
         }
+    }
+
+    private void SetMinimapColor()
+    {
+        if (isLocked)
+            minimapSprite.color = lockedColor;
+        else
+            minimapSprite.color = unlockedColor;
     }
 }
