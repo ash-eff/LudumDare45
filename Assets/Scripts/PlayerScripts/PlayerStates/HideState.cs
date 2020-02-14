@@ -47,6 +47,7 @@ public class HideState : State<PlayerController>
     public override void FixedUpdateState(PlayerController player)
     {
         player.CheckForObjectsOnLayer(player.containerLayer);
+        player.CheckForStealth();
     }
 
     private void EnterHiding(PlayerController player)

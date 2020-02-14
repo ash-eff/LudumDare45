@@ -46,6 +46,7 @@ public class VentState : State<PlayerController>
     public override void FixedUpdateState(PlayerController player)
     {
         player.CheckForObjectsOnLayer(player.ventLayer);
+        player.CheckForStealth();
     }
 
     private void EnterVent(PlayerController player)

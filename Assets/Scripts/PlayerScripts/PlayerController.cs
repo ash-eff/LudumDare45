@@ -9,8 +9,6 @@ namespace Ash.PlayerController
 {
     public class PlayerController : MonoBehaviour
     {
-        public Color newStealthColor;
-        public Color startingColor;
         public LayerMask layersToCheck;
         public StateMachine<PlayerController> stateMachine;
         public static PlayerController player;
@@ -199,7 +197,7 @@ namespace Ash.PlayerController
 
             stealthPerc.text = "Stealth: " + stealthAmount.ToString() + "%";
             Color tmp = playerSprite.color;
-            tmp.a = ((stealthRadius - distanceToClosestLight) * 2) / stealthRadius;
+            tmp.a = ((stealthRadius - distanceToClosestLight) / stealthRadius) + 0.5f;
             playerSprite.color = tmp;
 
         }
@@ -319,13 +317,16 @@ namespace Ash.PlayerController
             Collider2D[] lightsInRadius = Physics2D.OverlapCircleAll(transform.position, stealthRadius, lightsLayer);
             foreach (Collider2D col in lightsInRadius)
             {
-                Vector3 dir = col.transform.position - transform.position;
-                float dst = dir.magnitude;
-
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dst, lightVisLayer);
-                if (!hit)
+                if (col.GetComponent<SingleLight>().isActive)
                 {
-                    lightsHittingPlayer.Add(col);
+                    Vector3 dir = col.transform.position - transform.position;
+                    float dst = dir.magnitude;
+
+                    RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dst, lightVisLayer);
+                    if (!hit)
+                    {
+                        lightsHittingPlayer.Add(col);
+                    }
                 }
             }
 

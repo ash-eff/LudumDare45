@@ -49,7 +49,8 @@ public class KnockState : State<PlayerController>
     }
 
     public override void FixedUpdateState(PlayerController player)
-    {       
+    {
+        player.CheckForStealth();
     }
 
     private void InstantiateKnock(Vector2 _atPosition)

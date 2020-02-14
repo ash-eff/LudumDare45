@@ -195,7 +195,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 13
   m_Sprite: {fileID: 21300000, guid: 3ca6f2d34ef5b0940bfbfdcf3f569924, type: 3}
   m_Color: {r: 1, g: 0.6901961, b: 0, a: 1}
   m_FlipX: 0
@@ -457,8 +457,8 @@ MonoBehaviour:
   layersToCheck:
     serializedVersion: 2
     m_Bits: 2097408
-  lightsInRadius: []
-  lightsHittingPlayer: []
+  stealthAmount: 0
+  stealthRadius: 0
   allObstacleLayers:
     serializedVersion: 2
     m_Bits: 6291712
@@ -488,6 +488,7 @@ MonoBehaviour:
   noisePrefab: {fileID: 360265237429740464, guid: b3eaf603b8e6d6d4db0fa0d2c5ebdfc2,
     type: 3}
   terminalGUI: {fileID: 0}
+  stealthPerc: {fileID: 0}
   playerSprite: {fileID: 7638215454333253833}
   interactableList: []
   currentlyTouching: {fileID: 0}

@@ -46,7 +46,7 @@ public class HackState : State<PlayerController>
 
     public override void FixedUpdateState(PlayerController player)
     {
-
+        player.CheckForStealth();
     }
 
     public void OpenTerminal()

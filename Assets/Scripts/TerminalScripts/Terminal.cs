@@ -11,6 +11,7 @@ public class Terminal : MonoBehaviour, IInteractable
 
     public TerminalOS terminalOS;
     public bool accessGranted;
+    public float lightRebootTimer;
     public Door[] doors;
     public SingleLight[] lights;
     public GameObject lightWarning;
@@ -57,11 +58,11 @@ public class Terminal : MonoBehaviour, IInteractable
     {
         lightWarning.SetActive(true);
         lightWarningFill.fillAmount = 1;
-        float timer = 3f;
+        float timer = lightRebootTimer;
         while(timer > 0)
         {
             timer -= Time.deltaTime;
-            lightWarningFill.fillAmount -= Time.deltaTime / 3f;
+            lightWarningFill.fillAmount -= Time.deltaTime / lightRebootTimer;
 
             yield return null;
         }
