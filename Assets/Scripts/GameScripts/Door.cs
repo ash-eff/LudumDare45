@@ -10,7 +10,7 @@ public class Door : MonoBehaviour, IInteractable
     public Color unlockedColor;
     public bool opening;
     public bool closing;
-    private bool isLocked;
+    public bool isLocked;
 
     public bool IsLocked { get { return isLocked; } set { isLocked = value; SetMinimapColor(); } }
 

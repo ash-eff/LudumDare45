@@ -134,13 +134,13 @@ public class RobotFOV : MonoBehaviour
 
         if (hit)
         {
-            Debug.DrawRay(transform.position, dir * hit.distance, Color.green);
+            //Debug.DrawRay(transform.position, dir * hit.distance, Color.green);
             return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
 
         }
         else
         {
-            Debug.DrawRay(transform.position, dir * robotSenses.visionDistance, Color.green);
+            //Debug.DrawRay(transform.position, dir * robotSenses.visionDistance, Color.red);
             return new ViewCastInfo(false, transform.position + dir * robotSenses.visionDistance, robotSenses.visionDistance, globalAngle);
         }
     }

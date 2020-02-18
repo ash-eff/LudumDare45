@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ash.PlayerController;
 
 public class RobotSenses : MonoBehaviour
 {
-    public LayerMask visionLayer, itemLayer;
+    public LayerMask visionLayer;
     //public Transform robotHead;
     public float visionDistance;
     public float baseVisionDistance;
@@ -19,12 +20,14 @@ public class RobotSenses : MonoBehaviour
     public Vector2 locationOfSuspicion;
     public GameObject exclaim;
 
+    public  PlayerController player;
     private RobotController robotController;
     private RobotInvestigate robotInvestigate;
     private GameController gameController;
     
     private void Awake()
     {
+        player = FindObjectOfType<PlayerController>();
         robotInvestigate = GetComponent<RobotInvestigate>();
         robotController = GetComponent<RobotController>();
         gameController = FindObjectOfType<GameController>();
@@ -33,11 +36,12 @@ public class RobotSenses : MonoBehaviour
     
     private void Start()
     {
-        //StartCoroutine(Vision());
+        StartCoroutine(Vision());
     }
     
     void Update()
     {
+        TestingGizmos();
         //if (gameController.IsGameOver)
         //{
         //    return;
@@ -89,40 +93,42 @@ public class RobotSenses : MonoBehaviour
         exclaim.SetActive(false);
     }
     
-    //public IEnumerator Vision()
-    //{
-    //    while(robotController.state == RobotController.State.PatrolState)
-    //    {
-    //        RaycastHit2D[] visableTargets = Physics2D.CircleCastAll(transform.position, visionDistance, transform.right, 0, itemLayer);
-    //        foreach(RaycastHit2D visableTarget in visableTargets)
-    //        {
-    //            Vector2 targetPos = visableTarget.transform.position;
-    //            Vector2 directionToTarget = targetPos - (Vector2)robotHead.position;
-    //            float angleToTarget = Vector2.Angle(directionToTarget, robotHead.right);
-    //
-    //            if (angleToTarget <= visionAngle)
-    //            {
-    //                RaycastHit2D hit;
-    //                hit = Physics2D.Raycast(robotHead.position, directionToTarget.normalized, visionDistance, visionLayer);
-    //                if (hit)
-    //                {
-    //                    if(hit.transform.tag == "Interactable")
-    //                    {
-    //                        ValuableItem valItem = hit.transform.GetComponent<ValuableItem>();
-    //                        if (!valItem.isClaimed)
-    //                        {
-    //                            robotController.ItemToInvestigate = valItem.gameObject;
-    //                            locationOfSuspicion = valItem.transform.position;
-    //                            valItem.isClaimed = true;
-    //                            robotController.state = RobotController.State.InvestigateState;
-    //                        }
-    //                    }
-    //                }
-    //            }
-    //        }
-    //        yield return new WaitForSeconds(visionTime);
-    //    }
-    //}
+    public IEnumerator Vision()
+    {
+        while(true)
+        {
+            Vector2 directionToTarget = player.transform.position - transform.position;
+            float angleToTarget = Vector2.Angle(transform.right, directionToTarget);
+
+            if (angleToTarget <= visionAngle && directionToTarget.magnitude < visionDistance)
+            {
+                RaycastHit2D hit;
+                hit = Physics2D.Raycast(transform.position, directionToTarget.normalized, visionDistance, visionLayer);
+                Debug.DrawRay(transform.position, directionToTarget, Color.cyan);
+                if (hit)
+                {
+                    if (hit.collider.tag == "PlayerVision" || hit.collider.tag == "Player")
+                    {
+                        if (!player.isStealthed)
+                        {
+                            Debug.Log("Player Spotted");
+                            exclaim.SetActive(true);
+                        }
+                        else
+                        {
+                            exclaim.SetActive(false);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                exclaim.SetActive(false);
+            }
+
+            yield return null;
+        }
+    }
     //
     //public IEnumerator CenterHead()
     //{
@@ -143,17 +149,17 @@ public class RobotSenses : MonoBehaviour
     //}
     
     // FOR TESTING ONLY
-    //void TestingGizmos()
-    //{
-    //    Debug.DrawRay(robotHead.position, robotHead.right * visionDistance, Color.red);
-    //    var leftDirection = Quaternion.AngleAxis(visionAngle, Vector3.forward) * robotHead.right;
-    //    var rightDirection = Quaternion.AngleAxis(-visionAngle, Vector3.forward) * robotHead.right;
-    //    Debug.DrawRay(robotHead.position, new Vector2(rightDirection.x, rightDirection.y) * visionDistance, Color.yellow);
-    //    Debug.DrawRay(robotHead.position, new Vector2(leftDirection.x, leftDirection.y) * visionDistance, Color.blue);
-    //}
+    void TestingGizmos()
+    {
+        Debug.DrawRay(transform.position, transform.right * visionDistance, Color.red);
+        var leftDirection = Quaternion.AngleAxis(visionAngle, Vector3.forward) * transform.right;
+        var rightDirection = Quaternion.AngleAxis(-visionAngle, Vector3.forward) * transform.right;
+        Debug.DrawRay(transform.position, new Vector2(rightDirection.x, rightDirection.y) * visionDistance, Color.yellow);
+        Debug.DrawRay(transform.position, new Vector2(leftDirection.x, leftDirection.y) * visionDistance, Color.blue);
+    }
     
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.DrawWireSphere(transform.position, visionDistance);
-    //}
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, visionDistance);
+    }
 }

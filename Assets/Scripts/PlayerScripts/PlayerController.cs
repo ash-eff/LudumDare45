@@ -9,12 +9,12 @@ namespace Ash.PlayerController
 {
     public class PlayerController : MonoBehaviour
     {
+        public Color baseColor;
+        public Color stealthColor;
+        public bool isStealthed;
         public LayerMask layersToCheck;
         public StateMachine<PlayerController> stateMachine;
         public static PlayerController player;
-
-        public float stealthAmount;
-        public float stealthRadius;
 
         #region Exposed Variables and Components
         [Header("Layer Masks")]
@@ -45,7 +45,9 @@ namespace Ash.PlayerController
         public GameObject ventLight;
         public Noise noisePrefab;
         public CanvasGroup terminalGUI;
-        public TextMeshProUGUI stealthPerc;
+        public GameObject stealthBar;
+        public GameObject feet;
+        public GameObject head;
         //[SerializeField] private GameObject cursor;
         [SerializeField] private SpriteRenderer playerSprite;
         [Space(2)]
@@ -54,6 +56,7 @@ namespace Ash.PlayerController
         #region Private Variables and Components
         public List<GameObject> interactableList = new List<GameObject>();
         public GameObject currentlyTouching;
+        public SingleLight[] lightsInArea;
 
         private Vector3 movement;
         private Vector2 direction;
@@ -74,6 +77,7 @@ namespace Ash.PlayerController
         {
             rb2d = GetComponent<Rigidbody2D>();
             spriteAnim = GetComponent<Animator>();
+            lightsInArea = FindObjectsOfType<SingleLight>();
             player = this;
             stateMachine = new StateMachine<PlayerController>(this);
             stateMachine.ChangeState(BaseState.Instance);
@@ -138,7 +142,7 @@ namespace Ash.PlayerController
 
         public void SetPlayerSpriteVisible(bool isVisible)
         {
-            playerSprite.enabled = isVisible;
+            playerSprite.gameObject.SetActive(isVisible);
         }
 
         public void CheckForObjectsOnLayer(LayerMask _layerMask)
@@ -171,35 +175,20 @@ namespace Ash.PlayerController
 
         public void CheckForStealth()
         {
-            List<Collider2D> lightsToCheckAgainstStealth = GetLightsHittingPlayer();
-            float distanceToClosestLight = GetDistanceToClosestLight(lightsToCheckAgainstStealth);
-            if (lightsToCheckAgainstStealth == null)
-                stealthAmount = 100;
+            List<SingleLight> lights = new List<SingleLight>();
+            lights = CheckForLightsHittingPlayer();
+            if(lights.Count == 0)
+            {
+                stealthBar.SetActive(true);
+                isStealthed = true;
+                playerSprite.color = stealthColor;
+            }
             else
             {
-                
-                if (stateMachine.currentState != VentState.Instance && stateMachine.currentState != HideState.Instance)
-                {
-                    if (distanceToClosestLight >= stealthRadius)
-                    {
-                        stealthAmount = 100;
-                    }
-                    else
-                    {
-                        stealthAmount = Mathf.RoundToInt(((stealthRadius - (stealthRadius - distanceToClosestLight)) / stealthRadius) * 100);
-                    }
-                }
-                else
-                {
-                    stealthAmount = 100;
-                }
+                stealthBar.SetActive(false);
+                isStealthed = false;
+                playerSprite.color = baseColor;
             }
-
-            stealthPerc.text = "Stealth: " + stealthAmount.ToString() + "%";
-            Color tmp = playerSprite.color;
-            tmp.a = ((stealthRadius - distanceToClosestLight) / stealthRadius) + 0.5f;
-            playerSprite.color = tmp;
-
         }
 
         #region helper functions
@@ -311,45 +300,33 @@ namespace Ash.PlayerController
             return hitLeftRight;
         }
 
-        private List<Collider2D> GetLightsHittingPlayer()
+        private List<SingleLight> CheckForLightsHittingPlayer()
         {
-            List<Collider2D> lightsHittingPlayer = new List<Collider2D>();
-            Collider2D[] lightsInRadius = Physics2D.OverlapCircleAll(transform.position, stealthRadius, lightsLayer);
-            foreach (Collider2D col in lightsInRadius)
+            List<SingleLight> lightsHittingPlayer = new List<SingleLight>();
+            foreach (SingleLight light in lightsInArea)
             {
-                if (col.GetComponent<SingleLight>().isActive)
+                if (light.isActive)
                 {
-                    Vector3 dir = col.transform.position - transform.position;
-                    float dst = dir.magnitude;
+                    Vector3 dirFeet = light.transform.position - feet.transform.position;
+                    Vector3 dirHead = light.transform.position - head.transform.position;
+                    float dstFeet = dirFeet.magnitude;
+                    float dstHead = dirHead.magnitude;
 
-                    RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dst, lightVisLayer);
-                    if (!hit)
+                    if(dstFeet < light.lightRadius || dstHead < light.lightRadius)
                     {
-                        lightsHittingPlayer.Add(col);
+                        RaycastHit2D lineFromLightToFeet = Physics2D.Raycast(feet.transform.position, dirFeet, dstFeet, lightVisLayer);
+                        RaycastHit2D lineFromLightToHead = Physics2D.Raycast(head.transform.position, dirHead, dstHead, lightVisLayer);
+                        if (!lineFromLightToFeet || !lineFromLightToHead)
+                        {
+                            lightsHittingPlayer.Add(light);
+                            Debug.DrawLine(feet.transform.position, light.transform.position);
+                            Debug.DrawLine(head.transform.position, light.transform.position);
+                        }
                     }
                 }
             }
 
             return lightsHittingPlayer;
-        }
-
-        private float GetDistanceToClosestLight(List<Collider2D> fromList)
-        {
-            float distanceToClosest = stealthRadius;
-            GameObject closestLight = null;
-            if (fromList != null)
-            {
-                foreach (Collider2D col in fromList)
-                {
-                    if ((col.transform.position - transform.position).magnitude < distanceToClosest)
-                    {
-                        closestLight = col.gameObject;
-                        distanceToClosest = (col.transform.position - transform.position).magnitude;
-                    }
-                }
-            }
-
-            return distanceToClosest;
         }
         #endregion
     }
