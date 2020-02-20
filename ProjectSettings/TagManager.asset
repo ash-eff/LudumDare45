@@ -9,7 +9,6 @@ TagManager:
   - Transporter
   - Store
   - Robot
-  - PlayerVision
   - Fog
   - Item
   - TerminalTag
@@ -19,6 +18,7 @@ TagManager:
   - Wall
   - Locker
   - Door
+  - PlayerVisualTrigger
   layers:
   - Default
   - TransparentFX

@@ -5,16 +5,16 @@ using UnityEngine.Tilemaps;
 
 public class GridMap : MonoBehaviour
 {
-    public bool isReady;
     public Tilemap tm;
     public List<Vector3> walkableTiles = new List<Vector3>();
+    public bool gridLoaded;
 
     private void Awake()
     {
         GetGridOfTilePositions();
     }
 
-    void GetGridOfTilePositions()
+    public void GetGridOfTilePositions()
     {
         for (int x = tm.cellBounds.xMin; x < tm.cellBounds.xMax; x++)
         {
@@ -28,6 +28,7 @@ public class GridMap : MonoBehaviour
                 }
             }
         }
-        isReady = true;
+
+        gridLoaded = true;
     }
 }

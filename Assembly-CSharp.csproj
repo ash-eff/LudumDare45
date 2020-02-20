@@ -100,6 +100,9 @@
     <Compile Include="Assets\Scripts\RobotScripts\RobotInvestigate.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotPatrol.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotSenses.cs" />
+    <Compile Include="Assets\Scripts\RobotScripts\RobotStates\RobotGetGridState.cs" />
+    <Compile Include="Assets\Scripts\RobotScripts\RobotStates\RobotIdleState.cs" />
+    <Compile Include="Assets\Scripts\RobotScripts\RobotStates\RobotPatrolState.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\Waypoint.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\Terminal.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\TerminalOS.cs" />

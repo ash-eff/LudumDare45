@@ -79,7 +79,7 @@ namespace Ash.PlayerController
             spriteAnim = GetComponent<Animator>();
             lightsInArea = FindObjectsOfType<SingleLight>();
             player = this;
-            stateMachine = new StateMachine<PlayerController>(this);
+            stateMachine = new StateMachine<PlayerController>(player);
             stateMachine.ChangeState(BaseState.Instance);
         }
 

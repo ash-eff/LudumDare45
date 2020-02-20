@@ -16,7 +16,7 @@ public class PathFinder : MonoBehaviour
     List<Vector3> searchedItems = new List<Vector3>();
     public bool isGeneratingMap = true;
 
-    GridMap grid;
+    public GridMap grid;
 
     Vector3[] directions = { Vector3.up, // up
                                 Vector3.right, // right
@@ -27,10 +27,9 @@ public class PathFinder : MonoBehaviour
                                 new Vector3(-1, -1, 0), // down-left
                                 new Vector3(-1, 1, 0) }; // left-up
 
-    private void Start()
+    private void Awake()
     {
         grid = FindObjectOfType<GridMap>();
-        GenerateMap();
     }
 
     public List<Vector3> GetPath(Vector3 _startPosition, Vector3 _endPosition)
@@ -136,7 +135,7 @@ public class PathFinder : MonoBehaviour
         }
     }
 
-    private void GenerateMap()
+    public void GetAGridMap()
     {
         foreach (Vector3 pos in grid.walkableTiles)
         {

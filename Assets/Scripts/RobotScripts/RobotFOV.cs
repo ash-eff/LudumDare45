@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RobotFOV : MonoBehaviour
 {
+    public RobotController robot;
     public RobotSenses robotSenses;
 
     public LayerMask targetMask;
@@ -23,6 +24,19 @@ public class RobotFOV : MonoBehaviour
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
+    }
+
+    private void Update()
+    {
+        if(robot.directionFacing == Vector3.right)
+            transform.rotation = Quaternion.Euler(0, 0, 90);
+        if (robot.directionFacing == -Vector3.right)
+            transform.rotation = Quaternion.Euler(0, 0, -90);
+        if (robot.directionFacing == Vector3.up)
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        if (robot.directionFacing == -Vector3.up)
+            transform.rotation = Quaternion.Euler(0, 0, 180);
+
     }
 
     void LateUpdate()
@@ -130,7 +144,6 @@ public class RobotFOV : MonoBehaviour
     {
         Vector3 dir = DirFromAngle(globalAngle, true);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, robotSenses.visionDistance, obstacleMask);
-
 
         if (hit)
         {

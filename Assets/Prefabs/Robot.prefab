@@ -295,13 +295,9 @@ GameObject:
   - component: {fileID: 8199884539260260484}
   - component: {fileID: 5824671865384576340}
   - component: {fileID: 3705186576986033670}
-  - component: {fileID: 395313930619051909}
-  - component: {fileID: 6782120370340758966}
-  - component: {fileID: 6655954298053282909}
   - component: {fileID: 8199884539260260490}
   - component: {fileID: 125347536217194612}
   - component: {fileID: 5158675936354444029}
-  - component: {fileID: 4348351880330540090}
   m_Layer: 14
   m_Name: Robot
   m_TagString: Robot
@@ -340,10 +336,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4a183163adc44041ad0d5418812e5a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
-  inFogOfWar: 0
-  noiseSprite: {fileID: 436111521813241488}
+  waypoints: []
+  waypointIndex: 0
+  patrolSpeed: 3
+  pathfinder: {fileID: 8199884539260260490}
+  startPos: {x: 0, y: 0, z: 0}
+  endPos: {x: 0, y: 0, z: 0}
+  currentPos: {x: 0, y: 0, z: 0}
+  currentTargetPos: {x: 0, y: 0, z: 0}
   targetPosition: {x: 0, y: 0}
+  path: []
+  nextIndexInPath: 1
+  rand: 0
 --- !u!114 &3705186576986033670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,72 +363,10 @@ MonoBehaviour:
   visionLayer:
     serializedVersion: 2
     m_Bits: 33536
-  visionDistance: 8
-  baseVisionDistance: 0
+  visionDistance: 12
   visionAngle: 45
-  visionTime: 0.1
-  maxHeadRotation: 10
-  scanTime: 1
-  lockHeadOnTarget: 0
-  heardSomething: 0
-  locationOfSuspicion: {x: 0, y: 0}
   exclaim: {fileID: 7464511506937053321}
   player: {fileID: 0}
---- !u!114 &395313930619051909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8199884539260260489}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e33ddeffa9c11b4a83007e29e23db1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkableLayer:
-    serializedVersion: 2
-    m_Bits: 8192
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  moveSpeed: 3
-  waypoints: []
-  currentSpeed: 0
-  startPos: {x: 0, y: 0, z: 0}
-  endPos: {x: 0, y: 0, z: 0}
-  currentPos: {x: 0, y: 0, z: 0}
-  waypointIndex: 0
---- !u!114 &6782120370340758966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8199884539260260489}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f6eff6ddf494f949b5e6d9f3a5a8eca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  investigateMoveSpeed: 0
-  startPos: {x: 0, y: 0, z: 0}
-  endPos: {x: 0, y: 0, z: 0}
---- !u!114 &6655954298053282909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8199884539260260489}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33c4db4fe9337d541ae99ba363bde56b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  robotBaseMat: {fileID: 0}
-  robotAlertMat: {fileID: 0}
-  robotAlarmMat: {fileID: 0}
 --- !u!114 &8199884539260260490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -440,6 +382,7 @@ MonoBehaviour:
   mapComplete: 0
   path: []
   isGeneratingMap: 1
+  grid: {fileID: 0}
 --- !u!61 &125347536217194612
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -487,32 +430,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &4348351880330540090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8199884539260260489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_HasRenderer: 0
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_ApplyToSortingLayers: 00000000132558b5f779da3b
-  m_ShapePath:
-  - {x: -0.09764786, y: 0.2935872, z: 0}
-  - {x: 0.17136642, y: 0.29358715, z: 0}
-  - {x: 0.18611053, y: 0.9705124, z: 0}
-  - {x: -0.122220725, y: 0.96068347, z: 0}
-  m_ShapePathHash: 401553151
-  m_Mesh: {fileID: 0}
-  m_InstanceId: 342412
 --- !u!1 &8209327090551915222
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,6 +544,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7729457033104979973}
   - component: {fileID: 7063987877672882655}
+  - component: {fileID: 4305517502555299736}
   m_Layer: 14
   m_Name: Sprite
   m_TagString: Untagged
@@ -686,7 +604,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: fce308e7505dd8a40b8b59f51722ac78, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -698,3 +616,29 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4305517502555299736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8606049104216198732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 00000000132558b5f779da3b
+  m_ShapePath:
+  - {x: -0.11028457, y: -0.44340074, z: 0}
+  - {x: 0.24100113, y: -0.35485083, z: 0}
+  - {x: 0.24521768, y: 0.101851165, z: 0}
+  - {x: -0.106067896, y: 0.14401782, z: 0}
+  m_ShapePathHash: 710818389
+  m_Mesh: {fileID: 0}
+  m_InstanceId: 113824

@@ -1,97 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ash.StateMachine;
 
 public class RobotController : MonoBehaviour
 {
-    public enum State { PatrolState, SearchState, InvestigateState, ReturnState, AlarmState, WaitState, BreakState }
-    public State state;
+    public StateMachine<RobotController> stateMachine;
+    public static RobotController robot;
 
-    public bool inFogOfWar;
-    public GameObject noiseSprite;
+    public Waypoint[] waypoints;
+    public int waypointIndex = 0;
+
+    public float patrolSpeed;
+
+    public Vector3 directionFacing;
+
+    public PathFinder pathfinder;
+    public Vector3 startPos;
+    public Vector3 endPos;
+    public Vector3 currentPos;
+    public Vector3 currentTargetPos;
     public Vector2 targetPosition;
-    private PathFinder pathfinder;
-    private RobotPatrol robotPatrol;
-    private RobotSenses robotSenses;
-    //private RobotAlert robotAlert;
-    private RobotInvestigate robotInvestigate;
+    public List<Vector3> path = new List<Vector3>();
+    public int nextIndexInPath = 1;
+    public int rand;
 
-    private GameObject itemOfInvestigation;
-
-    public GameObject ItemToInvestigate
+    private void Awake()
     {
-        get { return itemOfInvestigation; }
-        set { itemOfInvestigation = value; }
+        rand = Random.Range(0, 100);
+        robot = this;
+        stateMachine = new StateMachine<RobotController>(robot);
+        stateMachine.ChangeState(RobotGetGridState.Instance);
     }
 
-
-    private void Start()
-    {
-        robotInvestigate = GetComponent<RobotInvestigate>();
-        robotPatrol = GetComponent<RobotPatrol>();
-        robotSenses = GetComponent<RobotSenses>();
-        //robotAlert = GetComponent<RobotAlert>();
-        pathfinder = GetComponent<PathFinder>();
-        StartCoroutine(WaitToStart());
-        //state = State.PatrolState;
-    }
-
-    IEnumerator WaitToStart()
-    {
-        while (pathfinder.isGeneratingMap)
-        {
-            yield return null;
-        }
-    
-        state = State.PatrolState;
-        robotPatrol.GetNextWaypoints();
-        targetPosition = robotPatrol.waypoints[robotPatrol.waypointIndex].GetGridPos();
-        robotPatrol.SetPathStartAndEnd(transform.position, targetPosition);
-        robotPatrol.GetPathToFollow();
-    }
-
-    public void React()
-    {
-        switch (state)
-        {         
-            case State.PatrolState:
-                //robotSenses.lockHeadOnTarget = false;
-                //robotAlert.ReturnToStatusQuo();
-                //StartCoroutine(robotSenses.Vision());
-                robotPatrol.GetNextWaypoints();
-                targetPosition = robotPatrol.waypoints[robotPatrol.waypointIndex].GetGridPos();
-                robotPatrol.SetPathStartAndEnd(transform.position, targetPosition);
-                robotPatrol.GetPathToFollow();
-                break;
-
-            case State.InvestigateState:                
-                Vector2 investigatePosition = robotSenses.locationOfSuspicion;
-                //StartCoroutine(robotPatrol.RotateTowardsTarget(investigatePosition));
-                //robotAlert.OnAlert();
-                robotPatrol.ResetToPreviousWaypoint();
-                robotPatrol.SetPathStartAndEnd(transform.position, investigatePosition);
-                robotPatrol.GetPathToFollow();
-                break;
-            
-            case State.ReturnState:
-                //robotSenses.lockHeadOnTarget = false;
-                //robotAlert.ReturnToStatusQuo();
-                robotPatrol.ResetToPreviousWaypoint();
-                robotPatrol.GetNextWaypoints();
-                break;
-        }
-    }
-
-    Vector3 GetVec3OfPosition(Vector3 ofPosition)
-    {
-        return new Vector3(ofPosition.x, ofPosition.y, 0f);
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.tag == "Fog")
-        {
-            noiseSprite.SetActive(collision.GetComponent<RoomReveal>().roomHidden);
-        }
-    }
+    private void Update() => stateMachine.Update();
+    private void FixedUpdate() => stateMachine.FixedUpdate();
 }
