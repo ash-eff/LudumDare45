@@ -16,6 +16,11 @@ namespace Ash.PlayerController
         public StateMachine<PlayerController> stateMachine;
         public static PlayerController player;
 
+        public bool spotted;
+        public int timesSpotted;
+        public GameObject warningFlash;
+        public GameObject alertFlash;
+
         #region Exposed Variables and Components
         [Header("Layer Masks")]
         public LayerMask allObstacleLayers;
@@ -189,6 +194,19 @@ namespace Ash.PlayerController
                 isStealthed = false;
                 playerSprite.color = baseColor;
             }
+        }
+
+        public void WarningAlertIndicator()
+        {
+            if(timesSpotted == 1)
+            {
+                warningFlash.SetActive(true);
+            }
+            else if(timesSpotted > 1)
+            {
+                warningFlash.SetActive(false);
+                alertFlash.SetActive(true);
+            }             
         }
 
         #region helper functions

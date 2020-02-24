@@ -4,25 +4,11 @@ using UnityEngine;
 
 public class RobotGetGridState : State<RobotController>
 {
-    #region setup
-    private static RobotGetGridState _instance;
-    
-    private RobotGetGridState()
-    {
-        if (_instance != null) return;
-        _instance = this;
-    }
-
-    public override State<RobotController> createInstance() { return Instance; }
-
-    public static RobotGetGridState Instance
-    {
-        get { if (_instance == null) new RobotGetGridState(); return _instance; }
-    }
-    #endregion
+    RobotController robot;
 
     public override void EnterState(RobotController _robot)
     {
+        robot = _robot;
     }
 
     public override void ExitState(RobotController _robot)
@@ -38,7 +24,7 @@ public class RobotGetGridState : State<RobotController>
         
         if (!_robot.pathfinder.isGeneratingMap)
         {
-            _robot.stateMachine.ChangeState(RobotPatrolState.Instance);
+            _robot.stateMachine.ChangeState(new RobotIdleState());
         }
     }
 

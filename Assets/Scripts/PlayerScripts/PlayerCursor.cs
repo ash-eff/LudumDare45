@@ -15,7 +15,7 @@ public class PlayerCursor : MonoBehaviour
     {
         spr = GetComponent<SpriteRenderer>();
         player = GetComponentInParent<PlayerController>();
-        Cursor.visible = false;
+        //Cursor.visible = false;
     }
 
     private void Update()

@@ -294,7 +294,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8199884539260260484}
   - component: {fileID: 5824671865384576340}
-  - component: {fileID: 3705186576986033670}
   - component: {fileID: 8199884539260260490}
   - component: {fileID: 125347536217194612}
   - component: {fileID: 5158675936354444029}
@@ -336,37 +335,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4a183163adc44041ad0d5418812e5a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypoints: []
+  visionLayer:
+    serializedVersion: 2
+    m_Bits: 10699520
+  visionDistance: 10
+  visionAngle: 45
+  exclaim: {fileID: 7464511506937053321}
+  spottedPlayer: 0
+  objectLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  FOV: {fileID: 8209327090551915222}
+  patrolWaypoints: []
   waypointIndex: 0
   patrolSpeed: 3
+  scanDegrees: 20
+  scanSpeed: 20
+  directionFacing: {x: 0, y: 0, z: 0}
   pathfinder: {fileID: 8199884539260260490}
   startPos: {x: 0, y: 0, z: 0}
   endPos: {x: 0, y: 0, z: 0}
   currentPos: {x: 0, y: 0, z: 0}
   currentTargetPos: {x: 0, y: 0, z: 0}
-  targetPosition: {x: 0, y: 0}
+  destinationPosition: {x: 0, y: 0}
+  targetLastPosition: {x: 0, y: 0, z: 0}
   path: []
   nextIndexInPath: 1
-  rand: 0
---- !u!114 &3705186576986033670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8199884539260260489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da16abb9faa807b4a95800c311bd30ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  visionLayer:
-    serializedVersion: 2
-    m_Bits: 33536
-  visionDistance: 12
-  visionAngle: 45
-  exclaim: {fileID: 7464511506937053321}
-  player: {fileID: 0}
+  vision: {fileID: 0}
+  patrol: {fileID: 0}
+  playerTarget: {fileID: 0}
 --- !u!114 &8199884539260260490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,14 +519,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d4a5061c56234843bf07aceab0cceb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  robotSenses: {fileID: 3705186576986033670}
+  robot: {fileID: 0}
   targetMask:
     serializedVersion: 2
     m_Bits: 0
   obstacleMask:
     serializedVersion: 2
     m_Bits: 256
-  meshResolution: 0.5
+  meshResolution: 1
   edgeResolveIterations: 1
   edgeDstThreshold: 1
   maskCutawayDst: 0.1
@@ -641,4 +638,4 @@ MonoBehaviour:
   - {x: -0.106067896, y: 0.14401782, z: 0}
   m_ShapePathHash: 710818389
   m_Mesh: {fileID: 0}
-  m_InstanceId: 113824
+  m_InstanceId: 163106

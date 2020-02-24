@@ -5,7 +5,6 @@ using UnityEngine;
 public class RobotFOV : MonoBehaviour
 {
     public RobotController robot;
-    public RobotSenses robotSenses;
 
     public LayerMask targetMask;
     public LayerMask obstacleMask;
@@ -19,24 +18,16 @@ public class RobotFOV : MonoBehaviour
     public MeshFilter viewMeshFilter;
     Mesh viewMesh;
 
+    private void Awake()
+    {
+        robot = GetComponentInParent<RobotController>();
+    }
+
     void Start()
     {
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
-    }
-
-    private void Update()
-    {
-        if(robot.directionFacing == Vector3.right)
-            transform.rotation = Quaternion.Euler(0, 0, 90);
-        if (robot.directionFacing == -Vector3.right)
-            transform.rotation = Quaternion.Euler(0, 0, -90);
-        if (robot.directionFacing == Vector3.up)
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-        if (robot.directionFacing == -Vector3.up)
-            transform.rotation = Quaternion.Euler(0, 0, 180);
-
     }
 
     void LateUpdate()
@@ -46,13 +37,13 @@ public class RobotFOV : MonoBehaviour
 
     void DrawFieldOfView()
     {
-        int stepCount = Mathf.RoundToInt((robotSenses.visionAngle * 2) * meshResolution);
-        float stepAngleSize = (robotSenses.visionAngle * 2) / stepCount;
+        int stepCount = Mathf.RoundToInt((robot.visionAngle * 2) * meshResolution);
+        float stepAngleSize = (robot.visionAngle * 2) / stepCount;
         List<Vector3> viewPoints = new List<Vector3>();
         ViewCastInfo oldViewCast = new ViewCastInfo();
         for (int i = 0; i <= stepCount; i++)
         {
-            float angle = transform.eulerAngles.z - (robotSenses.visionAngle * 2) / 2 + stepAngleSize * i;
+            float angle = transform.eulerAngles.z - (robot.visionAngle * 2) / 2 + stepAngleSize * i;
             ViewCastInfo newViewCast = ViewCast(angle);
 
             if (i > 0)
@@ -143,7 +134,7 @@ public class RobotFOV : MonoBehaviour
     ViewCastInfo ViewCast(float globalAngle)
     {
         Vector3 dir = DirFromAngle(globalAngle, true);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, robotSenses.visionDistance, obstacleMask);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, robot.visionDistance, obstacleMask);
 
         if (hit)
         {
@@ -154,7 +145,7 @@ public class RobotFOV : MonoBehaviour
         else
         {
             //Debug.DrawRay(transform.position, dir * robotSenses.visionDistance, Color.red);
-            return new ViewCastInfo(false, transform.position + dir * robotSenses.visionDistance, robotSenses.visionDistance, globalAngle);
+            return new ViewCastInfo(false, transform.position + dir * robot.visionDistance, robot.visionDistance, globalAngle);
         }
     }
 

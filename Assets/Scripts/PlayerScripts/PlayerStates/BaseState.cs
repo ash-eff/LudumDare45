@@ -38,6 +38,7 @@ public class BaseState : State<PlayerController>
         player.SetPlayerVelocity(player.RunSpeed, true);
         player.SetSpriteDirection();
         player.SetSpriteAnimation();
+        player.WarningAlertIndicator();
     }
 
     public override void FixedUpdateState(PlayerController player)
