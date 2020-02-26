@@ -29,10 +29,10 @@ public class MenuController : MonoBehaviour
 
     void Update()
     {
-        if (gameController.IsGameOver)
-        {
-            return;
-        }
+        //if (gameController.IsGameOver)
+        //{
+        //    return;
+        //}
 
         //volumeFillBar.fillAmount = musicVolume;
         //sfxFillBar.fillAmount = sfxVolume;

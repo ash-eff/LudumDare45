@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2381580644591120747}
   - component: {fileID: 2381580644591120744}
   - component: {fileID: 2381580644591120757}
+  - component: {fileID: 2598825634376539862}
+  - component: {fileID: 7194835070427846999}
   m_Layer: 8
   m_Name: Locker
   m_TagString: Locker
@@ -73,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: -8113165284195986028, guid: 305e0673cf49bf84e9c45ca6b1c1c07c,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -127,6 +129,39 @@ MonoBehaviour:
   containerOverlay: {fileID: 0}
   entrance: {fileID: 3732783990626710077}
   exit: {fileID: 3145385637255130656}
+--- !u!114 &2598825634376539862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2381580644591120745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdbd1939d3c3a50499f1fb5d2fb5e38a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!50 &7194835070427846999
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2381580644591120745}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &3145385637255130656
 GameObject:
   m_ObjectHideFlags: 0

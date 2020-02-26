@@ -19,6 +19,7 @@ TagManager:
   - Locker
   - Door
   - PlayerVisualTrigger
+  - Walkable
   layers:
   - Default
   - TransparentFX
@@ -36,7 +37,7 @@ TagManager:
   - Walkable
   - Robot
   - Item
-  - Doorway
+  - Door
   - Lock
   - SeeThrough
   - TerminalScreen

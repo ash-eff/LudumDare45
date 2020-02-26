@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2974030051634957507}
   - component: {fileID: 7364755798055543159}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: TopRightDotLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7789133227360528820}
   - component: {fileID: 666038511372185875}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: RightUpper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +245,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3620842373490225137}
   - component: {fileID: 2189840366483242213}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -302,7 +302,7 @@ GameObject:
   m_Component:
   - component: {fileID: 851497495230314025}
   - component: {fileID: 5163246381290652463}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -359,7 +359,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3731512593086198209}
   - component: {fileID: 1879863076228476828}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: LeftLower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -441,7 +441,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2576155330760382323}
   - component: {fileID: 7387444122671033549}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: RightShadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -487,7 +487,7 @@ MonoBehaviour:
   - {x: 0.563028, y: 1.2030128, z: 0}
   m_ShapePathHash: -644909748
   m_Mesh: {fileID: 0}
-  m_InstanceId: -21474
+  m_InstanceId: 54088
 --- !u!1 &3463929822891393350
 GameObject:
   m_ObjectHideFlags: 0
@@ -497,7 +497,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8000108932797029177}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -532,7 +532,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1203323644811033873}
   - component: {fileID: 5487062678835839699}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: LeftArrowLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -602,7 +602,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7803445910520393597}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Pin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -633,7 +633,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2348758496089607168}
   - component: {fileID: 997336603701081611}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: LeftUpper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -715,7 +715,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9058888407469665785}
   - component: {fileID: 7755586916989287864}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: LeftShadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -761,7 +761,7 @@ MonoBehaviour:
   - {x: -0.74865544, y: 1.2017406, z: 0}
   m_ShapePathHash: -245045876
   m_Mesh: {fileID: 0}
-  m_InstanceId: -18786
+  m_InstanceId: 54092
 --- !u!1 &6259098043354847733
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,7 +772,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2056060536230155381}
   - component: {fileID: 4222922318611431022}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: TopLeftDotLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -846,7 +846,8 @@ GameObject:
   - component: {fileID: 758444882192259949}
   - component: {fileID: 6482975254875068046}
   - component: {fileID: 6352625350734604271}
-  m_Layer: 0
+  - component: {fileID: 2463283304766375610}
+  m_Layer: 16
   m_Name: Door (facing)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -936,6 +937,19 @@ MonoBehaviour:
   unlockedColor: {r: 0.6313726, g: 0.9372549, b: 0.4745098, a: 1}
   opening: 0
   closing: 0
+  isLocked: 0
+--- !u!114 &2463283304766375610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7303005662743819990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdbd1939d3c3a50499f1fb5d2fb5e38a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7449621640952801149
 GameObject:
   m_ObjectHideFlags: 0
@@ -946,7 +960,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7999936658393753895}
   - component: {fileID: 2901423153706090630}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: RightArrowLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1017,7 +1031,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7068827924922384923}
   - component: {fileID: 5473017133439029221}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: RightLower
   m_TagString: Untagged
   m_Icon: {fileID: 0}

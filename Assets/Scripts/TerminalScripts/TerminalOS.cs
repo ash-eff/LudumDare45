@@ -6,13 +6,19 @@ using TMPro;
 
 public class TerminalOS : MonoBehaviour
 {
+    public CanvasGroup terminalGUI;
     public Terminal workingTerminal;
     public Image loadingBar;
     public GameObject loadingBarWindow;
     public GameObject terminalAccessWindow;
     public GameObject terminalAccessIcon;
-    public GameObject[] minimaps;
-    public TextMeshProUGUI[] noFeedTexts;
+    public GameController gameController;
+
+    private void Awake()
+    {
+        terminalGUI.alpha = 0;
+        gameController = FindObjectOfType<GameController>();
+    }
 
     public void AttachTerminal(Terminal _terminal)
     {
@@ -48,18 +54,7 @@ public class TerminalOS : MonoBehaviour
         }
     }
 
-    public void ActivateMinimaps()
-    {
-        foreach(GameObject go in minimaps)
-        {
-            go.SetActive(true);
-        }
 
-        foreach(TextMeshProUGUI tmp in noFeedTexts)
-        {
-            tmp.gameObject.SetActive(false);
-        }
-    }
 
     public void UseLights()
     {

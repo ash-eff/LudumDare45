@@ -9,13 +9,13 @@ public class Vent : MonoBehaviour, IInteractable
     public GameObject exit;
     public GameObject ventOverlay;
     private PlayerController player;
-    private WorldSwap swap;
+    public Room thisRoom;
     State<PlayerController> currentState;
 
     private void Awake()
     {
         player = FindObjectOfType<PlayerController>();
-        swap = FindObjectOfType<WorldSwap>();
+        thisRoom = GetComponentInParent<Room>();
     }
 
     public void Interact()
@@ -35,15 +35,11 @@ public class Vent : MonoBehaviour, IInteractable
 
     public void PlayerEnterVent()
     {
-        swap.swap = true;
-        swap.SwapWorld();
-        ventOverlay.SetActive(true);
+        thisRoom.SwapToVents(true);
     }
 
     public void PlayerLeaveVent()
     {
-        swap.swap = false;
-        swap.SwapWorld();
-        ventOverlay.SetActive(false);
+        thisRoom.SwapToVents(false);
     }
 }

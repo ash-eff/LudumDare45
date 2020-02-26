@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 
+[ExecuteInEditMode]
 public class SingleLight : MonoBehaviour
 {
     public Light2D pointLight;

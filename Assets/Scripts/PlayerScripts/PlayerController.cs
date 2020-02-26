@@ -62,6 +62,7 @@ namespace Ash.PlayerController
         public List<GameObject> interactableList = new List<GameObject>();
         public GameObject currentlyTouching;
         public SingleLight[] lightsInArea;
+        private GameController gameController;
 
         private Vector3 movement;
         private Vector2 direction;
@@ -80,12 +81,18 @@ namespace Ash.PlayerController
 
         private void Awake()
         {
+            gameController = FindObjectOfType<GameController>();
             rb2d = GetComponent<Rigidbody2D>();
             spriteAnim = GetComponent<Animator>();
-            lightsInArea = FindObjectsOfType<SingleLight>();
+
             player = this;
             stateMachine = new StateMachine<PlayerController>(player);
             stateMachine.ChangeState(BaseState.Instance);
+        }
+
+        private void Start()
+        {
+            lightsInArea = gameController.currentRoom.GetComponentsInChildren<SingleLight>();
         }
 
         private void Update() => stateMachine.Update();

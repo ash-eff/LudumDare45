@@ -599,15 +599,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d1191415228a549897013dda17af62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseColor: {r: 0, g: 0, b: 0, a: 0}
-  stealthColor: {r: 0, g: 0, b: 0, a: 0}
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  stealthColor: {r: 0.25431648, g: 0.39196786, b: 0.4245283, a: 1}
   isStealthed: 0
   layersToCheck:
     serializedVersion: 2
     m_Bits: 2097408
+  spotted: 0
+  timesSpotted: 0
+  warningFlash: {fileID: 0}
+  alertFlash: {fileID: 0}
   allObstacleLayers:
     serializedVersion: 2
-    m_Bits: 6291712
+    m_Bits: 6357248
   ventLayer:
     serializedVersion: 2
     m_Bits: 2097152
@@ -1076,7 +1080,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 4
+  m_Intensity: 2
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}

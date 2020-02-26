@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 3812105828351063611}
   - component: {fileID: 1228687592853233537}
   - component: {fileID: 2392695432747899256}
+  - component: {fileID: 4895460397993797214}
   m_Layer: 21
   m_Name: SideVent
   m_TagString: Vent
@@ -4961,6 +4962,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.4, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &4895460397993797214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3812105828351063610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdbd1939d3c3a50499f1fb5d2fb5e38a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4455743183344760921
 GameObject:
   m_ObjectHideFlags: 0

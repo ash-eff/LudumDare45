@@ -31,4 +31,12 @@ public class GridMap : MonoBehaviour
 
         gridLoaded = true;
     }
+
+    private void OnDrawGizmos()
+    {
+        foreach(Vector3 walkable in walkableTiles)
+        {
+            Gizmos.DrawWireSphere(walkable, .1f);
+        }
+    }
 }
