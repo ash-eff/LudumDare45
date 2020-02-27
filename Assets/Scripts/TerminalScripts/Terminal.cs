@@ -14,8 +14,8 @@ public class Terminal : MonoBehaviour, IInteractable
     public float lightRebootTimer;
     public Door[] doors;
     public SingleLight[] lights;
-    public GameObject lightWarning;
-    public Image lightWarningFill;
+    //public GameObject lightWarning;
+    //public Image lightWarningFill;
 
     public bool rebootingLights;
 
@@ -56,18 +56,18 @@ public class Terminal : MonoBehaviour, IInteractable
 
     private IEnumerator RebootLights()
     {
-        lightWarning.SetActive(true);
-        lightWarningFill.fillAmount = 1;
+        //lightWarning.SetActive(true);
+        //lightWarningFill.fillAmount = 1;
         float timer = lightRebootTimer;
         while(timer > 0)
         {
             timer -= Time.deltaTime;
-            lightWarningFill.fillAmount -= Time.deltaTime / lightRebootTimer;
+            //lightWarningFill.fillAmount -= Time.deltaTime / lightRebootTimer;
 
             yield return null;
         }
 
-        lightWarning.SetActive(false);
+        //lightWarning.SetActive(false);
         rebootingLights = false;
         foreach (SingleLight light in lights)
         {

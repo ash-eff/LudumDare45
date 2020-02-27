@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Container : MonoBehaviour, IInteractable
 {
-    public GameObject containerOverlay;
+    //public GameObject containerOverlay;
     public GameObject entrance;
     public GameObject exit;
     private Collider2D coll;
@@ -33,13 +33,14 @@ public class Container : MonoBehaviour, IInteractable
     {
         isOccupied = true;
         coll.isTrigger = true;
-        containerOverlay.SetActive(true);
+        Debug.Log("Container Overlay");
+        //containerOverlay.SetActive(true);
     }
 
     public void HidingExited()
     {
         isOccupied = false;
         coll.isTrigger = false;
-        containerOverlay.SetActive(false);
+        //containerOverlay.SetActive(false);
     }
 }
