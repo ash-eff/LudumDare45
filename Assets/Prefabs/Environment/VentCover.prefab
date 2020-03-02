@@ -4909,6 +4909,7 @@ MonoBehaviour:
   entrance: {fileID: 5326281245570528438}
   exit: {fileID: 5975423074622018191}
   ventOverlay: {fileID: 0}
+  thisRoom: {fileID: 0}
 --- !u!61 &5624295135115621294
 BoxCollider2D:
   m_ObjectHideFlags: 0

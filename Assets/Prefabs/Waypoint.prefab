@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8245155091795312185}
   - component: {fileID: 7382810160426407418}
   - component: {fileID: 8011312904969432425}
+  - component: {fileID: -1804080901098032641}
   m_Layer: 13
   m_Name: Waypoint
   m_TagString: Untagged
@@ -96,3 +97,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseColor: {r: 0, g: 1, b: 0.051671505, a: 1}
   highlightColor: {r: 1, g: 0.9431046, b: 0, a: 1}
+--- !u!114 &-1804080901098032641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53256430852830323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdbd1939d3c3a50499f1fb5d2fb5e38a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

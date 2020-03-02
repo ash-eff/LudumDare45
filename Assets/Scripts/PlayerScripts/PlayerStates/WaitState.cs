@@ -23,19 +23,22 @@ public class WaitState : State<PlayerController>
         get { if (_instance == null) new WaitState(); return _instance; }
     }
 
-    public override void EnterState(PlayerController _owner)
+    public override void EnterState(PlayerController player)
+    {
+        player.SetPlayerVelocity(0, false);
+        player.SetSpriteAnimation();
+        player.IdleSprite();
+    }
+
+    public override void ExitState(PlayerController player)
     {
     }
 
-    public override void ExitState(PlayerController _owner)
+    public override void UpdateState(PlayerController player)
     {
     }
 
-    public override void UpdateState(PlayerController _owner)
-    {
-    }
-
-    public override void FixedUpdateState(PlayerController _owner)
+    public override void FixedUpdateState(PlayerController player)
     {
     }
 }

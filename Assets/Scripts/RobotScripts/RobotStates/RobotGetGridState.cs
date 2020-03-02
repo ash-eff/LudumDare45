@@ -17,7 +17,7 @@ public class RobotGetGridState : State<RobotController>
 
     public override void UpdateState(RobotController _robot)
     {
-        if(_robot.pathfinder.grid.gridLoaded && _robot.pathfinder.isGeneratingMap)
+        if(_robot.pathfinder.room.roomLoaded && _robot.pathfinder.isGeneratingMap)
         {
             _robot.pathfinder.GetAGridMap();
         }

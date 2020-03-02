@@ -63,3 +63,6 @@ TagManager:
   - name: UI
     uniqueID: 1004173815
     locked: 0
+  - name: PlayerFade
+    uniqueID: 3394930983
+    locked: 0

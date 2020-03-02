@@ -12,7 +12,9 @@ public class Room : MonoBehaviour
     public List<Vector2> walkableGrid;
     public Transform entrance;
     public Transform exit;
+    public bool roomLoaded;
 
+    public GameObject roomHolder;
     private Tilemap floorTileMap;
 
     private Dictionary<Vector2, bool> theGrid;
@@ -21,6 +23,7 @@ public class Room : MonoBehaviour
 
     void Awake()
     {
+        //roomHolder.SetActive(false);
         fogGrid.gameObject.SetActive(true);
         GetGridDictionary();
     }
@@ -51,6 +54,7 @@ public class Room : MonoBehaviour
                 walkableGrid.Add(kvp.Key);
             }
         }
+        roomLoaded = true;
     }
 
     private bool CheckIfPositionWalkable(Vector2 pos)
@@ -78,24 +82,45 @@ public class Room : MonoBehaviour
         }
     }
 
-    public IEnumerator ChangeFogAlpha(float toVal)
-    {
-        Tilemap fogTileMap = fogGrid.GetComponentInChildren<Tilemap>();
-        Color fogColor = fogTileMap.color;
-        Color A = new Color(fogColor.r, fogColor.g, fogColor.b, fogColor.a);
-        Color B = new Color(fogColor.r, fogColor.g, fogColor.b, toVal);
-        float lerpTime = 1f;
-        float currentLerpTime = 0;
-        while (fogTileMap.color != B)
-        {
-            currentLerpTime += Time.deltaTime;
-            float perc = currentLerpTime / lerpTime;
-            fogTileMap.color = Color.Lerp(A, B, perc);
-        
-            yield return null;
-        }
-        yield return null;
-    }
+    //public IEnumerator ActivateRoom()
+    //{
+    //    roomHolder.SetActive(true);
+    //    Tilemap fogTileMap = fogGrid.GetComponentInChildren<Tilemap>();
+    //    Color fogColor = fogTileMap.color;
+    //    Color A = new Color(fogColor.r, fogColor.g, fogColor.b, fogColor.a);
+    //    Color B = new Color(fogColor.r, fogColor.g, fogColor.b, 0);
+    //    float lerpTime = 1f;
+    //    float currentLerpTime = 0;
+    //    while (fogTileMap.color != B)
+    //    {
+    //        currentLerpTime += Time.deltaTime;
+    //        float perc = currentLerpTime / lerpTime;
+    //        fogTileMap.color = Color.Lerp(A, B, perc);
+    //
+    //        yield return null;
+    //    }
+    //    yield return null;
+    //}
+    //
+    //public IEnumerator DeactivateRoom()
+    //{
+    //    Tilemap fogTileMap = fogGrid.GetComponentInChildren<Tilemap>();
+    //    Color fogColor = fogTileMap.color;
+    //    Color A = new Color(fogColor.r, fogColor.g, fogColor.b, fogColor.a);
+    //    Color B = new Color(fogColor.r, fogColor.g, fogColor.b, 1);
+    //    float lerpTime = 1f;
+    //    float currentLerpTime = 0;
+    //    while (fogTileMap.color != B)
+    //    {
+    //        currentLerpTime += Time.deltaTime;
+    //        float perc = currentLerpTime / lerpTime;
+    //        fogTileMap.color = Color.Lerp(A, B, perc);
+    //
+    //        yield return null;
+    //    }
+    //    yield return null;
+    //    roomHolder.SetActive(false);
+    //}
 
     private void OnDrawGizmos()
     {

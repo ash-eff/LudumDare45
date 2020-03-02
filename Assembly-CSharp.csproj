@@ -93,6 +93,7 @@
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\HackState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\HideState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\KnockState.cs" />
+    <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\RoomSwapState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\VentState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\WaitState.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\PathFinder.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Assets\Scripts\RobotScripts\RobotVision.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\Waypoint.cs" />
     <Compile Include="Assets\Scripts\Room.cs" />
+    <Compile Include="Assets\Scripts\RoomExit.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\Terminal.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\TerminalOS.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\TerminalStates\TerminalAccessState.cs" />

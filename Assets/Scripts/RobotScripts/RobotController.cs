@@ -39,6 +39,7 @@ public class RobotController : MonoBehaviour
 
     private void Awake()
     {
+        pathfinder = GetComponent<PathFinder>();
         playerTarget = FindObjectOfType<PlayerController>();
         robot = this;
         stateMachine = new StateMachine<RobotController>(robot);

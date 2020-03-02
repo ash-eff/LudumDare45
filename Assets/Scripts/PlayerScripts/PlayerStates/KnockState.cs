@@ -45,7 +45,7 @@ public class KnockState : State<PlayerController>
         player.SetSpriteAnimation();
         timer -= Time.deltaTime;
         if (timer <= 0)
-            player.stateMachine.ChangeState(BaseState.Instance);
+            player.stateMachine.ChangeState(RoomSwapState.Instance);
     }
 
     public override void FixedUpdateState(PlayerController player)

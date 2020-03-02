@@ -645,6 +645,7 @@ MonoBehaviour:
   interactableList: []
   currentlyTouching: {fileID: 0}
   lightsInArea: []
+  gameController: {fileID: 0}
   spriteAnim: {fileID: 8019497024510566423}
 --- !u!95 &8019497024510566423
 Animator:
@@ -819,7 +820,7 @@ MonoBehaviour:
   - {x: -0.17037117, y: -0.2668113, z: 0}
   m_ShapePathHash: -807715003
   m_Mesh: {fileID: 0}
-  m_InstanceId: 60672
+  m_InstanceId: 242646
 --- !u!1 &2612220361568444202
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,7 +1178,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_Sprite: {fileID: -277153921769468689, guid: bb0539d08a1462042882d451a35cd5c4,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1214,7 +1215,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8029324381948881003}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

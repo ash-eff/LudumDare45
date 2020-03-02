@@ -63,7 +63,7 @@ public class RobotGetPathState : State<RobotController>
         safePosition.x *= Mathf.Sign(xIntVal);
         safePosition.y *= Mathf.Sign(yIntVal);
 
-        if (!robot.pathfinder.grid.walkableTiles.Contains(safePosition))
+        if (!robot.pathfinder.room.walkableGrid.Contains(safePosition))
         {
             foreach (Vector3 dir in directions)
             {

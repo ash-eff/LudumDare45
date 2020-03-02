@@ -62,7 +62,7 @@ namespace Ash.PlayerController
         public List<GameObject> interactableList = new List<GameObject>();
         public GameObject currentlyTouching;
         public SingleLight[] lightsInArea;
-        private GameController gameController;
+        public GameController gameController;
 
         private Vector3 movement;
         private Vector2 direction;
@@ -152,6 +152,14 @@ namespace Ash.PlayerController
             }
         }
 
+        public void IdleSprite()
+        {
+            spriteAnim.SetBool("Moving", false);
+            spriteAnim.SetBool("RunRightLeft", false);
+            spriteAnim.SetBool("RunUp", false);
+            spriteAnim.SetBool("RunDown", false);
+        }
+
         public void SetPlayerSpriteVisible(bool isVisible)
         {
             playerSprite.gameObject.SetActive(isVisible);
@@ -193,13 +201,13 @@ namespace Ash.PlayerController
             {
                 stealthBar.SetActive(true);
                 isStealthed = true;
-                playerSprite.color = stealthColor;
+                //playerSprite.color = stealthColor;
             }
             else
             {
                 stealthBar.SetActive(false);
                 isStealthed = false;
-                playerSprite.color = baseColor;
+                //playerSprite.color = baseColor;
             }
         }
 
@@ -214,6 +222,11 @@ namespace Ash.PlayerController
                 warningFlash.SetActive(false);
                 alertFlash.SetActive(true);
             }             
+        }
+
+        public void SwapRooms()
+        {
+            stateMachine.ChangeState(RoomSwapState.Instance);
         }
 
         #region helper functions

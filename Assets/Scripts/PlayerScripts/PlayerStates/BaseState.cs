@@ -24,6 +24,7 @@ public class BaseState : State<PlayerController>
 
     public override void EnterState(PlayerController player)
     {
+        player.SetPlayerSpriteVisible(true);
         player.layersToCheck = player.allObstacleLayers;
     }
 
