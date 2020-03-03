@@ -25,6 +25,7 @@ public class WaitState : State<PlayerController>
 
     public override void EnterState(PlayerController player)
     {
+        player.interactText.text = "";
         player.SetPlayerVelocity(0, false);
         player.SetSpriteAnimation();
         player.IdleSprite();

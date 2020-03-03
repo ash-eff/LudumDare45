@@ -109,6 +109,7 @@
     <Compile Include="Assets\Scripts\RobotScripts\RobotVision.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\Waypoint.cs" />
     <Compile Include="Assets\Scripts\Room.cs" />
+    <Compile Include="Assets\Scripts\RoomEntrance.cs" />
     <Compile Include="Assets\Scripts\RoomExit.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\Terminal.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\TerminalOS.cs" />

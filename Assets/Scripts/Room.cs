@@ -12,6 +12,7 @@ public class Room : MonoBehaviour
     public List<Vector2> walkableGrid;
     public Transform entrance;
     public Transform exit;
+    public float peakRadius;
     public bool roomLoaded;
 
     public GameObject roomHolder;
@@ -61,12 +62,22 @@ public class Room : MonoBehaviour
     {
         Vector2 screenPos = Camera.main.WorldToScreenPoint(pos);
         Ray ray = Camera.main.ScreenPointToRay(screenPos);
-        Debug.DrawRay(ray.origin, ray.direction * 15f, Color.blue, 100f);
+
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 15f, obstacleLayer);
         if (hit)
         {
+            Debug.DrawRay(ray.origin, ray.direction * 15f, Color.red, 100f);
             return false;
         }
+
+        RaycastHit2D secondHit = Physics2D.Raycast(ray.origin, ray.direction, 15f);
+        if (!secondHit)
+        {
+            Debug.DrawRay(ray.origin, ray.direction * 15f, Color.yellow, 100f);
+            return false;
+        }
+
+        Debug.DrawRay(ray.origin, ray.direction * 15f, Color.blue, 100f);
         return true;
     }
 
@@ -81,46 +92,6 @@ public class Room : MonoBehaviour
             ventGrid.gameObject.SetActive(false);
         }
     }
-
-    //public IEnumerator ActivateRoom()
-    //{
-    //    roomHolder.SetActive(true);
-    //    Tilemap fogTileMap = fogGrid.GetComponentInChildren<Tilemap>();
-    //    Color fogColor = fogTileMap.color;
-    //    Color A = new Color(fogColor.r, fogColor.g, fogColor.b, fogColor.a);
-    //    Color B = new Color(fogColor.r, fogColor.g, fogColor.b, 0);
-    //    float lerpTime = 1f;
-    //    float currentLerpTime = 0;
-    //    while (fogTileMap.color != B)
-    //    {
-    //        currentLerpTime += Time.deltaTime;
-    //        float perc = currentLerpTime / lerpTime;
-    //        fogTileMap.color = Color.Lerp(A, B, perc);
-    //
-    //        yield return null;
-    //    }
-    //    yield return null;
-    //}
-    //
-    //public IEnumerator DeactivateRoom()
-    //{
-    //    Tilemap fogTileMap = fogGrid.GetComponentInChildren<Tilemap>();
-    //    Color fogColor = fogTileMap.color;
-    //    Color A = new Color(fogColor.r, fogColor.g, fogColor.b, fogColor.a);
-    //    Color B = new Color(fogColor.r, fogColor.g, fogColor.b, 1);
-    //    float lerpTime = 1f;
-    //    float currentLerpTime = 0;
-    //    while (fogTileMap.color != B)
-    //    {
-    //        currentLerpTime += Time.deltaTime;
-    //        float perc = currentLerpTime / lerpTime;
-    //        fogTileMap.color = Color.Lerp(A, B, perc);
-    //
-    //        yield return null;
-    //    }
-    //    yield return null;
-    //    roomHolder.SetActive(false);
-    //}
 
     private void OnDrawGizmos()
     {

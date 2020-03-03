@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
     public Room startingRoom;
     public Room currentRoom;
     public Room lastRoom;
+    public RoomEntrance roomEntrance;
     public GameObject[] minimaps;
     public Image fadeImage;
     private PlayerController player;
@@ -39,10 +40,11 @@ public class GameController : MonoBehaviour
         }
     } 
 
-    public void SwapRooms(Room toRoom)
+    public void SwapRooms(Room toRoom, RoomEntrance toRoomEntrance)
     {
         lastRoom = currentRoom;
         currentRoom = toRoom;
+        roomEntrance = toRoomEntrance;
         StartCoroutine(RoomSwapFade());
     }
 

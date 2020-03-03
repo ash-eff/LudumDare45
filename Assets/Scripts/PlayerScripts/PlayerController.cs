@@ -105,6 +105,8 @@ namespace Ash.PlayerController
             if (currentlyTouching != null)
                 if (Input.GetKeyDown(KeyCode.E))
                     InteractWithObject();
+                if (Input.GetKeyDown(KeyCode.R))
+                    SecondaryInteractWithObject();
         }
 
         public void SetPlayerVelocity(float _atSpeed, bool allowMovement)
@@ -257,6 +259,18 @@ namespace Ash.PlayerController
                     stateMachine.ChangeState(HackState.Instance);
                 else
                     stateMachine.ChangeState(BaseState.Instance);
+            }
+            if (currentlyTouching.tag == "Exit")
+            {
+                currentlyTouching.GetComponent<RoomExit>().SwapRooms();
+            }
+        }
+
+        private void SecondaryInteractWithObject()
+        {
+            if (currentlyTouching.tag == "Exit")
+            {
+                StartCoroutine(currentlyTouching.GetComponent<RoomExit>().PeakIntoRoom());
             }
         }
 

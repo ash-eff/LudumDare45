@@ -28,7 +28,7 @@ public class RoomSwapState : State<PlayerController>
         CameraController cam = Camera.main.GetComponent<CameraController>();
         cam.followPlayer = false;
         player.lightsInArea = player.gameController.currentRoom.GetComponentsInChildren<SingleLight>();
-        player.transform.position = player.gameController.currentRoom.entrance.position;
+        player.transform.position = player.gameController.roomEntrance.transform.position;
         cam.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, cam.transform.position.z);
     }
 
