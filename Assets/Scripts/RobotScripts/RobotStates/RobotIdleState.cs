@@ -14,13 +14,11 @@ public class RobotIdleState : State<RobotController>
 
         if (hit)
         {
-            Debug.Log(_robot.name + " " + hit.collider.name);
             Debug.DrawRay(_robot.transform.position, _robot.directionFacing * _robot.visionDistance, Color.black, 1f);
             SimpleCoroutine.Instance.StartCoroutine(WaitToMove());
         }
         else
         {
-            Debug.Log(_robot.name + " No Obstacle");
             Debug.DrawRay(_robot.transform.position, _robot.directionFacing * _robot.visionDistance, Color.green, 1f);
             SimpleCoroutine.Instance.StartCoroutine(IeScanArea());
         }

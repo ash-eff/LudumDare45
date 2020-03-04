@@ -42,6 +42,7 @@ public class HideState : State<PlayerController>
     {
         player.PlayerInput();
         player.SetPlayerVelocity(0, false);
+        player.SetCameraTarget(player.transform.position);
     }
 
     public override void FixedUpdateState(PlayerController player)

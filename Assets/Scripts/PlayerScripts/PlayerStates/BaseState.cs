@@ -40,6 +40,7 @@ public class BaseState : State<PlayerController>
         player.SetSpriteDirection();
         player.SetSpriteAnimation();
         player.WarningAlertIndicator();
+        player.SetCameraTarget(player.transform.position);
     }
 
     public override void FixedUpdateState(PlayerController player)

@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class MyUtils
 {
-    public static Vector2 SnapToGrid(Vector2 position)
+    public static Vector3 SnapToGrid(Vector3 position)
     {
         float x = Mathf.Round(position.x * 2) / 2;
         float y = Mathf.Round(position.y * 2) / 2;
-        return new Vector2(x, y);
+        float z = Mathf.Round(position.z * 2) / 2;
+        return new Vector3(x, y, z);
     }
 }

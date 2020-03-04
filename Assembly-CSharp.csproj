@@ -93,6 +93,7 @@
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\HackState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\HideState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\KnockState.cs" />
+    <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\PeakState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\RoomSwapState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\VentState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\WaitState.cs" />

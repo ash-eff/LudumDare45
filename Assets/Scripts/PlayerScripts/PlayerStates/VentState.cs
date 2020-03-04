@@ -41,6 +41,7 @@ public class VentState : State<PlayerController>
         player.SetPlayerVelocity(player.CrawlSpeed, true);
         player.SetSpriteDirection();
         player.SetSpriteAnimation();
+        player.SetCameraTarget(player.transform.position);
     }
 
     public override void FixedUpdateState(PlayerController player)

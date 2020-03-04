@@ -9,6 +9,7 @@ public class CameraController : MonoBehaviour
     public bool followPlayer;
     private GameController gameController;
     private PlayerController player;
+    public Vector3 targetPos;
     //private Vector2 playerCursorPos;
 
     private void Awake()
@@ -30,13 +31,13 @@ public class CameraController : MonoBehaviour
             //{
             //    return;
             //}
-            FollowPlayer();
+            FollowPlayerTarget(player.cameraTarget);
         }
     }
 
-    void FollowPlayer()
+    void FollowPlayerTarget(Vector2 _target)
     {
-        Vector3 targetPos = new Vector3(player.transform.position.x, player.transform.position.y, -10f);
+        targetPos = new Vector3(_target.x, _target.y, -10f);
         transform.position = Vector3.Lerp(transform.position, targetPos, lerpSpeed * Time.fixedDeltaTime);
     }
 

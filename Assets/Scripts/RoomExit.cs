@@ -8,8 +8,6 @@ public class RoomExit : MonoBehaviour, IInteractable
     public Room nextRoom;
     public RoomEntrance nextRoomEntrance;
     public GameController gameController;
-    public SpriteMask sprMask;
-    public float peakTime;
 
     private void Awake()
     {
@@ -17,25 +15,21 @@ public class RoomExit : MonoBehaviour, IInteractable
         thisRoom = GetComponentInParent<Room>();
     }
 
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.tag == "Player")
-    //    {
-    //        gameController.SwapRooms(nextRoom, nextRoomEntrance);
-    //    }
-    //}
-
     public void SwapRooms()
     {
-        sprMask.gameObject.SetActive(false);
         gameController.SwapRooms(nextRoom, nextRoomEntrance);
     }
 
-    public IEnumerator PeakIntoRoom()
+    public void PeakIntoRoom()
     {
-        sprMask.gameObject.SetActive(true);
-        yield return new WaitForSeconds(peakTime);
-        sprMask.gameObject.SetActive(false);
+        gameController.currentRoom.fogGrid.gameObject.SetActive(true);
+        nextRoom.PeakIntoRoom(nextRoomEntrance.transform.localPosition);
+    }
+
+    public void ResetPeak()
+    {
+        gameController.currentRoom.fogGrid.gameObject.SetActive(false);
+        nextRoom.ResetRoom();
     }
 
     public void Interact()

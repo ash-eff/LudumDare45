@@ -16,6 +16,8 @@ namespace Ash.PlayerController
         public StateMachine<PlayerController> stateMachine;
         public static PlayerController player;
 
+        public Vector3 cameraTarget;
+
         public bool spotted;
         public int timesSpotted;
         public GameObject warningFlash;
@@ -88,15 +90,22 @@ namespace Ash.PlayerController
             player = this;
             stateMachine = new StateMachine<PlayerController>(player);
             stateMachine.ChangeState(BaseState.Instance);
+
         }
 
         private void Start()
         {
             lightsInArea = gameController.currentRoom.GetComponentsInChildren<SingleLight>();
+            cameraTarget = transform.position;
         }
 
         private void Update() => stateMachine.Update();
         private void FixedUpdate() => stateMachine.FixedUpdate();
+
+        public void SetCameraTarget(Vector2 _pos)
+        {
+            cameraTarget = _pos;
+        }
 
         public void PlayerInput()
         {
@@ -107,7 +116,7 @@ namespace Ash.PlayerController
                     InteractWithObject();
                 if (Input.GetKeyDown(KeyCode.R))
                     SecondaryInteractWithObject();
-        }
+        }   
 
         public void SetPlayerVelocity(float _atSpeed, bool allowMovement)
         {
@@ -270,7 +279,8 @@ namespace Ash.PlayerController
         {
             if (currentlyTouching.tag == "Exit")
             {
-                StartCoroutine(currentlyTouching.GetComponent<RoomExit>().PeakIntoRoom());
+                if (stateMachine.currentState == BaseState.Instance)
+                    stateMachine.ChangeState(PeakState.Instance);               
             }
         }
 
