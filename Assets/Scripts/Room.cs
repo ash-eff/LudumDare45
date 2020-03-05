@@ -15,6 +15,9 @@ public class Room : MonoBehaviour
     public float peakRadius;
     public bool roomLoaded;
     public bool resetRoom = false;
+    public GameObject exits;
+    public GameObject lights;
+    public GameObject shadows;
 
     List<Vector3Int> allTilePos = new List<Vector3Int>();
     Tilemap fogTiles;
@@ -31,12 +34,12 @@ public class Room : MonoBehaviour
     void Awake()
     {
         //roomHolder.SetActive(false);
-        fogTiles = fogGrid.GetComponentInChildren<Tilemap>();
-        fogGrid.gameObject.SetActive(true);
-        fogColor = new Color(fogTiles.color.r, fogTiles.color.g, fogTiles.color.b, fogTiles.color.a);
-        GetAllFogTilePositions();
+        //fogTiles = fogGrid.GetComponentInChildren<Tilemap>();
+        //fogGrid.gameObject.SetActive(true);
+        //fogColor = new Color(fogTiles.color.r, fogTiles.color.g, fogTiles.color.b, fogTiles.color.a);
+        //GetAllFogTilePositions();
         GetGridDictionary();
-        transform.position = new Vector3(transform.position.x, transform.position.y, 5);
+        ResetRoom();
     }
 
     private void GetGridDictionary()
@@ -103,68 +106,43 @@ public class Room : MonoBehaviour
         }
     }
 
-    private void GetAllFogTilePositions()
+    //public void PeakIntoRoom(Vector2 _localPeakPos)
+    //{
+    //    resetRoom = false;
+    //    transform.position = new Vector3(transform.position.x, transform.position.y, -1f);
+    //    foreach (Vector3Int pos in allTilePos)
+    //    {
+    //        float distance = (new Vector3Int((int)_localPeakPos.x, (int)_localPeakPos.y, 0) - pos).magnitude;
+    //        if(distance <= peakRadius)
+    //        {
+    //            StartCoroutine(FadeTile(pos, distance / peakRadius));
+    //        }
+    //    }
+    //}
+
+    public void SelectRoom()
     {
-        Tilemap fogTiles = fogGrid.GetComponentInChildren<Tilemap>();
-        fogTiles.CompressBounds();
-        fogTiles.origin = Vector3Int.zero;
-        BoundsInt bounds = fogTiles.cellBounds;
-        TileBase[] allTiles = fogTiles.GetTilesBlock(bounds);
-
-        for (int x = 0; x < bounds.size.x; x++)
-        {
-            for (int y = 0; y < bounds.size.y; y++)
-            {
-                TileBase tile = allTiles[x + y * bounds.size.x];
-                if (tile != null)
-                {
-                    fogTiles.SetTileFlags(new Vector3Int((int)x, (int)y, 0), TileFlags.None);
-                    allTilePos.Add(new Vector3Int((int)x, (int)y, 0));
-                }
-            }
-        }
-    }
-
-    public void PeakIntoRoom(Vector2 _localPeakPos)
-    {
-        resetRoom = false;
-        transform.position = new Vector3(transform.position.x, transform.position.y, -1f);
-        foreach (Vector3Int pos in allTilePos)
-        {
-            float distance = (new Vector3Int((int)_localPeakPos.x, (int)_localPeakPos.y, 0) - pos).magnitude;
-            if(distance <= peakRadius)
-            {
-                StartCoroutine(FadeTile(pos, distance / peakRadius));
-            }
-        }
-    }
-
-    IEnumerator FadeTile(Vector3Int pos, float dist)
-    {
-        Color A = new Color(1, 1, 1, 1);
-        Color B = new Color(1, 1, 1, dist);
-        float lerpTime = 1f;
-        float currentLerpTime = 0;
-        while (fogTiles.GetColor(pos) != B && !resetRoom)
-        {
-            currentLerpTime += Time.deltaTime;
-            float perc = currentLerpTime / lerpTime;
-            Color color = Color.Lerp(A, B, perc);
-            fogTiles.SetColor(pos, color);
-
-            yield return null;
-        }
+        transform.position = new Vector3(transform.position.x, transform.position.y, -2f);
+        exits.gameObject.SetActive(true);
+        lights.gameObject.SetActive(true);
+        shadows.gameObject.SetActive(true);
     }
 
     public void ResetRoom()
     {
-        foreach (Vector3Int pos in allTilePos)
-        {
-            fogTiles.SetColor(pos, new Color(1,1,1,1));
-            //StartCoroutine(ResetFogColor(pos));          
-        }
-        transform.position = new Vector3(transform.position.x, transform.position.y, 5);
-        resetRoom = true;
+        transform.position = new Vector3(transform.position.x, transform.position.y, 2f);
+        exits.gameObject.SetActive(false);
+        lights.gameObject.SetActive(false);
+        shadows.gameObject.SetActive(false);
+    }
+
+    public void PeakIntoRoom()
+    {
+        // bring the room closer than the current room you are in and then "peak"
+        transform.position = new Vector3(transform.position.x, transform.position.y, -5f);
+        exits.gameObject.SetActive(false);
+        lights.gameObject.SetActive(false);
+        shadows.gameObject.SetActive(false);
     }
 
     IEnumerator ResetFogColor(Vector3Int pos)
