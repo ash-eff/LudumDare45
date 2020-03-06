@@ -245,7 +245,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3620842373490225137}
   - component: {fileID: 2189840366483242213}
-  m_Layer: 16
+  m_Layer: 8
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -487,7 +487,7 @@ MonoBehaviour:
   - {x: 0.563028, y: 1.2030128, z: 0}
   m_ShapePathHash: -644909748
   m_Mesh: {fileID: 0}
-  m_InstanceId: 55928
+  m_InstanceId: 545158
 --- !u!1 &3463929822891393350
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,7 +761,7 @@ MonoBehaviour:
   - {x: -0.74865544, y: 1.2017406, z: 0}
   m_ShapePathHash: -245045876
   m_Mesh: {fileID: 0}
-  m_InstanceId: 55932
+  m_InstanceId: 545162
 --- !u!1 &6259098043354847733
 GameObject:
   m_ObjectHideFlags: 0

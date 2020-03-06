@@ -18,7 +18,14 @@ public class GameController : MonoBehaviour
     public Transform startPoint;
     public Tilemap fogTiles;
     public Tilemap roomFloorTiles;
+    public GameObject aPrefab;
+    public GameObject aPrefab2;
+
     List<Vector3Int> allFogTilePos = new List<Vector3Int>();
+    List<Vector3Int> currentRoomTiles = new List<Vector3Int>();
+    List<Vector3Int> peakRoomTiles = new List<Vector3Int>();
+    public float peakRadius;
+    public int layerMod = 2;
 
     private void Awake()
     {
@@ -56,8 +63,53 @@ public class GameController : MonoBehaviour
         StartCoroutine(RoomSwapFade());
     }
 
+    public void PeakIntoRoom(Vector2 _peakPos, Room _peakRoom)
+    {
+        // can clean this up and create more helper functions
+        ResetFog();
+        List<Vector3Int> peakRoom = GetAllTilePositions(_peakRoom.fogGrid.GetComponentInChildren<Tilemap>());
+        Dictionary<Vector3Int, float> peakRadiusDict = new Dictionary<Vector3Int, float>();
+
+        foreach(Vector3Int pos in peakRoom)
+        {
+            float distance = (new Vector3Int((int)_peakPos.x, (int)_peakPos.y, 0) - pos).magnitude;
+            if (distance <= peakRadius)
+            {
+                peakRadiusDict.Add(pos, distance/peakRadius);
+            }
+        }
+
+        foreach (Vector3Int pos in currentRoomTiles)
+        {
+            if (peakRadiusDict.ContainsKey(pos))
+            {
+                // skip
+            }
+            else
+            {
+                float distance = (new Vector3Int((int)_peakPos.x, (int)_peakPos.y, 0) - pos).magnitude;
+                if (distance <= peakRadius)
+                {
+                    peakRadiusDict.Add(pos, distance / peakRadius);
+                }
+            }
+        }
+
+        foreach(KeyValuePair<Vector3Int,float> kvp in peakRadiusDict)
+        {
+            FadeTile(kvp.Key, fogTiles.GetColor(kvp.Key).a, kvp.Value);
+        }
+    }
+
+    public void StopPeaking()
+    {
+        ResetFog();
+        ShowRoom(currentRoom);
+    }
+
     private List<Vector3Int> GetAllTilePositions(Tilemap _tilemap)
     {
+        Room tilemapRoom = _tilemap.GetComponentInParent<Room>();
         _tilemap.CompressBounds();
         _tilemap.origin = Vector3Int.zero;
         BoundsInt bounds = _tilemap.cellBounds;
@@ -71,8 +123,17 @@ public class GameController : MonoBehaviour
                 TileBase tile = allTiles[x + y * bounds.size.x];
                 if (tile != null)
                 {
-                    allTilePos.Add(new Vector3Int((int)x, (int)y, 0));
-                    _tilemap.SetTileFlags(new Vector3Int((int)x, (int)y, 0), TileFlags.None);
+                    if(tilemapRoom == null)
+                    {
+                        allTilePos.Add(new Vector3Int((int)x, (int)y, 0));
+                        _tilemap.SetTileFlags(new Vector3Int((int)x, (int)y, 0), TileFlags.None);
+                    }
+                    else
+                    {
+                        Vector3Int roomOffsetPos = new Vector3Int((int)x + (int)tilemapRoom.transform.position.x, (int)y + (int)tilemapRoom.transform.position.y, 0);
+                        allTilePos.Add(roomOffsetPos);
+                        _tilemap.SetTileFlags(roomOffsetPos, TileFlags.None);
+                    }
                 }
             }
         }
@@ -87,31 +148,30 @@ public class GameController : MonoBehaviour
         roomFloorTiles.origin = Vector3Int.zero;
         BoundsInt bounds = roomFloorTiles.cellBounds;
         TileBase[] allTiles = roomFloorTiles.GetTilesBlock(bounds);
-        List<Vector3Int> currentRoomTiles = GetAllTilePositions(roomFloorTiles);
+        currentRoomTiles = GetAllTilePositions(roomFloorTiles);
 
         foreach (Vector3Int pos in currentRoomTiles)
         {
-            Vector3Int newPos = new Vector3Int(pos.x + (int)_room.transform.position.x, pos.y + (int)_room.transform.position.y, 0);
-            StartCoroutine(FadeTile(newPos, fogTiles.GetColor(pos).a, 0));
+            //Vector3Int newPos = new Vector3Int(pos.x + (int)_room.transform.position.x, pos.y + (int)_room.transform.position.y, 0);
+            FadeTile(pos, fogTiles.GetColor(pos).a, 0);
         }
     }
 
-    private void HideRoom(Room _room)
+    private void ResetFog()
     {
         foreach (Vector3Int pos in allFogTilePos)
         {
-            //Vector3Int newPos = new Vector3Int(pos.x + (int)_room.transform.position.x, pos.y + (int)_room.transform.position.y, 0);
-            StartCoroutine(FadeTile(pos, fogTiles.GetColor(pos).a, 1));
+            FadeTile(pos, fogTiles.GetColor(pos).a, 1);
         }
     }
 
-    IEnumerator FadeTile(Vector3Int pos, float startVal, float endVal)
+    void FadeTile(Vector3Int pos, float startVal, float endVal)
     {
         Color A = new Color(1, 1, 1, startVal);
         Color B = new Color(1, 1, 1, endVal);
         float lerpTime = .1f;
         float currentLerpTime = 0;
-        while (fogTiles.GetColor(pos) != B)
+        if (fogTiles.GetColor(pos) != B)
         {
             currentLerpTime += Time.deltaTime;
             float perc = currentLerpTime / lerpTime;
@@ -119,7 +179,7 @@ public class GameController : MonoBehaviour
             Color color = new Color(1f, 1f, 1f, endVal);
             fogTiles.SetColor(pos, color);
 
-            yield return null;
+            //yield return null;
         }
     }
 
@@ -128,7 +188,7 @@ public class GameController : MonoBehaviour
         player.stateMachine.ChangeState(WaitState.Instance);
         Color A = new Color(fadeImage.color.r, fadeImage.color.g, fadeImage.color.b, 0);
         Color B = new Color(fadeImage.color.r, fadeImage.color.g, fadeImage.color.b, 1);
-        float lerpTime = .25f;
+        float lerpTime = .5f;
         float currentLerpTime = 0;
         while (fadeImage.color != B)
         {
@@ -140,10 +200,10 @@ public class GameController : MonoBehaviour
         }
 
         player.stateMachine.ChangeState(RoomSwapState.Instance);
-        HideRoom(lastRoom);
+        ResetFog();
         lastRoom.ResetRoom();
         currentRoom.SelectRoom();
-        yield return new WaitForSeconds(.5f);
+        //yield return new WaitForSeconds(.5f);
 
         ShowRoom(currentRoom);
         currentLerpTime = 0;

@@ -270,8 +270,11 @@ namespace Ash.PlayerController
                     stateMachine.ChangeState(BaseState.Instance);
             }
             if (currentlyTouching.tag == "Exit")
-            {
-                currentlyTouching.GetComponent<RoomExit>().SwapRooms();
+            { 
+                if (stateMachine.currentState == BaseState.Instance)
+                {
+                    currentlyTouching.GetComponent<RoomExit>().SwapRooms();
+                }
             }
         }
 
@@ -280,7 +283,10 @@ namespace Ash.PlayerController
             if (currentlyTouching.tag == "Exit")
             {
                 if (stateMachine.currentState == BaseState.Instance)
-                    stateMachine.ChangeState(PeakState.Instance);               
+                {
+                    stateMachine.ChangeState(PeakState.Instance);
+                }
+  
             }
         }
 

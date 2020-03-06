@@ -163,7 +163,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3620842373490225137}
   - component: {fileID: 2189840366483242213}
-  m_Layer: 16
+  m_Layer: 8
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -698,7 +698,7 @@ MonoBehaviour:
   - {x: -0.15608795, y: 0.747187, z: 0}
   m_ShapePathHash: 1612145312
   m_Mesh: {fileID: 0}
-  m_InstanceId: 54254
+  m_InstanceId: 545702
 --- !u!114 &-5441862518692398401
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -24,9 +24,6 @@ public class RoomSwapState : State<PlayerController>
 
     public override void EnterState(PlayerController player)
     {
-        CameraController cam = Camera.main.GetComponent<CameraController>();
-        cam.followPlayer = false;
-        cam.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, cam.transform.position.z);
         player.IdleSprite();
         player.lightsInArea = player.gameController.currentRoom.GetComponentsInChildren<SingleLight>();
         player.transform.position = player.gameController.roomEntrance.transform.position;
@@ -34,12 +31,11 @@ public class RoomSwapState : State<PlayerController>
 
     public override void ExitState(PlayerController player)
     {
-        CameraController cam = Camera.main.GetComponent<CameraController>();
-        cam.followPlayer = true;
     }
 
     public override void UpdateState(PlayerController player)
     {
+        player.SetCameraTarget(player.transform.position);
     }
 
     public override void FixedUpdateState(PlayerController player)

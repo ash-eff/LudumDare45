@@ -22,14 +22,30 @@ public class RoomExit : MonoBehaviour, IInteractable
 
     public void PeakIntoRoom()
     {
-        gameController.currentRoom.fogGrid.gameObject.SetActive(true);
-        //nextRoom.PeakIntoRoom(nextRoomEntrance.transform.localPosition);
+        Vector2 dir = nextRoomEntrance.transform.position - transform.position;
+
+        // check if this room exits down
+        if (dir.y < 0)
+        {
+            thisRoom.ResetRoom();
+            nextRoom.PeakIntoRoom();
+        }
+
+        gameController.PeakIntoRoom(nextRoomEntrance.transform.position, nextRoom);
     }
 
     public void ResetPeak()
     {
-        gameController.currentRoom.fogGrid.gameObject.SetActive(false);
-        nextRoom.ResetRoom();
+        Vector2 dir = nextRoomEntrance.transform.position - transform.position;
+
+        // check is this room exits down
+        if (dir.y < 0)
+        {
+            thisRoom.SelectRoom();
+            nextRoom.ResetRoom();
+        }
+        
+        gameController.StopPeaking();
     }
 
     public void Interact()
@@ -38,7 +54,6 @@ public class RoomExit : MonoBehaviour, IInteractable
 
     public string BeingTouched()
     {
-        Debug.Log(this.transform.name);
         return "Press E to enter next area. \n Press R to peak into next area.";
 
     }

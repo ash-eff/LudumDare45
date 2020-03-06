@@ -12,20 +12,18 @@ public class Room : MonoBehaviour
     public List<Vector2> walkableGrid;
     public Transform entrance;
     public Transform exit;
-    public float peakRadius;
+    public Renderer[] rends;
+
     public bool roomLoaded;
-    public bool resetRoom = false;
     public GameObject exits;
-    public GameObject lights;
     public GameObject shadows;
 
-    List<Vector3Int> allTilePos = new List<Vector3Int>();
-    Tilemap fogTiles;
+    private GameController gameController;
+    private Tilemap floorTileMap;
+    private List<Vector3Int> allTilePos = new List<Vector3Int>();
+    private Tilemap fogTiles;
 
     public GameObject roomHolder;
-    private Tilemap floorTileMap;
-    public Color fogColor;
-    public Color otherFogColor;
 
     private Dictionary<Vector2, bool> theGrid;
 
@@ -33,13 +31,12 @@ public class Room : MonoBehaviour
 
     void Awake()
     {
-        //roomHolder.SetActive(false);
-        //fogTiles = fogGrid.GetComponentInChildren<Tilemap>();
-        //fogGrid.gameObject.SetActive(true);
-        //fogColor = new Color(fogTiles.color.r, fogTiles.color.g, fogTiles.color.b, fogTiles.color.a);
-        //GetAllFogTilePositions();
+        ventGrid.gameObject.SetActive(true);
+        shadows.SetActive(true);
+        gameController = FindObjectOfType<GameController>();
+        rends = GetComponentsInChildren<Renderer>();
+        ventGrid.gameObject.SetActive(false);
         GetGridDictionary();
-        ResetRoom();
     }
 
     private void GetGridDictionary()
@@ -106,59 +103,33 @@ public class Room : MonoBehaviour
         }
     }
 
-    //public void PeakIntoRoom(Vector2 _localPeakPos)
-    //{
-    //    resetRoom = false;
-    //    transform.position = new Vector3(transform.position.x, transform.position.y, -1f);
-    //    foreach (Vector3Int pos in allTilePos)
-    //    {
-    //        float distance = (new Vector3Int((int)_localPeakPos.x, (int)_localPeakPos.y, 0) - pos).magnitude;
-    //        if(distance <= peakRadius)
-    //        {
-    //            StartCoroutine(FadeTile(pos, distance / peakRadius));
-    //        }
-    //    }
-    //}
-
     public void SelectRoom()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y, -2f);
+        foreach(Renderer rend in rends)
+        {
+            rend.sortingOrder += gameController.layerMod;
+        }
+
         exits.gameObject.SetActive(true);
-        lights.gameObject.SetActive(true);
-        shadows.gameObject.SetActive(true);
     }
 
     public void ResetRoom()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y, 2f);
+        foreach (Renderer rend in rends)
+        {
+            rend.sortingOrder -= gameController.layerMod;
+        }
+
         exits.gameObject.SetActive(false);
-        lights.gameObject.SetActive(false);
-        shadows.gameObject.SetActive(false);
     }
 
     public void PeakIntoRoom()
     {
-        // bring the room closer than the current room you are in and then "peak"
-        transform.position = new Vector3(transform.position.x, transform.position.y, -5f);
-        exits.gameObject.SetActive(false);
-        lights.gameObject.SetActive(false);
-        shadows.gameObject.SetActive(false);
-    }
-
-    IEnumerator ResetFogColor(Vector3Int pos)
-    {
-        Color A = new Color(1,1,1,fogTiles.GetColor(pos).a);
-        Color B = new Color(1, 1, 1, 1);
-        float lerpTime = 1f;
-        float currentLerpTime = 0;
-        while (fogTiles.GetColor(pos).a != 1)
+        foreach (Renderer rend in rends)
         {
-            currentLerpTime += Time.deltaTime;
-            float perc = currentLerpTime / lerpTime;
-            Color color = Color.Lerp(A, B, perc);
-            fogTiles.SetColor(pos, color);
-            yield return null;
+            rend.sortingOrder += gameController.layerMod;
         }
+        exits.gameObject.SetActive(true);
     }
 
     private void OnDrawGizmos()
