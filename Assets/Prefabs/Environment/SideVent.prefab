@@ -165,7 +165,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 7
+  m_SortingOrder: 5
   m_Sprite: {fileID: -949387963414145582, guid: 305e0673cf49bf84e9c45ca6b1c1c07c,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4936,6 +4936,7 @@ MonoBehaviour:
   entrance: {fileID: 2797806170317463136}
   exit: {fileID: 4455743183344760921}
   ventOverlay: {fileID: 0}
+  thisRoom: {fileID: 0}
 --- !u!61 &2392695432747899256
 BoxCollider2D:
   m_ObjectHideFlags: 0

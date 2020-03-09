@@ -22,30 +22,12 @@ public class RoomExit : MonoBehaviour, IInteractable
 
     public void PeakIntoRoom()
     {
-        Vector2 dir = nextRoomEntrance.transform.position - transform.position;
-
-        // check if this room exits down
-        if (dir.y < 0)
-        {
-            thisRoom.ResetRoom();
-            nextRoom.PeakIntoRoom();
-        }
-
         gameController.PeakIntoRoom(nextRoomEntrance.transform.position, nextRoom);
     }
 
     public void ResetPeak()
     {
-        Vector2 dir = nextRoomEntrance.transform.position - transform.position;
-
-        // check is this room exits down
-        if (dir.y < 0)
-        {
-            thisRoom.SelectRoom();
-            nextRoom.ResetRoom();
-        }
-        
-        gameController.StopPeaking();
+        gameController.StopPeaking(nextRoomEntrance.transform.position, nextRoom);
     }
 
     public void Interact()

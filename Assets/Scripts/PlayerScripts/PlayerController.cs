@@ -55,7 +55,7 @@ namespace Ash.PlayerController
         public GameObject stealthBar;
         public GameObject feet;
         public GameObject head;
-        //[SerializeField] private GameObject cursor;
+        public GameObject cursor;
         [SerializeField] private SpriteRenderer playerSprite;
         [Space(2)]
         #endregion
@@ -75,7 +75,7 @@ namespace Ash.PlayerController
         #endregion
 
         public Vector3 Movement { get { return movement; } }
-        //public Vector3 GetCursorPos { get { return cursor.transform.position; } }
+        public Vector3 GetCursorPos { get { return cursor.transform.position; } }
         public bool CanMove { get { return canMove; } set { canMove = value; } }
         public GameObject CurrentlyTouching { get { return currentlyTouching; } }
         public float RunSpeed { get { return runSpeed; } }
@@ -271,7 +271,7 @@ namespace Ash.PlayerController
             }
             if (currentlyTouching.tag == "Exit")
             { 
-                if (stateMachine.currentState == BaseState.Instance)
+                if (stateMachine.currentState == BaseState.Instance || stateMachine.currentState == PeakState.Instance)
                 {
                     currentlyTouching.GetComponent<RoomExit>().SwapRooms();
                 }
@@ -283,10 +283,9 @@ namespace Ash.PlayerController
             if (currentlyTouching.tag == "Exit")
             {
                 if (stateMachine.currentState == BaseState.Instance)
-                {
                     stateMachine.ChangeState(PeakState.Instance);
-                }
-  
+                else
+                    stateMachine.ChangeState(BaseState.Instance);
             }
         }
 

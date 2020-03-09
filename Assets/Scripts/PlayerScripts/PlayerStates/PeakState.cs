@@ -26,13 +26,16 @@ public class PeakState : State<PlayerController>
 
     public override void EnterState(PlayerController player)
     {
+        player.interactText.text = "";
         roomExit = player.currentlyTouching.GetComponent<RoomExit>();
         roomExit.PeakIntoRoom();
+        player.SetPlayerSpriteVisible(false);
     }
 
     public override void ExitState(PlayerController player)
     {
         roomExit.ResetPeak();
+        player.SetPlayerSpriteVisible(true);
     }
 
     public override void UpdateState(PlayerController player)

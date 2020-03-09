@@ -17,6 +17,7 @@ public class Room : MonoBehaviour
     public bool roomLoaded;
     public GameObject exits;
     public GameObject shadows;
+    public GameObject lights;
 
     private GameController gameController;
     private Tilemap floorTileMap;
@@ -103,33 +104,57 @@ public class Room : MonoBehaviour
         }
     }
 
+    public void PrepareRoom(bool startingRoom)
+    {
+        exits.gameObject.SetActive(startingRoom);
+        shadows.gameObject.SetActive(startingRoom);
+        lights.gameObject.SetActive(startingRoom);
+    }
+
     public void SelectRoom()
     {
         foreach(Renderer rend in rends)
         {
-            rend.sortingOrder += gameController.layerMod;
+            rend.sortingOrder += gameController.baseLayerMod;
         }
 
         exits.gameObject.SetActive(true);
+        shadows.gameObject.SetActive(true);
+        lights.gameObject.SetActive(true);
     }
 
     public void ResetRoom()
     {
         foreach (Renderer rend in rends)
         {
-            rend.sortingOrder -= gameController.layerMod;
+            rend.sortingOrder -= gameController.baseLayerMod;
         }
 
         exits.gameObject.SetActive(false);
+        shadows.gameObject.SetActive(false);
+        lights.gameObject.SetActive(false);
     }
 
-    public void PeakIntoRoom()
+    public void PeakIntoRoom(int layerMod)
     {
         foreach (Renderer rend in rends)
         {
-            rend.sortingOrder += gameController.layerMod;
+            rend.sortingOrder += layerMod;
         }
         exits.gameObject.SetActive(true);
+        shadows.gameObject.SetActive(false);
+        lights.gameObject.SetActive(false);
+    }
+
+    public void ResetPeakIntoRoom(int layerMod)
+    {
+        foreach (Renderer rend in rends)
+        {
+            rend.sortingOrder -= layerMod;
+        }
+        exits.gameObject.SetActive(false);
+        shadows.gameObject.SetActive(false);
+        lights.gameObject.SetActive(false);
     }
 
     private void OnDrawGizmos()

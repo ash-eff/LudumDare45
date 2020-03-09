@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 2
   m_Sprite: {fileID: 5693244667489382174, guid: 305e0673cf49bf84e9c45ca6b1c1c07c,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -162,6 +162,4 @@ MonoBehaviour:
   lightRebootTimer: 5
   doors: []
   lights: []
-  lightWarning: {fileID: 0}
-  lightWarningFill: {fileID: 0}
   rebootingLights: 0
