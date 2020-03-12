@@ -58,4 +58,6 @@ public class RobotController : MonoBehaviour
         Debug.DrawRay(transform.position, new Vector2(rightDirection.x, rightDirection.y) * visionDistance, Color.yellow);
         Debug.DrawRay(transform.position, new Vector2(leftDirection.x, leftDirection.y) * visionDistance, Color.blue);
     }
+
+
 }

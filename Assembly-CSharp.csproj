@@ -97,7 +97,9 @@
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\RoomSwapState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\VentState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\WaitState.cs" />
+    <Compile Include="Assets\Scripts\PlayerScripts\StunBaton.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\PathFinder.cs" />
+    <Compile Include="Assets\Scripts\RobotScripts\RobotCircle.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotController.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotFOV.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotPatrol.cs" />

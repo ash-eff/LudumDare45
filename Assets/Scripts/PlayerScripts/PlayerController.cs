@@ -69,9 +69,11 @@ namespace Ash.PlayerController
         private Vector3 movement;
         private Vector2 direction;
         private bool canMove;
+        private bool canAttack = true;
         private LayerMask currentlyChecking;
         public Animator spriteAnim;
         private Rigidbody2D rb2d;
+        public StunBaton stunBaton;
         #endregion
 
         public Vector3 Movement { get { return movement; } }
@@ -116,6 +118,13 @@ namespace Ash.PlayerController
                     InteractWithObject();
                 if (Input.GetKeyDown(KeyCode.R))
                     SecondaryInteractWithObject();
+
+            if (Input.GetMouseButtonDown(0) && canAttack)
+            {
+                stunBaton.Swing();
+                //canAttack = false;
+                //StartCoroutine(StunBaton());
+            }
         }   
 
         public void SetPlayerVelocity(float _atSpeed, bool allowMovement)
@@ -394,6 +403,18 @@ namespace Ash.PlayerController
             }
 
             return lightsHittingPlayer;
+        }
+
+        private IEnumerator StunBaton()
+        {
+            stunBaton.Swing();
+            float timer = 1f;
+            while(timer > 0)
+            {
+                timer -= Time.deltaTime;
+                yield return null;
+            }
+            canAttack = true;
         }
         #endregion
     }

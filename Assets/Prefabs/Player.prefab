@@ -605,6 +605,7 @@ MonoBehaviour:
   layersToCheck:
     serializedVersion: 2
     m_Bits: 2097408
+  cameraTarget: {x: 0, y: 0, z: 0}
   spotted: 0
   timesSpotted: 0
   warningFlash: {fileID: 0}
@@ -641,12 +642,14 @@ MonoBehaviour:
   stealthBar: {fileID: 0}
   feet: {fileID: 226507417024479958}
   head: {fileID: 506986874661292816}
+  cursor: {fileID: 0}
   playerSprite: {fileID: 7638215454333253833}
   interactableList: []
   currentlyTouching: {fileID: 0}
   lightsInArea: []
   gameController: {fileID: 0}
   spriteAnim: {fileID: 8019497024510566423}
+  stunBaton: {fileID: 0}
 --- !u!95 &8019497024510566423
 Animator:
   serializedVersion: 3
@@ -820,7 +823,7 @@ MonoBehaviour:
   - {x: -0.17037117, y: -0.2668113, z: 0}
   m_ShapePathHash: -807715003
   m_Mesh: {fileID: 0}
-  m_InstanceId: 242646
+  m_InstanceId: 106964
 --- !u!1 &2612220361568444202
 GameObject:
   m_ObjectHideFlags: 0
