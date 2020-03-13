@@ -35,10 +35,13 @@ public class RobotController : MonoBehaviour
     public List<Vector3> path = new List<Vector3>();
     public int nextIndexInPath = 1;
 
+    public Room startingRoom;
+
     public PlayerController playerTarget;
 
     private void Awake()
     {
+        startingRoom = GetComponentInParent<Room>();
         pathfinder = GetComponent<PathFinder>();
         playerTarget = FindObjectOfType<PlayerController>();
         robot = this;

@@ -95,6 +95,7 @@
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\KnockState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\PeakState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\RoomSwapState.cs" />
+    <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\TerminalState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\VentState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\WaitState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\StunBaton.cs" />

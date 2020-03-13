@@ -9,6 +9,10 @@ namespace Ash.PlayerController
 {
     public class PlayerController : MonoBehaviour
     {
+        public delegate void OpenTerminal();
+        public static event OpenTerminal OnTerminalOpen;
+        public static event OpenTerminal OnTerminalClose;
+
         public Color baseColor;
         public Color stealthColor;
         public bool isStealthed;
@@ -73,7 +77,7 @@ namespace Ash.PlayerController
         private LayerMask currentlyChecking;
         public Animator spriteAnim;
         private Rigidbody2D rb2d;
-        public StunBaton stunBaton;
+        public LineRenderer circle;
         #endregion
 
         public Vector3 Movement { get { return movement; } }
@@ -99,6 +103,10 @@ namespace Ash.PlayerController
         {
             lightsInArea = gameController.currentRoom.GetComponentsInChildren<SingleLight>();
             cameraTarget = transform.position;
+            circle.positionCount = 50 + 1;
+            circle.useWorldSpace = false;
+            CreatePoints();
+            circle.gameObject.SetActive(false);
         }
 
         private void Update() => stateMachine.Update();
@@ -119,12 +127,8 @@ namespace Ash.PlayerController
                 if (Input.GetKeyDown(KeyCode.R))
                     SecondaryInteractWithObject();
 
-            if (Input.GetMouseButtonDown(0) && canAttack)
-            {
-                stunBaton.Swing();
-                //canAttack = false;
-                //StartCoroutine(StunBaton());
-            }
+            if (Input.GetKeyDown(KeyCode.T))
+                HandTerminal();
         }   
 
         public void SetPlayerVelocity(float _atSpeed, bool allowMovement)
@@ -252,7 +256,7 @@ namespace Ash.PlayerController
         #region helper functions
         private void InteractWithObject()
         {
-            if(currentlyTouching.tag == "Vent")
+            if (currentlyTouching.tag == "Vent")
             {
                 if (stateMachine.currentState == VentState.Instance)
                     stateMachine.ChangeState(BaseState.Instance);
@@ -268,7 +272,7 @@ namespace Ash.PlayerController
             }
             if (currentlyTouching.tag == "Wall")
             {
-                if(stateMachine.currentState == BaseState.Instance)
+                if (stateMachine.currentState == BaseState.Instance)
                     stateMachine.ChangeState(KnockState.Instance);
             }
             if (currentlyTouching.tag == "Hackable")
@@ -279,7 +283,7 @@ namespace Ash.PlayerController
                     stateMachine.ChangeState(BaseState.Instance);
             }
             if (currentlyTouching.tag == "Exit")
-            { 
+            {
                 if (stateMachine.currentState == BaseState.Instance || stateMachine.currentState == PeakState.Instance)
                 {
                     currentlyTouching.GetComponent<RoomExit>().SwapRooms();
@@ -295,6 +299,44 @@ namespace Ash.PlayerController
                     stateMachine.ChangeState(PeakState.Instance);
                 else
                     stateMachine.ChangeState(BaseState.Instance);
+            }
+        }
+
+        private void HandTerminal()
+        {
+            if (currentlyTouching == null)
+            {
+                if (stateMachine.currentState == BaseState.Instance)
+                {
+                    stateMachine.ChangeState(TerminalState.Instance);
+                    OnTerminalOpen?.Invoke();
+                    circle.gameObject.SetActive(true);
+                }
+                else
+                {
+                    stateMachine.ChangeState(BaseState.Instance);
+                    OnTerminalClose?.Invoke();
+                    circle.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        void CreatePoints()
+        {
+            float x;
+            float y;
+            float z = 0f;
+
+            float angle = 20f;
+
+            for (int i = 0; i < (50 + 1); i++)
+            {
+                x = Mathf.Sin(Mathf.Deg2Rad * angle) * 10;
+                y = Mathf.Cos(Mathf.Deg2Rad * angle) * 10;
+
+                circle.SetPosition(i, new Vector3(x, y, z));
+
+                angle += (360f / 50);
             }
         }
 
@@ -403,18 +445,6 @@ namespace Ash.PlayerController
             }
 
             return lightsHittingPlayer;
-        }
-
-        private IEnumerator StunBaton()
-        {
-            stunBaton.Swing();
-            float timer = 1f;
-            while(timer > 0)
-            {
-                timer -= Time.deltaTime;
-                yield return null;
-            }
-            canAttack = true;
         }
         #endregion
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Ash.PlayerController;
 
 public class RobotCircle : MonoBehaviour
@@ -13,7 +14,31 @@ public class RobotCircle : MonoBehaviour
     public LineRenderer circle;
     public LineRenderer line;
     public GameObject lineRotator;
+    public Image downloadCircle;
+    public Button downloadButton;
+    bool markRobots;
+    GameController gc;
 
+    public Color inRange;
+    public Color outOfRange;
+
+    void OnEnable()
+    {
+        PlayerController.OnTerminalOpen += TerminalOpened;
+        PlayerController.OnTerminalClose += TerminalClosed;
+    }
+
+
+    void OnDisable()
+    {
+        PlayerController.OnTerminalOpen -= TerminalOpened;
+        PlayerController.OnTerminalClose -= TerminalClosed;
+    }
+
+    private void Awake()
+    {
+        gc = FindObjectOfType<GameController>();
+    }
 
     void Start()
     {
@@ -25,15 +50,45 @@ public class RobotCircle : MonoBehaviour
         line.useWorldSpace = true;
         circle.useWorldSpace = false;
         CreatePoints();
+        circle.gameObject.SetActive(false);
+        line.gameObject.SetActive(false);
     }
 
     private void Update()
     {
-        Vector3 direction = player.transform.position - robot.transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        lineRotator.transform.rotation = Quaternion.Euler(0, 0, angle);
-        line.SetPosition(0, player.transform.position);
-        line.SetPosition(1, line.transform.position);
+        if (markRobots && robot.startingRoom == gc.currentRoom)
+        {
+            Vector3 direction = player.circle.transform.position - robot.transform.position;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            lineRotator.transform.rotation = Quaternion.Euler(0, 0, angle);
+            line.SetPosition(0, player.circle.transform.position);
+            line.SetPosition(1, line.transform.position);
+            circle.gameObject.SetActive(true);
+            line.gameObject.SetActive(true);
+            float distance = direction.magnitude;
+            if(distance <= 10)
+            {
+                downloadButton.gameObject.SetActive(true);
+                circle.startColor = inRange;
+                circle.endColor = inRange;
+                line.startColor = inRange;
+                line.endColor = inRange;
+            }
+            else
+            {
+                downloadButton.gameObject.SetActive(false);
+                circle.startColor = outOfRange;
+                circle.endColor = outOfRange;
+                line.startColor = outOfRange;
+                line.endColor = outOfRange;
+            }
+        }
+        else
+        {
+            downloadButton.gameObject.SetActive(false);
+            circle.gameObject.SetActive(false);
+            line.gameObject.SetActive(false);
+        }
     }
 
     void CreatePoints()
@@ -52,6 +107,31 @@ public class RobotCircle : MonoBehaviour
             circle.SetPosition(i, new Vector3(x, y, z));
 
             angle += (360f / segments);
+        }
+    }
+
+    void TerminalOpened()
+    {
+        markRobots = true;
+    }
+
+    void TerminalClosed()
+    {
+        markRobots = false;
+    }
+
+    public void RobotClicked()
+    {
+        StartCoroutine(HackRobot());
+    }
+
+    IEnumerator HackRobot()
+    {
+        float downloadTime = 2;
+        while(downloadCircle.fillAmount < 1)
+        {
+            downloadCircle.fillAmount += (Time.deltaTime / downloadTime);
+            yield return null;
         }
     }
 }
