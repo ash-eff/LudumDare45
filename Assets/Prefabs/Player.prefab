@@ -547,7 +547,6 @@ Transform:
   - {fileID: 7694736015213254634}
   - {fileID: 8506562187393588681}
   - {fileID: 4852752081570291305}
-  - {fileID: 5294653336321447210}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -651,6 +650,7 @@ MonoBehaviour:
   gameController: {fileID: 0}
   spriteAnim: {fileID: 8019497024510566423}
   circle: {fileID: 7374180694147720907}
+  circleSegments: 0
 --- !u!95 &8019497024510566423
 Animator:
   serializedVersion: 3
@@ -824,7 +824,7 @@ MonoBehaviour:
   - {x: -0.17037117, y: -0.2668113, z: 0}
   m_ShapePathHash: -807715003
   m_Mesh: {fileID: 0}
-  m_InstanceId: 119984
+  m_InstanceId: 112126
 --- !u!1 &2612220361568444202
 GameObject:
   m_ObjectHideFlags: 0
@@ -1141,6 +1141,7 @@ Transform:
   - {fileID: 3008857607995514687}
   - {fileID: 3167688929063662558}
   - {fileID: 6198398572228514669}
+  - {fileID: 5294653336321447210}
   m_Father: {fileID: 1697352810582337575}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1205,6 +1206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5294653336321447210}
   - component: {fileID: 7374180694147720907}
+  - component: {fileID: 4606466788461358559}
   m_Layer: 0
   m_Name: CircleUI
   m_TagString: Untagged
@@ -1219,12 +1221,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8017992534067977222}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.43, y: -0.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1697352810582337575}
-  m_RootOrder: 11
+  m_Father: {fileID: 1007909189728822320}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &7374180694147720907
 LineRenderer:
@@ -1322,6 +1324,19 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 0
   m_Loop: 0
+--- !u!114 &4606466788461358559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8017992534067977222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 679ba7476755ff841828ffc1d49062f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zAngle: -8
 --- !u!1 &8029324381948881003
 GameObject:
   m_ObjectHideFlags: 0

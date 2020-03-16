@@ -26,6 +26,8 @@ public class TerminalLockedState : State<Terminal>
     public override void EnterState(Terminal terminal)
     {
         terminalOS = terminal.terminalOS;
+        terminalOS.AttachTerminal(terminal);
+        terminalOS.loadingBarWindow.SetActive(true);
     }
 
     public override void ExitState(Terminal terminal)
@@ -35,22 +37,15 @@ public class TerminalLockedState : State<Terminal>
 
     public override void UpdateState(Terminal terminal)
     {
-        if (GetTerminalAccess(terminal))
+        if (terminalOS.GetLoadAccess(terminal, "Accessing Terminal"))
+        {
+            terminal.accessGranted = true;
             terminal.stateMachine.ChangeState(TerminalAccessState.Instance);
+        }
+            
     }
 
     public override void FixedUpdateState(Terminal terminal)
     {
-    }
-
-    private bool GetTerminalAccess(Terminal _terminal)
-    {
-        terminalOS.loadingBar.fillAmount += Time.deltaTime;
-        if (terminalOS.loadingBar.fillAmount < 1)
-        {
-            return false;
-        }
-
-        return _terminal.accessGranted = true;
     }
 }

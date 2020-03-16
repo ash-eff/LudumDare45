@@ -29,7 +29,7 @@ public class PlayerCursor : MonoBehaviour
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = mousePos - (Vector2)transform.parent.position;
 
-        if(player.stateMachine.currentState != HackState.Instance)
+        if(player.stateMachine.currentState != HackState.Instance && player.stateMachine.currentState != TerminalState.Instance)
             direction = Vector2.ClampMagnitude(direction, 9);
 
         transform.position = (Vector2)transform.parent.position + direction;
@@ -37,7 +37,7 @@ public class PlayerCursor : MonoBehaviour
 
     void CursorIcon()
     {
-        if (player.stateMachine.currentState != HackState.Instance)
+        if (player.stateMachine.currentState != HackState.Instance && player.stateMachine.currentState != TerminalState.Instance)
             spr.sprite = target;
         else
             spr.sprite = arrow;

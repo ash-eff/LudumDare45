@@ -29,14 +29,14 @@ public class TerminalAccessState : State<Terminal>
         terminalOS = terminal.terminalOS;
         terminalOS.AttachTerminal(terminal);
         terminalOS.loadingBarWindow.SetActive(false);
-        terminalOS.terminalAccessWindow.SetActive(true);
+        //terminalOS.terminalAccessWindow.SetActive(true);
         terminalOS.terminalAccessIcon.SetActive(true);
     }
 
     public override void ExitState(Terminal terminal)
     {
         terminalOS.terminalAccessWindow.SetActive(false);
-        terminalOS.terminalAccessIcon.SetActive(false);
+        //terminalOS.terminalAccessIcon.SetActive(false);
     }
 
     public override void UpdateState(Terminal terminal)

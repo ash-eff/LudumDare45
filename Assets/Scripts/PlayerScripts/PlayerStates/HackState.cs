@@ -35,6 +35,7 @@ public class HackState : State<PlayerController>
 
     public override void ExitState(PlayerController player)
     {
+        player.TargetRobots(false);
         CloseTerminal();
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Ash.PlayerController;
+using TMPro;
 
 public class RobotCircle : MonoBehaviour
 {
@@ -15,7 +16,10 @@ public class RobotCircle : MonoBehaviour
     public LineRenderer line;
     public GameObject lineRotator;
     public Image downloadCircle;
+    public TextMeshProUGUI percentText;
     public Button downloadButton;
+    public GameObject explosion;
+    public AudioSource beepBoop;
     bool markRobots;
     GameController gc;
 
@@ -88,6 +92,7 @@ public class RobotCircle : MonoBehaviour
             downloadButton.gameObject.SetActive(false);
             circle.gameObject.SetActive(false);
             line.gameObject.SetActive(false);
+            percentText.gameObject.SetActive(false);
         }
     }
 
@@ -127,11 +132,18 @@ public class RobotCircle : MonoBehaviour
 
     IEnumerator HackRobot()
     {
+        percentText.gameObject.SetActive(true);
         float downloadTime = 2;
+        beepBoop.Play();
         while(downloadCircle.fillAmount < 1)
         {
             downloadCircle.fillAmount += (Time.deltaTime / downloadTime);
+            percentText.text = (downloadCircle.fillAmount * 100).ToString("000");
             yield return null;
         }
+
+        GameObject go = Instantiate(explosion, transform.position, Quaternion.identity);
+        Destroy(go, 2f);
+        Destroy(transform.parent.gameObject);
     }
 }

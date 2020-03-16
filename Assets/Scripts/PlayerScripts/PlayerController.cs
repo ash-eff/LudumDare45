@@ -78,10 +78,12 @@ namespace Ash.PlayerController
         public Animator spriteAnim;
         private Rigidbody2D rb2d;
         public LineRenderer circle;
+        public int circleSegments;
         #endregion
 
         public Vector3 Movement { get { return movement; } }
         public Vector3 GetCursorPos { get { return cursor.transform.position; } }
+        public float GetSpriteDirection { get { return playerSprite.transform.localScale.x; } }
         public bool CanMove { get { return canMove; } set { canMove = value; } }
         public GameObject CurrentlyTouching { get { return currentlyTouching; } }
         public float RunSpeed { get { return runSpeed; } }
@@ -103,7 +105,7 @@ namespace Ash.PlayerController
         {
             lightsInArea = gameController.currentRoom.GetComponentsInChildren<SingleLight>();
             cameraTarget = transform.position;
-            circle.positionCount = 50 + 1;
+            circle.positionCount = circleSegments + 1;
             circle.useWorldSpace = false;
             CreatePoints();
             circle.gameObject.SetActive(false);
@@ -309,19 +311,28 @@ namespace Ash.PlayerController
                 if (stateMachine.currentState == BaseState.Instance)
                 {
                     stateMachine.ChangeState(TerminalState.Instance);
-                    OnTerminalOpen?.Invoke();
-                    circle.gameObject.SetActive(true);
                 }
                 else
                 {
                     stateMachine.ChangeState(BaseState.Instance);
-                    OnTerminalClose?.Invoke();
-                    circle.gameObject.SetActive(false);
                 }
             }
         }
 
-        void CreatePoints()
+        public void TargetRobots(bool b)
+        {
+            circle.gameObject.SetActive(b);
+            if (b)
+            {
+                OnTerminalOpen?.Invoke();
+            }
+            else
+            {
+                OnTerminalClose?.Invoke();
+            }
+        }
+
+        public void CreatePoints()
         {
             float x;
             float y;
@@ -329,14 +340,14 @@ namespace Ash.PlayerController
 
             float angle = 20f;
 
-            for (int i = 0; i < (50 + 1); i++)
+            for (int i = 0; i < (circleSegments + 1); i++)
             {
                 x = Mathf.Sin(Mathf.Deg2Rad * angle) * 10;
                 y = Mathf.Cos(Mathf.Deg2Rad * angle) * 10;
 
                 circle.SetPosition(i, new Vector3(x, y, z));
 
-                angle += (360f / 50);
+                angle += (360f / circleSegments);
             }
         }
 

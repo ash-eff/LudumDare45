@@ -98,6 +98,7 @@
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\TerminalState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\VentState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\WaitState.cs" />
+    <Compile Include="Assets\Scripts\PlayerScripts\Rotatoe.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\StunBaton.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\PathFinder.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotCircle.cs" />

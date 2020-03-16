@@ -22,12 +22,17 @@ public class TerminalState : State<PlayerController>
     }
     #endregion
 
+    TerminalOS operatingSystem;
     CanvasGroup terminalGUI;
 
     public override void EnterState(PlayerController player)
     {
         terminalGUI = player.terminalGUI;
-        //player.interactText.text = "Press E to close";
+        operatingSystem = terminalGUI.GetComponentInParent<TerminalOS>();
+        operatingSystem.ResetOS();
+        Vector3 rectLocalPos = operatingSystem.GetComponent<RectTransform>().localPosition;
+        operatingSystem.GetComponent<RectTransform>().localPosition = new Vector3(Mathf.Abs(rectLocalPos.x) * player.GetSpriteDirection, 0);
+        player.interactText.text = "Press T to close";
         OpenTerminal();
         player.spriteAnim.SetBool("Hacking", true);
     }
@@ -35,6 +40,7 @@ public class TerminalState : State<PlayerController>
     public override void ExitState(PlayerController player)
     {
         CloseTerminal();
+        player.TargetRobots(false);
         player.spriteAnim.SetBool("Hacking", false);
     }
 
@@ -53,10 +59,6 @@ public class TerminalState : State<PlayerController>
     {
         terminalGUI.alpha = 1;
         terminalGUI.blocksRaycasts = true;
-        //if (currentTerminal.accessGranted)
-        //    currentTerminal.stateMachine.ChangeState(TerminalAccessState.Instance);
-        //else
-        //    currentTerminal.stateMachine.ChangeState(TerminalLockedState.Instance);
 
     }
 
@@ -64,6 +66,5 @@ public class TerminalState : State<PlayerController>
     {
         terminalGUI.alpha = 0;
         terminalGUI.blocksRaycasts = false;
-        //currentTerminal.stateMachine.ChangeState(TerminalSleepState.Instance);
     }
 }
