@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ash.StateMachine;
 
-public class TerminalAccessState : State<Terminal>
+public class TerminalAccessState : State<TerminalOS>
 {
     #region setup
     private static TerminalAccessState _instance;
@@ -14,7 +14,7 @@ public class TerminalAccessState : State<Terminal>
         _instance = this;
     }
 
-    public override State<Terminal> createInstance() { return Instance; }
+    public override State<TerminalOS> createInstance() { return Instance; }
 
     public static TerminalAccessState Instance
     {
@@ -22,28 +22,46 @@ public class TerminalAccessState : State<Terminal>
     }
     #endregion
 
-    TerminalOS terminalOS;
+    TerminalOS os;
 
-    public override void EnterState(Terminal terminal)
+    public override void EnterState(TerminalOS terminalOS)
     {
-        terminalOS = terminal.terminalOS;
-        terminalOS.AttachTerminal(terminal);
-        terminalOS.loadingBarWindow.SetActive(false);
-        //terminalOS.terminalAccessWindow.SetActive(true);
-        terminalOS.terminalAccessIcon.SetActive(true);
+        os = terminalOS;
+        if (!terminalOS.workingComputer.accessGranted)
+        {
+            terminalOS.hackGameBar.fillAmount = 0;
+            terminalOS.hackGameWindow.SetActive(true);         
+        }
     }
 
-    public override void ExitState(Terminal terminal)
+    public override void ExitState(TerminalOS terminalOS)
     {
-        terminalOS.terminalAccessWindow.SetActive(false);
-        //terminalOS.terminalAccessIcon.SetActive(false);
+        terminalOS.hackGameWindow.SetActive(false);
     }
 
-    public override void UpdateState(Terminal terminal)
+    public override void UpdateState(TerminalOS terminalOS)
+    {
+        if (!RunTempGame())
+        {
+            terminalOS.stateMachine.ChangeState(TerminalConnectedState.Instance);
+        }
+    }
+
+    public override void FixedUpdateState(TerminalOS terminalOS)
     {
     }
 
-    public override void FixedUpdateState(Terminal terminal)
+    bool RunTempGame()
     {
+        if(os.hackGameBar.fillAmount < 1)
+        {
+            os.hackGameBar.fillAmount += Time.deltaTime;
+            return true;
+        }
+
+        // when you add more hacked icons, you'll need to select the next available one
+        os.systemIcons[1].computer = os.workingComputer;
+        os.workingComputer.accessGranted = true;
+        return false;
     }
 }

@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Ash.StateMachine;
+using UnityEngine.UI;
 
-public class TerminalSleepState : State<TerminalOS>
+public class TerminalConnectedState : State<TerminalOS>
 {
     #region setup
-    private static TerminalSleepState _instance;
+    private static TerminalConnectedState _instance;
 
-    private TerminalSleepState()
+    private TerminalConnectedState()
     {
         if (_instance != null) return;
         _instance = this;
@@ -16,19 +16,21 @@ public class TerminalSleepState : State<TerminalOS>
 
     public override State<TerminalOS> createInstance() { return Instance; }
 
-    public static TerminalSleepState Instance
+    public static TerminalConnectedState Instance
     {
-        get { if (_instance == null) new TerminalSleepState(); return _instance; }
+        get { if (_instance == null) new TerminalConnectedState(); return _instance; }
     }
     #endregion
 
     public override void EnterState(TerminalOS terminalOS)
     {
+        terminalOS.terminalAccessIcon.GetComponent<Button>().interactable = true;
+        terminalOS.terminalAccessIcon.SetActive(true);
+        // set other icons active here
     }
 
     public override void ExitState(TerminalOS terminalOS)
     {
-        //terminalOS.ResetOS();
     }
 
     public override void UpdateState(TerminalOS terminalOS)

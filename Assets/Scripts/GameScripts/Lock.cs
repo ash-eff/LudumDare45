@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lock : Terminal
+public class Lock : Computer
 {
     public GameObject lockImg, barrier, exitSign;
     public string lockCode;

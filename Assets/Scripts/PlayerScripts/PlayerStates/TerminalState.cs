@@ -22,16 +22,16 @@ public class TerminalState : State<PlayerController>
     }
     #endregion
 
-    TerminalOS operatingSystem;
+    TerminalOS os;
     CanvasGroup terminalGUI;
 
     public override void EnterState(PlayerController player)
     {
         terminalGUI = player.terminalGUI;
-        operatingSystem = terminalGUI.GetComponentInParent<TerminalOS>();
-        operatingSystem.ResetOS();
-        Vector3 rectLocalPos = operatingSystem.GetComponent<RectTransform>().localPosition;
-        operatingSystem.GetComponent<RectTransform>().localPosition = new Vector3(Mathf.Abs(rectLocalPos.x) * player.GetSpriteDirection, 0);
+        os = terminalGUI.GetComponentInParent<TerminalOS>();
+        //os.ResetOS();
+        Vector3 rectLocalPos = os.GetComponent<RectTransform>().localPosition;
+        os.GetComponent<RectTransform>().localPosition = new Vector3(Mathf.Abs(rectLocalPos.x) * player.GetSpriteDirection, 0);
         player.interactText.text = "Press T to close";
         OpenTerminal();
         player.spriteAnim.SetBool("Hacking", true);
@@ -59,12 +59,13 @@ public class TerminalState : State<PlayerController>
     {
         terminalGUI.alpha = 1;
         terminalGUI.blocksRaycasts = true;
-
+        os.stateMachine.ChangeState(TerminalBaseState.Instance);
     }
 
     public void CloseTerminal()
     {
         terminalGUI.alpha = 0;
         terminalGUI.blocksRaycasts = false;
+        os.stateMachine.ChangeState(TerminalSleepState.Instance);
     }
 }

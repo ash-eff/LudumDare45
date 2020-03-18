@@ -10,8 +10,8 @@ public class RobotGetPathState : State<RobotController>
     {
         robot = _robot;
         GetNextWaypoints();
-        _robot.destinationPosition = _robot.patrolWaypoints[_robot.waypointIndex].GetGridPos();
-        SetPathStartAndEnd(_robot.transform.position, _robot.destinationPosition);
+        _robot.DestinationPosition = _robot.patrolWaypoints[_robot.waypointIndex].GetGridPos();
+        SetPathStartAndEnd(_robot.transform.position, _robot.DestinationPosition);
         GetPathToFollow();
         _robot.stateMachine.ChangeState(new RobotPatrolState());
     }
@@ -42,13 +42,13 @@ public class RobotGetPathState : State<RobotController>
 
     public void SetPathStartAndEnd(Vector3 _start, Vector3 _end)
     {
-        robot.startPos = GetLegalPosition(_start);
-        robot.endPos = GetLegalPosition(_end);
+        robot.StartPos = GetLegalPosition(_start);
+        robot.EndPos = GetLegalPosition(_end);
     }
 
     public void GetPathToFollow()
     {
-        robot.path = robot.pathfinder.GetPath(robot.startPos, robot.endPos);
+        robot.path = robot.pathfinder.GetPath(robot.StartPos, robot.EndPos);
     }
 
     Vector3 GetLegalPosition(Vector3 pos)

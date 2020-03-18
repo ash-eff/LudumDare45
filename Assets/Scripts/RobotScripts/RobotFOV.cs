@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class RobotFOV : MonoBehaviour
 {
-    public RobotController robot;
-
     public LayerMask targetMask;
     public LayerMask obstacleMask;
 
-    public float meshResolution;
     public int edgeResolveIterations;
-    public float edgeDstThreshold;
 
+    public float meshResolution;
+
+    public float edgeDstThreshold;
     public float maskCutawayDst = .1f;
 
     public MeshFilter viewMeshFilter;
-    Mesh viewMesh;
+
+    private Mesh viewMesh;
+    private RobotController robot;
 
     private void Awake()
     {
@@ -37,13 +38,13 @@ public class RobotFOV : MonoBehaviour
 
     void DrawFieldOfView()
     {
-        int stepCount = Mathf.RoundToInt((robot.visionAngle * 2) * meshResolution);
-        float stepAngleSize = (robot.visionAngle * 2) / stepCount;
+        int stepCount = Mathf.RoundToInt((robot.VisionAngle * 2) * meshResolution);
+        float stepAngleSize = (robot.VisionAngle * 2) / stepCount;
         List<Vector3> viewPoints = new List<Vector3>();
         ViewCastInfo oldViewCast = new ViewCastInfo();
         for (int i = 0; i <= stepCount; i++)
         {
-            float angle = transform.eulerAngles.z - (robot.visionAngle * 2) / 2 + stepAngleSize * i;
+            float angle = transform.eulerAngles.z - (robot.VisionAngle * 2) / 2 + stepAngleSize * i;
             ViewCastInfo newViewCast = ViewCast(angle);
 
             if (i > 0)
@@ -134,7 +135,7 @@ public class RobotFOV : MonoBehaviour
     ViewCastInfo ViewCast(float globalAngle)
     {
         Vector3 dir = DirFromAngle(globalAngle, true);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, robot.visionDistance, obstacleMask);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, robot.VisionDistance, obstacleMask);
 
         if (hit)
         {
@@ -145,7 +146,7 @@ public class RobotFOV : MonoBehaviour
         else
         {
             //Debug.DrawRay(transform.position, dir * robotSenses.visionDistance, Color.red);
-            return new ViewCastInfo(false, transform.position + dir * robot.visionDistance, robot.visionDistance, globalAngle);
+            return new ViewCastInfo(false, transform.position + dir * robot.VisionDistance, robot.VisionDistance, globalAngle);
         }
     }
 

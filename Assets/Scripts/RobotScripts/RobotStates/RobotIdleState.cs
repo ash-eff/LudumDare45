@@ -11,16 +11,16 @@ public class RobotIdleState : State<RobotController>
         robot = _robot;
         _robot.SetRobotIdle(true);
         // on game start there is no direction facing so the robot scans right away no matter what
-        RaycastHit2D hit = Physics2D.Raycast(_robot.transform.position, _robot.directionFacing, _robot.visionDistance, _robot.objectLayer);
+        RaycastHit2D hit = Physics2D.Raycast(_robot.transform.position, _robot.DirectionFacing, _robot.VisionDistance, _robot.objectLayer);
 
         if (hit)
         {
-            Debug.DrawRay(_robot.transform.position, _robot.directionFacing * _robot.visionDistance, Color.black, 1f);
+            Debug.DrawRay(_robot.transform.position, _robot.DirectionFacing * _robot.VisionDistance, Color.black, 1f);
             SimpleCoroutine.Instance.StartCoroutine(WaitToMove());
         }
         else
         {
-            Debug.DrawRay(_robot.transform.position, _robot.directionFacing * _robot.visionDistance, Color.green, 1f);
+            Debug.DrawRay(_robot.transform.position, _robot.DirectionFacing * _robot.VisionDistance, Color.green, 1f);
             SimpleCoroutine.Instance.StartCoroutine(IeScanArea());
         }
     }
@@ -47,20 +47,20 @@ public class RobotIdleState : State<RobotController>
 
         if (IsTargetSeen(directionsToTargets))
         {
-            if (!robot.spottedPlayer)
+            if (!robot.SpottedPlayer)
             {
-                robot.spottedPlayer = true;
-                robot.exclaim.SetActive(true);
+                robot.SpottedPlayer = true;
+                robot.robotGUI.SetExclaimActive(true);
                 robot.playerTarget.timesSpotted++;
-                robot.targetLastPosition = robot.playerTarget.transform.position;
+                robot.TargetLastPosition = robot.playerTarget.transform.position;
                 robot.stateMachine.ChangeState(new RobotInvestigateState());
             }
         }
 
         else
         {
-            robot.spottedPlayer = false;
-            robot.exclaim.SetActive(false);
+            robot.SpottedPlayer = false;
+            robot.robotGUI.SetExclaimActive(false);
         }
     }
 
@@ -73,9 +73,9 @@ public class RobotIdleState : State<RobotController>
     public IEnumerator IeScanArea()
     {
         yield return new WaitForSeconds(.5f);
-        yield return SimpleCoroutine.Instance.StartCoroutine(RotateRight(robot.scanDegrees));
-        yield return SimpleCoroutine.Instance.StartCoroutine(RotateLeft(robot.scanDegrees * 2));
-        yield return SimpleCoroutine.Instance.StartCoroutine(RotateRight(robot.scanDegrees));
+        yield return SimpleCoroutine.Instance.StartCoroutine(RotateRight(robot.ScanDegrees));
+        yield return SimpleCoroutine.Instance.StartCoroutine(RotateLeft(robot.ScanDegrees * 2));
+        yield return SimpleCoroutine.Instance.StartCoroutine(RotateRight(robot.ScanDegrees));
         yield return new WaitForSeconds(1f);
         robot.stateMachine.ChangeState(new RobotGetPathState());
     }
@@ -87,7 +87,7 @@ public class RobotIdleState : State<RobotController>
         float currentRotation = baseRot;
         while (currentRotation < rotateTo)
         {
-            currentRotation += robot.scanSpeed * Time.deltaTime;
+            currentRotation += robot.ScanSpeed * Time.deltaTime;
             robot.FOV.transform.rotation = Quaternion.Euler(0, 0, currentRotation);
 
             yield return null;
@@ -101,7 +101,7 @@ public class RobotIdleState : State<RobotController>
         float currentRotation = baseRot;
         while (currentRotation > rotateTo)
         {
-            currentRotation -= robot.scanSpeed * Time.deltaTime;
+            currentRotation -= robot.ScanSpeed * Time.deltaTime;
             robot.FOV.transform.rotation = Quaternion.Euler(0, 0, currentRotation);
 
             yield return null;
@@ -140,8 +140,8 @@ public class RobotIdleState : State<RobotController>
 
     private bool TargetInVisionCone(Vector2 _direction)
     {
-        float angleToTarget = Vector2.Angle(robot.directionFacing, _direction);
-        if (angleToTarget <= robot.visionAngle && _direction.magnitude <= robot.visionDistance)
+        float angleToTarget = Vector2.Angle(robot.DirectionFacing, _direction);
+        if (angleToTarget <= robot.VisionAngle && _direction.magnitude <= robot.VisionDistance)
         {
             return true;
         }
@@ -150,7 +150,7 @@ public class RobotIdleState : State<RobotController>
 
     private bool TargetInLineOfSight(Vector2 _target)
     {
-        RaycastHit2D hit = Physics2D.Raycast(robot.transform.position, _target.normalized, robot.visionDistance, robot.visionLayer);
+        RaycastHit2D hit = Physics2D.Raycast(robot.transform.position, _target.normalized, robot.VisionDistance, robot.visionLayer);
         if (hit)
         {
             if (hit.collider.tag == "Player" || hit.collider.tag == "PlayerVisualTrigger")

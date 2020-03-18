@@ -11,9 +11,9 @@ public class RobotInvestigateState : State<RobotController>
     {
         robot = _robot;
 
-        float distanceToTarget = (_robot.transform.position - _robot.targetLastPosition).magnitude;
-        _robot.visionDistance = distanceToTarget;
-        _robot.visionAngle = 5f;
+        float distanceToTarget = (_robot.transform.position - _robot.TargetLastPosition).magnitude;
+        _robot.VisionDistance = distanceToTarget;
+        _robot.VisionAngle = 5f;
     }
 
     public override void ExitState(RobotController _robot)
@@ -33,7 +33,7 @@ public class RobotInvestigateState : State<RobotController>
 
     public void LookAtTarget()
     {
-        Vector3 dirToTarget = robot.targetLastPosition - robot.FOV.transform.position;
+        Vector3 dirToTarget = robot.TargetLastPosition - robot.FOV.transform.position;
         float angle = (Mathf.Atan2(dirToTarget.y, dirToTarget.x) * Mathf.Rad2Deg);
         Quaternion q = Quaternion.AngleAxis(90 - angle, Vector3.forward);
         robot.FOV.transform.rotation = Quaternion.Slerp(robot.FOV.transform.rotation, q, Time.deltaTime * 5f);

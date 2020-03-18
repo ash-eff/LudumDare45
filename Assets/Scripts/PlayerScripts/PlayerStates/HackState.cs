@@ -22,30 +22,31 @@ public class HackState : State<PlayerController>
     }
     #endregion
 
-    Terminal currentTerminal;
+    Computer workingComputer;
     CanvasGroup terminalGUI;
+    PlayerController player;
 
-    public override void EnterState(PlayerController player)
+    public override void EnterState(PlayerController _player)
     {
+        player = _player;
         terminalGUI = player.terminalGUI;
-        currentTerminal = player.currentlyTouching.GetComponent<Terminal>();
-        player.interactText.text = "Press E to close";
+        workingComputer = player.currentlyTouching.GetComponent<Computer>();
+        player.interactText.text = "Press T to close";
         OpenTerminal();
     }
 
-    public override void ExitState(PlayerController player)
+    public override void ExitState(PlayerController _player)
     {
-        player.TargetRobots(false);
         CloseTerminal();
     }
 
-    public override void UpdateState(PlayerController player)
+    public override void UpdateState(PlayerController _player)
     {
         player.SetPlayerVelocity(0, false);
         player.PlayerInput();
     }
 
-    public override void FixedUpdateState(PlayerController player)
+    public override void FixedUpdateState(PlayerController _player)
     {
         player.CheckForStealth();
     }
@@ -53,18 +54,14 @@ public class HackState : State<PlayerController>
     public void OpenTerminal()
     {
         terminalGUI.alpha = 1;
-        terminalGUI.blocksRaycasts = true;
-        if (currentTerminal.accessGranted)
-            currentTerminal.stateMachine.ChangeState(TerminalAccessState.Instance);
-        else
-            currentTerminal.stateMachine.ChangeState(TerminalLockedState.Instance);
-
+        terminalGUI.blocksRaycasts = true;         
+        player.terminalOS.stateMachine.ChangeState(TerminalAccessState.Instance);
     }
 
     public void CloseTerminal()
     {
         terminalGUI.alpha = 0;
         terminalGUI.blocksRaycasts = false;
-        currentTerminal.stateMachine.ChangeState(TerminalSleepState.Instance);
+        player.terminalOS.stateMachine.ChangeState(TerminalSleepState.Instance);
     }
 }

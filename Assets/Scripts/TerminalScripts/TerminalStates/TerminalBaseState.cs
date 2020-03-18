@@ -1,14 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Ash.StateMachine;
 
-public class TerminalSleepState : State<TerminalOS>
+public class TerminalBaseState : State<TerminalOS>
 {
     #region setup
-    private static TerminalSleepState _instance;
+    private static TerminalBaseState _instance;
 
-    private TerminalSleepState()
+    private TerminalBaseState()
     {
         if (_instance != null) return;
         _instance = this;
@@ -16,9 +15,9 @@ public class TerminalSleepState : State<TerminalOS>
 
     public override State<TerminalOS> createInstance() { return Instance; }
 
-    public static TerminalSleepState Instance
+    public static TerminalBaseState Instance
     {
-        get { if (_instance == null) new TerminalSleepState(); return _instance; }
+        get { if (_instance == null) new TerminalBaseState(); return _instance; }
     }
     #endregion
 
@@ -28,7 +27,6 @@ public class TerminalSleepState : State<TerminalOS>
 
     public override void ExitState(TerminalOS terminalOS)
     {
-        //terminalOS.ResetOS();
     }
 
     public override void UpdateState(TerminalOS terminalOS)

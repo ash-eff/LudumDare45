@@ -36,20 +36,20 @@ public class RobotPatrolState : State<RobotController>
 
         if (IsTargetSeen(directionsToTargets))
         {
-            if (!robot.spottedPlayer)
+            if (!robot.SpottedPlayer)
             {
-                robot.spottedPlayer = true;
-                robot.exclaim.SetActive(true);
+                robot.SpottedPlayer = true;
+                robot.robotGUI.SetExclaimActive(true);
                 robot.playerTarget.timesSpotted++;
-                robot.targetLastPosition = robot.playerTarget.transform.position;
+                robot.TargetLastPosition = robot.playerTarget.transform.position;
                 robot.stateMachine.ChangeState(new RobotInvestigateState());
             }
         }
 
         else
         {
-            robot.spottedPlayer = false;
-            robot.exclaim.SetActive(false);
+            robot.SpottedPlayer = false;
+            robot.robotGUI.SetExclaimActive(false);
         }
     }
 
@@ -57,18 +57,18 @@ public class RobotPatrolState : State<RobotController>
     {
         if (robot.nextIndexInPath < robot.path.Count)
         {
-            robot.directionFacing = (robot.path[robot.nextIndexInPath] - robot.transform.position).normalized;
-            if(robot.directionFacing.x != 0)
+            robot.DirectionFacing = (robot.path[robot.nextIndexInPath] - robot.transform.position).normalized;
+            if(robot.DirectionFacing.x != 0)
             {
-                robot.robotSprite.transform.localScale = new Vector2(robot.directionFacing.x, 1);
+                robot.robotSprite.transform.localScale = new Vector2(robot.DirectionFacing.x, 1);
             }
             else
             {
                 robot.robotSprite.transform.localScale = new Vector2(1, 1);
             }
 
-            Debug.Log(robot.directionFacing);
-            robot.transform.position = Vector3.MoveTowards(robot.transform.position, robot.path[robot.nextIndexInPath], robot.patrolSpeed * Time.deltaTime);
+            Debug.Log(robot.DirectionFacing);
+            robot.transform.position = Vector3.MoveTowards(robot.transform.position, robot.path[robot.nextIndexInPath], robot.PatrolSpeed * Time.deltaTime);
 
             if (robot.transform.position == robot.path[robot.nextIndexInPath])
             {
@@ -84,13 +84,13 @@ public class RobotPatrolState : State<RobotController>
     // rewrite this to be smooth
     public void RotateVision()
     {
-        if (robot.directionFacing == Vector3.right)
+        if (robot.DirectionFacing == Vector3.right)
             robot.FOV.transform.rotation = Quaternion.Euler(0, 0, 90);
-        if (robot.directionFacing == -Vector3.right)
+        if (robot.DirectionFacing == -Vector3.right)
             robot.FOV.transform.rotation = Quaternion.Euler(0, 0, -90);
-        if (robot.directionFacing == Vector3.up)
+        if (robot.DirectionFacing == Vector3.up)
             robot.FOV.transform.rotation = Quaternion.Euler(0, 0, 0); 
-        if (robot.directionFacing == -Vector3.up)
+        if (robot.DirectionFacing == -Vector3.up)
             robot.FOV.transform.rotation = Quaternion.Euler(0, 0, 180);
     }
 
@@ -126,8 +126,8 @@ public class RobotPatrolState : State<RobotController>
 
     private bool TargetInVisionCone(Vector2 _direction)
     {
-        float angleToTarget = Vector2.Angle(robot.directionFacing, _direction);
-        if (angleToTarget <= robot.visionAngle && _direction.magnitude <= robot.visionDistance)
+        float angleToTarget = Vector2.Angle(robot.DirectionFacing, _direction);
+        if (angleToTarget <= robot.VisionAngle && _direction.magnitude <= robot.VisionDistance)
         {
             return true;
         }
@@ -136,7 +136,7 @@ public class RobotPatrolState : State<RobotController>
 
     private bool TargetInLineOfSight(Vector2 _target)
     {
-        RaycastHit2D hit = Physics2D.Raycast(robot.transform.position, _target.normalized, robot.visionDistance, robot.visionLayer);
+        RaycastHit2D hit = Physics2D.Raycast(robot.transform.position, _target.normalized, robot.VisionDistance, robot.visionLayer);
         if (hit)
         {
             if (hit.collider.tag == "Player" || hit.collider.tag == "PlayerVisualTrigger")

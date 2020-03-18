@@ -64,10 +64,12 @@
   <ItemGroup>
     <Compile Include="Assets\RobotCam.cs" />
     <Compile Include="Assets\Scripts\GameScripts\CameraController.cs" />
+    <Compile Include="Assets\Scripts\GameScripts\Computer.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Container.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Door.cs" />
     <Compile Include="Assets\Scripts\GameScripts\GameController.cs" />
     <Compile Include="Assets\Scripts\GameScripts\GridMap.cs" />
+    <Compile Include="Assets\Scripts\GameScripts\HackedSystemsIcon.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Interactable.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Item.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Laser.cs" />
@@ -102,10 +104,10 @@
     <Compile Include="Assets\Scripts\PlayerScripts\Rotatoe.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\StunBaton.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\PathFinder.cs" />
-    <Compile Include="Assets\Scripts\RobotScripts\RobotCircle.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotController.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotFOV.cs" />
-    <Compile Include="Assets\Scripts\RobotScripts\RobotPatrol.cs" />
+    <Compile Include="Assets\Scripts\RobotScripts\RobotGUI.cs" />
+    <Compile Include="Assets\Scripts\RobotScripts\RobotOS.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotStates\RobotExplodeState.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotStates\RobotGetGridState.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotStates\RobotGetPathState.cs" />
@@ -113,15 +115,14 @@
     <Compile Include="Assets\Scripts\RobotScripts\RobotStates\RobotInvestigateState.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotStates\RobotPatrolState.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\RobotStates\RobotTestSTate.cs" />
-    <Compile Include="Assets\Scripts\RobotScripts\RobotVision.cs" />
     <Compile Include="Assets\Scripts\RobotScripts\Waypoint.cs" />
     <Compile Include="Assets\Scripts\Room.cs" />
     <Compile Include="Assets\Scripts\RoomEntrance.cs" />
     <Compile Include="Assets\Scripts\RoomExit.cs" />
-    <Compile Include="Assets\Scripts\TerminalScripts\Terminal.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\TerminalOS.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\TerminalStates\TerminalAccessState.cs" />
-    <Compile Include="Assets\Scripts\TerminalScripts\TerminalStates\TerminalLockedState.cs" />
+    <Compile Include="Assets\Scripts\TerminalScripts\TerminalStates\TerminalBaseState.cs" />
+    <Compile Include="Assets\Scripts\TerminalScripts\TerminalStates\TerminalConnectedState.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\TerminalStates\TerminalSleepState.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\TerminalTicker.cs" />
     <Compile Include="Assets\Scripts\UIScripts\ConfirmWindowUI.cs" />

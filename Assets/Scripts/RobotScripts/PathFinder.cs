@@ -5,20 +5,17 @@ using UnityEngine.Tilemaps;
 
 public class PathFinder : MonoBehaviour
 {
-    Vector3 startPosition, endPosition;
-
-    public Dictionary<Vector3, MapPointInfo> map = new Dictionary<Vector3, MapPointInfo>();
-    public Queue<Vector3> queue = new Queue<Vector3>();
-    bool isRunning = true;
-    public bool mapComplete;
-    Vector3 searchCenter;
-    public List<Vector3> path = new List<Vector3>();
-    List<Vector3> searchedItems = new List<Vector3>();
-    public bool isGeneratingMap = true;
-
     public Room room;
 
-    Vector3[] directions = { Vector3.up, // up
+    public bool isGeneratingMap = true;
+    public bool mapComplete;
+
+    public List<Vector3> path = new List<Vector3>();
+    public Dictionary<Vector3, MapPointInfo> map = new Dictionary<Vector3, MapPointInfo>();
+
+    private Queue<Vector3> queue = new Queue<Vector3>();
+    private List<Vector3> searchedItems = new List<Vector3>();
+    private Vector3[] directions = { Vector3.up, // up
                                 Vector3.right, // right
                                 -Vector3.up, // down
                                 -Vector3.right, // left
@@ -26,6 +23,11 @@ public class PathFinder : MonoBehaviour
                                 new Vector3(1, -1, 0), // right-down
                                 new Vector3(-1, -1, 0), // down-left
                                 new Vector3(-1, 1, 0) }; // left-up
+
+    private Vector3 startPosition, endPosition;
+    private Vector3 searchCenter;
+
+    private bool isRunning = true;
 
     private void Awake()
     {

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Ash.StateMachine;
+using Ash.PlayerController;
 
-public class Terminal : MonoBehaviour, IInteractable
+public class Computer : MonoBehaviour, IInteractable
 {
-    public StateMachine<Terminal> stateMachine;
-    public static Terminal terminal;
+    //public StateMachine<Computer> stateMachine;
+    //public static Computer computer;
 
     public TerminalOS terminalOS;
     public bool accessGranted;
@@ -17,18 +17,20 @@ public class Terminal : MonoBehaviour, IInteractable
     //public GameObject lightWarning;
     //public Image lightWarningFill;
 
+    public PlayerController player;
     public bool rebootingLights;
 
     private void Awake()
-    { 
+    {
+        player = FindObjectOfType<PlayerController>();
         terminalOS = FindObjectOfType<TerminalOS>();
-        terminal = this;
-        stateMachine = new StateMachine<Terminal>(this);
-        stateMachine.ChangeState(TerminalSleepState.Instance);
+        //computer = this;
+        //stateMachine = new StateMachine<Computer>(this);
+        //stateMachine.ChangeState(TerminalSleepState.Instance);
     }
 
-    private void Update() => stateMachine.Update();
-    private void FixedUpdate() => stateMachine.FixedUpdate();
+    //private void Update() => stateMachine.Update();
+    //private void FixedUpdate() => stateMachine.FixedUpdate();
 
     public void Interact()
     {
@@ -73,5 +75,12 @@ public class Terminal : MonoBehaviour, IInteractable
         {
             light.ActivateLights();
         }
+    }
+
+    public float DistanceFromPlayer()
+    {
+        float distance = (player.transform.position - transform.position).magnitude;
+
+        return distance;
     }
 }

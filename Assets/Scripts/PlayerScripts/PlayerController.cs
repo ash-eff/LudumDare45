@@ -19,6 +19,7 @@ namespace Ash.PlayerController
         public LayerMask layersToCheck;
         public StateMachine<PlayerController> stateMachine;
         public static PlayerController player;
+        public TerminalOS terminalOS;
 
         public Vector3 cameraTarget;
 
@@ -94,7 +95,7 @@ namespace Ash.PlayerController
             gameController = FindObjectOfType<GameController>();
             rb2d = GetComponent<Rigidbody2D>();
             spriteAnim = GetComponent<Animator>();
-
+            terminalOS = FindObjectOfType<TerminalOS>();
             player = this;
             stateMachine = new StateMachine<PlayerController>(player);
             stateMachine.ChangeState(BaseState.Instance);
@@ -277,13 +278,13 @@ namespace Ash.PlayerController
                 if (stateMachine.currentState == BaseState.Instance)
                     stateMachine.ChangeState(KnockState.Instance);
             }
-            if (currentlyTouching.tag == "Hackable")
-            {
-                if (stateMachine.currentState == BaseState.Instance)
-                    stateMachine.ChangeState(HackState.Instance);
-                else
-                    stateMachine.ChangeState(BaseState.Instance);
-            }
+            //if (currentlyTouching.tag == "Hackable")
+            //{
+            //    if (stateMachine.currentState == BaseState.Instance)
+            //        stateMachine.ChangeState(HackState.Instance);
+            //    else
+            //        stateMachine.ChangeState(BaseState.Instance);
+            //}
             if (currentlyTouching.tag == "Exit")
             {
                 if (stateMachine.currentState == BaseState.Instance || stateMachine.currentState == PeakState.Instance)
@@ -306,16 +307,25 @@ namespace Ash.PlayerController
 
         private void HandTerminal()
         {
-            if (currentlyTouching == null)
+            if (stateMachine.currentState == HackState.Instance || stateMachine.currentState == TerminalState.Instance)
+                stateMachine.ChangeState(BaseState.Instance);
+            else if(currentlyTouching != null)
             {
-                if (stateMachine.currentState == BaseState.Instance)
+                if (currentlyTouching.tag == "Hackable")
                 {
-                    stateMachine.ChangeState(TerminalState.Instance);
+                    terminalOS.SetWorkingComputer(currentlyTouching.GetComponent<Computer>());
+                    stateMachine.ChangeState(HackState.Instance);
                 }
                 else
                 {
-                    stateMachine.ChangeState(BaseState.Instance);
+                    //terminalOS.SetWorkingComputer(null);
+                    stateMachine.ChangeState(TerminalState.Instance);
                 }
+            }
+            else
+            {
+                //terminalOS.SetWorkingComputer(null);
+                stateMachine.ChangeState(TerminalState.Instance);
             }
         }
 

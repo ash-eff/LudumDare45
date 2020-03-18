@@ -3,32 +3,51 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Ash.PlayerController;
+using Ash.StateMachine;
 using TMPro;
 
 public class TerminalOS : MonoBehaviour
 {
+    public StateMachine<TerminalOS> stateMachine;
+    public static TerminalOS terminalOS;
+
     public CanvasGroup terminalGUI;
-    public Terminal workingTerminal;
+    public Computer workingComputer;
     public Image loadingBar;
     public Image securityBar;
     public TextMeshProUGUI loadingText;
-    public GameObject securityGranted;
+    //public GameObject securityGranted;
+    public GameObject HackedSystemsWindow;
     public GameObject loadingBarWindow;
     public GameObject securityBarWindow;
     public GameObject terminalAccessWindow;
     public GameObject terminalAccessIcon;
     public GameObject securityAccessIcon;
+    public GameObject hackGameWindow;
+    public Image hackGameBar;
     public GameController gameController;
+    public Image signalFillBar;
+    public Image signalFillBarUI;
+    public GameObject noSignal;
+    public GameObject noSignalUI;
+
+    public HackedSystemsIcon[] systemIcons;
 
     private void Awake()
     {
         terminalGUI.alpha = 0;
         gameController = FindObjectOfType<GameController>();
+        terminalOS = this;
+        stateMachine = new StateMachine<TerminalOS>(terminalOS);
+        stateMachine.ChangeState(TerminalSleepState.Instance);
     }
 
-    public void AttachTerminal(Terminal _terminal)
+    private void Update() => stateMachine.Update();
+    private void FixedUpdate() => stateMachine.FixedUpdate();
+
+    public void SetWorkingComputer(Computer _computer)
     {
-        workingTerminal = _terminal;
+        workingComputer = _computer;
     }
 
     public void CloseTerminalAccessWindow()
@@ -51,7 +70,7 @@ public class TerminalOS : MonoBehaviour
 
     public void UnlockDoors()
     {
-        foreach(Door door in workingTerminal.doors)
+        foreach(Door door in workingComputer.doors)
         {
             if (door.IsLocked)
             {
@@ -60,11 +79,9 @@ public class TerminalOS : MonoBehaviour
         }
     }
 
-
-
     public void UseLights()
     {
-        workingTerminal.UseLights();
+        workingComputer.UseLights();
     }
 
     public void SecurityIcon()
@@ -88,9 +105,9 @@ public class TerminalOS : MonoBehaviour
             yield return null;
         }
 
-        securityGranted.SetActive(true);
+        //securityGranted.SetActive(true);
         yield return new WaitForSeconds(.5f);
-        securityGranted.SetActive(false);
+        //securityGranted.SetActive(false);
         securityBarWindow.SetActive(false);
         PlayerController player = FindObjectOfType<PlayerController>();
         player.TargetRobots(true);
@@ -104,7 +121,7 @@ public class TerminalOS : MonoBehaviour
 
         while (!doneLoading)
         {
-            doneLoading = GetLoadAccess(workingTerminal, accessText);
+            doneLoading = GetLoadAccess(workingComputer, accessText);
 
             yield return null;
         }
@@ -112,7 +129,7 @@ public class TerminalOS : MonoBehaviour
         icon.SetActive(true);
     }
 
-    public bool GetLoadAccess(Terminal _terminal, string message)
+    public bool GetLoadAccess(Computer _computer, string message)
     {
         loadingBarWindow.SetActive(true);
         loadingText.text = message;
@@ -124,5 +141,70 @@ public class TerminalOS : MonoBehaviour
 
         loadingBarWindow.SetActive(false);
         return true;
+    }
+
+    public void OpenHackedSystemsWindow()
+    {
+        HackedSystemsWindow.SetActive(true);
+    }
+
+    public void CloseHackedSystemsWindow()
+    {
+        HackedSystemsWindow.SetActive(false);
+    }
+
+    public void SignalStrength()
+    {
+        if(workingComputer == null)
+        {
+            signalFillBarUI.gameObject.SetActive(false);
+            signalFillBar.gameObject.SetActive(false);
+            noSignalUI.SetActive(true);
+            noSignal.SetActive(true);
+            return;
+        }
+
+        signalFillBarUI.gameObject.SetActive(true);
+        signalFillBar.gameObject.SetActive(true);
+
+        float maxDistance = 10;
+        float fillAmount = 0;
+        float currentDistance = workingComputer.DistanceFromPlayer();
+        
+        if (currentDistance <= 10)
+        {
+            fillAmount = Mathf.Abs(currentDistance - maxDistance) / 10;
+            noSignal.SetActive(false);
+            noSignalUI.SetActive(false);
+        }
+        else
+        {
+            noSignal.SetActive(true);
+            noSignalUI.SetActive(true);
+        }
+
+      
+        signalFillBar.fillAmount = fillAmount;
+        signalFillBarUI.fillAmount = fillAmount;
+    }
+
+    public void IsComputerAccessible()
+    {
+        if(workingComputer == null)
+        {
+            terminalAccessIcon.GetComponent<Button>().interactable = false;
+            CloseTerminalAccessWindow();
+            return;
+        }
+
+        if(workingComputer.DistanceFromPlayer() <= 10f)
+        {
+            terminalAccessIcon.GetComponent<Button>().interactable = true;
+        }
+        else
+        {
+            terminalAccessIcon.GetComponent<Button>().interactable = false;
+            CloseTerminalAccessWindow();
+        }
     }
 }
