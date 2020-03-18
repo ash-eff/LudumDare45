@@ -10,6 +10,7 @@ public class RobotInvestigateState : State<RobotController>
     public override void EnterState(RobotController _robot)
     {
         robot = _robot;
+
         float distanceToTarget = (_robot.transform.position - _robot.targetLastPosition).magnitude;
         _robot.visionDistance = distanceToTarget;
         _robot.visionAngle = 5f;
@@ -21,6 +22,7 @@ public class RobotInvestigateState : State<RobotController>
 
     public override void UpdateState(RobotController _robot)
     {
+        _robot.SetRobotIdle(true);
         LookAtTarget();
     }
 

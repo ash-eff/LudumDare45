@@ -9,6 +9,7 @@ public class RobotPatrolState : State<RobotController>
     public override void EnterState(RobotController _robot)
     {
         robot = _robot;
+        _robot.SetRobotIdle(false);
     }
 
     public override void ExitState(RobotController _robot)
@@ -17,6 +18,7 @@ public class RobotPatrolState : State<RobotController>
 
     public override void UpdateState(RobotController _robot)
     {
+        _robot.SetRobotIdle(false);
         LookForPlayer();
         FollowPath();
         RotateVision();
@@ -56,6 +58,16 @@ public class RobotPatrolState : State<RobotController>
         if (robot.nextIndexInPath < robot.path.Count)
         {
             robot.directionFacing = (robot.path[robot.nextIndexInPath] - robot.transform.position).normalized;
+            if(robot.directionFacing.x != 0)
+            {
+                robot.robotSprite.transform.localScale = new Vector2(robot.directionFacing.x, 1);
+            }
+            else
+            {
+                robot.robotSprite.transform.localScale = new Vector2(1, 1);
+            }
+
+            Debug.Log(robot.directionFacing);
             robot.transform.position = Vector3.MoveTowards(robot.transform.position, robot.path[robot.nextIndexInPath], robot.patrolSpeed * Time.deltaTime);
 
             if (robot.transform.position == robot.path[robot.nextIndexInPath])
@@ -77,7 +89,7 @@ public class RobotPatrolState : State<RobotController>
         if (robot.directionFacing == -Vector3.right)
             robot.FOV.transform.rotation = Quaternion.Euler(0, 0, -90);
         if (robot.directionFacing == Vector3.up)
-            robot.FOV.transform.rotation = Quaternion.Euler(0, 0, 0);
+            robot.FOV.transform.rotation = Quaternion.Euler(0, 0, 0); 
         if (robot.directionFacing == -Vector3.up)
             robot.FOV.transform.rotation = Quaternion.Euler(0, 0, 180);
     }

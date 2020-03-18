@@ -7,7 +7,7 @@ using Ash.PlayerController;
 public class RobotController : MonoBehaviour
 {
     public StateMachine<RobotController> stateMachine;
-    public static RobotController robot;
+    public RobotController robot;
 
     public LayerMask visionLayer;
     public float visionDistance;
@@ -35,6 +35,11 @@ public class RobotController : MonoBehaviour
     public List<Vector3> path = new List<Vector3>();
     public int nextIndexInPath = 1;
 
+    public Animator anim;
+    public SpriteRenderer robotSprite;
+
+    public bool isHacked;
+
     public Room startingRoom;
 
     public PlayerController playerTarget;
@@ -52,6 +57,11 @@ public class RobotController : MonoBehaviour
     private void Update() => stateMachine.Update();
     private void FixedUpdate() => stateMachine.FixedUpdate();
 
+    public void SetRobotIdle(bool b)
+    {
+        robot.anim.SetBool("IsRobotIdle", b);
+    }
+
     // FOR TESTING ONLY
     void TestingGizmos()
     {
@@ -61,6 +71,5 @@ public class RobotController : MonoBehaviour
         Debug.DrawRay(transform.position, new Vector2(rightDirection.x, rightDirection.y) * visionDistance, Color.yellow);
         Debug.DrawRay(transform.position, new Vector2(leftDirection.x, leftDirection.y) * visionDistance, Color.blue);
     }
-
 
 }

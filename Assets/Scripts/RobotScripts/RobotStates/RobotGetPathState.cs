@@ -22,6 +22,7 @@ public class RobotGetPathState : State<RobotController>
 
     public override void UpdateState(RobotController _robot)
     {
+        _robot.SetRobotIdle(true);
     }
 
     public override void FixedUpdateState(RobotController _robot)

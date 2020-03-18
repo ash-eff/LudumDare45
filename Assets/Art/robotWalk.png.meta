@@ -1,0 +1,544 @@
+fileFormatVersion: 2
+guid: db2c6667be1188941babb2dabf44e1c8
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -111412301796691057
+    second: robotWalk_0
+  - first:
+      213: 1853761189827611103
+    second: robotWalk_1
+  - first:
+      213: -5837818768729830149
+    second: robotWalk_2
+  - first:
+      213: 843769452605194644
+    second: robotWalk_3
+  - first:
+      213: 3207922414265974948
+    second: robotWalk_4
+  - first:
+      213: -7134903348892738882
+    second: robotWalk_5
+  - first:
+      213: -5996261679571897055
+    second: robotWalk_6
+  - first:
+      213: -3967782503889753227
+    second: robotWalk_7
+  - first:
+      213: -5999198618285505220
+    second: robotWalk_8
+  - first:
+      213: -2485337459959254148
+    second: robotWalk_9
+  - first:
+      213: -4404477469966488975
+    second: robotWalk_10
+  - first:
+      213: 1021953695470293810
+    second: robotWalk_11
+  - first:
+      213: 392118593925853085
+    second: robotWalk_12
+  - first:
+      213: -5387913718490778689
+    second: robotWalk_13
+  - first:
+      213: 704682319581404334
+    second: robotWalk_14
+  - first:
+      213: -6552343901858017644
+    second: robotWalk_15
+  - first:
+      213: -2235846638625501453
+    second: robotWalk_16
+  - first:
+      213: -7516915946474448623
+    second: robotWalk_17
+  - first:
+      213: -7561775083318271992
+    second: robotWalk_18
+  - first:
+      213: 6725205582109863454
+    second: robotWalk_19
+  - first:
+      213: -7071375670443657394
+    second: robotWalk_20
+  - first:
+      213: 4061869737858792753
+    second: robotWalk_21
+  - first:
+      213: 8775674633512223464
+    second: robotWalk_22
+  - first:
+      213: 7170395134813724215
+    second: robotWalk_23
+  - first:
+      213: 8915994190209203809
+    second: robotWalk_24
+  - first:
+      213: 8615909042855592475
+    second: robotWalk_25
+  - first:
+      213: 4924640077017239915
+    second: robotWalk_26
+  - first:
+      213: 3418168642309656555
+    second: robotWalk_27
+  - first:
+      213: 6043692684358817510
+    second: robotWalk_28
+  - first:
+      213: -2420791838280849228
+    second: robotWalk_29
+  - first:
+      213: 2232678292598935506
+    second: robotWalk_30
+  - first:
+      213: 6179654829712811654
+    second: robotWalk_31
+  - first:
+      213: -3801703748745941621
+    second: robotWalk_32
+  - first:
+      213: 6435180281292446067
+    second: robotWalk_33
+  - first:
+      213: 6629753697343449656
+    second: robotWalk_34
+  - first:
+      213: -4166819277913146140
+    second: robotWalk_35
+  - first:
+      213: -1994355294482535494
+    second: robotWalk_36
+  - first:
+      213: -3163846830164758314
+    second: robotWalk_37
+  - first:
+      213: 918100378691057891
+    second: robotWalk_38
+  - first:
+      213: 7314507160361999813
+    second: robotWalk_39
+  - first:
+      213: -6553973811976511277
+    second: robotWalk_40
+  - first:
+      213: 6004651530599751922
+    second: robotWalk_41
+  - first:
+      213: -5772554979754504297
+    second: robotWalk_42
+  - first:
+      213: 4839171282114502730
+    second: robotWalk_43
+  - first:
+      213: -193484979160365531
+    second: robotWalk_44
+  - first:
+      213: -4025472197442173606
+    second: robotWalk_45
+  - first:
+      213: -8288153965957821417
+    second: robotWalk_46
+  - first:
+      213: 6172783071187392268
+    second: robotWalk_47
+  - first:
+      213: 314917017821620343
+    second: robotWalk_48
+  - first:
+      213: 8276523100558532746
+    second: robotWalk_49
+  - first:
+      213: -7082777812426282079
+    second: robotWalk_50
+  - first:
+      213: 6718631366210434481
+    second: robotWalk_51
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 24
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: robotWalk_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f83bccf0a1f247ef0800000000000000
+      internalID: -111412301796691057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: robotWalk_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd984120bf1e9b910800000000000000
+      internalID: 1853761189827611103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: robotWalk_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfc00ca82c6ebfea0800000000000000
+      internalID: -5837818768729830149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: robotWalk_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 491cbdeb8dba5bb00800000000000000
+      internalID: 843769452605194644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: robotWalk_4
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a046518074d48c20800000000000000
+      internalID: 3207922414265974948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: robotWalk_5
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebad08ed43bbbfc90800000000000000
+      internalID: -7134903348892738882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: robotWalk_6
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12574d0a5cff8cca0800000000000000
+      internalID: -5996261679571897055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: robotWalk_7
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57b24adb5da9fe8c0800000000000000
+      internalID: -3967782503889753227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: robotWalk_8
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c35041c44a09ebca0800000000000000
+      internalID: -5999198618285505220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: robotWalk_9
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7338208fbe428dd0800000000000000
+      internalID: -2485337459959254148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: robotWalk_10
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17aaf65b31720e2c0800000000000000
+      internalID: -4404477469966488975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: robotWalk_11
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2339763b875be2e00800000000000000
+      internalID: 1021953695470293810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: robotWalk_12
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9fa6cc98c5117500800000000000000
+      internalID: 392118593925853085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

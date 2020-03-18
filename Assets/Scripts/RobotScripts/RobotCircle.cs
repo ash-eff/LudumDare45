@@ -19,9 +19,17 @@ public class RobotCircle : MonoBehaviour
     public TextMeshProUGUI percentText;
     public Button downloadButton;
     public GameObject explosion;
-    public AudioSource beepBoop;
+    public AudioSource audioSource;
+    public AudioClip beepBoop;
+    public AudioClip beep;
+    public AudioClip beepBeepBeep;
+    public AudioClip hackOpen;
+    public GameObject hackOptions;
+    public GameObject videoFeed;
     bool markRobots;
     GameController gc;
+
+    RobotCam robotCam;
 
     public Color inRange;
     public Color outOfRange;
@@ -72,7 +80,14 @@ public class RobotCircle : MonoBehaviour
             float distance = direction.magnitude;
             if(distance <= 10)
             {
-                downloadButton.gameObject.SetActive(true);
+                if (!robot.isHacked)
+                {
+                    downloadButton.gameObject.SetActive(true);
+                }
+                else
+                {
+                    downloadButton.gameObject.SetActive(false);
+                }
                 circle.startColor = inRange;
                 circle.endColor = inRange;
                 line.startColor = inRange;
@@ -86,6 +101,7 @@ public class RobotCircle : MonoBehaviour
                 line.startColor = outOfRange;
                 line.endColor = outOfRange;
             }
+
         }
         else
         {
@@ -93,6 +109,7 @@ public class RobotCircle : MonoBehaviour
             circle.gameObject.SetActive(false);
             line.gameObject.SetActive(false);
             percentText.gameObject.SetActive(false);
+            //hackOptions.SetActive(false);
         }
     }
 
@@ -134,7 +151,7 @@ public class RobotCircle : MonoBehaviour
     {
         percentText.gameObject.SetActive(true);
         float downloadTime = 2;
-        beepBoop.Play();
+        audioSource.PlayOneShot(beepBoop);
         while(downloadCircle.fillAmount < 1)
         {
             downloadCircle.fillAmount += (Time.deltaTime / downloadTime);
@@ -142,8 +159,59 @@ public class RobotCircle : MonoBehaviour
             yield return null;
         }
 
+        robotCam = FindObjectOfType<RobotCam>();
+        robotCam.target = this.transform;
+        robotCam.GetComponent<Camera>().enabled = true;
+        robot.isHacked = true;
+        videoFeed.gameObject.SetActive(true);
+        //hackOptions.SetActive(true);
+        //audioSource.Stop();
+        //audioSource.PlayOneShot(hackOpen);
+        downloadButton.gameObject.SetActive(false);
+        percentText.gameObject.SetActive(false);
+        downloadCircle.fillAmount = 0;
+
+    }
+
+    public void HackShutDown()
+    {
+        Debug.Log("Shut Down");
+    }
+
+    public void HackBlowUp()
+    {
+        StartCoroutine(IeBlowUp());
+    }
+
+    public void HackReverseDirection()
+    {
+        Debug.Log("Reverse Direction");
+    }
+
+    public void HackMakeFriendly()
+    {
+        Debug.Log("Make Friendly");
+    }
+
+    IEnumerator IeBlowUp()
+    {
+        hackOptions.SetActive(false);
+        percentText.text = "3";
+        percentText.gameObject.SetActive(true);
+        audioSource.PlayOneShot(beep);
+        yield return new WaitForSeconds(1f);
+        percentText.text = "2";
+        audioSource.PlayOneShot(beep);
+        yield return new WaitForSeconds(1f);
+        percentText.text = "1";
+        audioSource.PlayOneShot(beep);
+        yield return new WaitForSeconds(1f);
+        percentText.text = "0";
+        audioSource.PlayOneShot(beepBeepBeep);
+        yield return new WaitForSeconds(.5f);
         GameObject go = Instantiate(explosion, transform.position, Quaternion.identity);
         Destroy(go, 2f);
-        Destroy(transform.parent.gameObject);
+
+        robot.stateMachine.ChangeState(new RobotExplodeState());
     }
 }

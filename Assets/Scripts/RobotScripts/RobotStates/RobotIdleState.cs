@@ -9,6 +9,7 @@ public class RobotIdleState : State<RobotController>
     public override void EnterState(RobotController _robot)
     {
         robot = _robot;
+        _robot.SetRobotIdle(true);
         // on game start there is no direction facing so the robot scans right away no matter what
         RaycastHit2D hit = Physics2D.Raycast(_robot.transform.position, _robot.directionFacing, _robot.visionDistance, _robot.objectLayer);
 
@@ -30,6 +31,7 @@ public class RobotIdleState : State<RobotController>
 
     public override void UpdateState(RobotController _robot)
     {
+        _robot.SetRobotIdle(true);
         LookForPlayer();
     }
 
