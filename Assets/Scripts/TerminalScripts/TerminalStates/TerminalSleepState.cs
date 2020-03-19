@@ -35,6 +35,15 @@ public class TerminalSleepState : State<TerminalOS>
     {
         terminalOS.SignalStrength();
         terminalOS.IsComputerAccessible();
+        terminalOS.CheckForComputerInRange();
+        //if (terminalOS.CheckForComputerInRange())
+        //{
+        //    terminalOS.ticker.UpdateText("Computer in range");
+        //}
+        //else
+        //{
+        //    terminalOS.ticker.UpdateText("HackerBox VErsion 1.8 is available now");
+        //}
     }
 
     public override void FixedUpdateState(TerminalOS terminalOS)

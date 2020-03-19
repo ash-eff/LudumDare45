@@ -29,9 +29,10 @@ public class TerminalState : State<PlayerController>
     {
         terminalGUI = player.terminalGUI;
         os = terminalGUI.GetComponentInParent<TerminalOS>();
+        //player.terminalOS.ticker.UpdateText("Entered Terminal State");
         //os.ResetOS();
         Vector3 rectLocalPos = os.GetComponent<RectTransform>().localPosition;
-        os.GetComponent<RectTransform>().localPosition = new Vector3(Mathf.Abs(rectLocalPos.x) * player.GetSpriteDirection, 0);
+        os.GetComponent<RectTransform>().localPosition = new Vector3(Mathf.Abs(rectLocalPos.x) * -player.GetSpriteDirection, 0);
         player.interactText.text = "Press T to close";
         OpenTerminal();
         player.spriteAnim.SetBool("Hacking", true);

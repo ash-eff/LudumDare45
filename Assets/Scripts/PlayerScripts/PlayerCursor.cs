@@ -5,41 +5,26 @@ using Ash.PlayerController;
 
 public class PlayerCursor : MonoBehaviour
 {
-    public Sprite target;
-    public Sprite arrow;
-
-    private SpriteRenderer spr;
+    public Texture2D targetTexture;
+    public Texture2D pointerTexture;
     private PlayerController player;
 
     private void Awake()
     {
-        spr = GetComponent<SpriteRenderer>();
         player = GetComponentInParent<PlayerController>();
-        Cursor.visible = false;
+        Cursor.SetCursor(targetTexture, Vector2.zero, CursorMode.ForceSoftware);
     }
 
     private void Update()
     {
-        CursorPos();
         CursorIcon();
-    }
-
-    public void CursorPos()
-    {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 direction = mousePos - (Vector2)transform.parent.position;
-
-        if(player.stateMachine.currentState != HackState.Instance && player.stateMachine.currentState != TerminalState.Instance)
-            direction = Vector2.ClampMagnitude(direction, 9);
-
-        transform.position = (Vector2)transform.parent.position + direction;
     }
 
     void CursorIcon()
     {
         if (player.stateMachine.currentState != HackState.Instance && player.stateMachine.currentState != TerminalState.Instance)
-            spr.sprite = target;
+            Cursor.SetCursor(targetTexture, Vector2.zero, CursorMode.ForceSoftware);
         else
-            spr.sprite = arrow;
+            Cursor.SetCursor(pointerTexture, new Vector2(-1, 1), CursorMode.ForceSoftware);
     }
 }

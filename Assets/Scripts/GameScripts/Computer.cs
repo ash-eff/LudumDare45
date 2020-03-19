@@ -6,31 +6,38 @@ using Ash.PlayerController;
 
 public class Computer : MonoBehaviour, IInteractable
 {
-    //public StateMachine<Computer> stateMachine;
-    //public static Computer computer;
-
     public TerminalOS terminalOS;
     public bool accessGranted;
     public float lightRebootTimer;
     public Door[] doors;
     public SingleLight[] lights;
-    //public GameObject lightWarning;
-    //public Image lightWarningFill;
+    public GameObject link;
+    public GameObject ring;
+    public Button button;
 
     public PlayerController player;
     public bool rebootingLights;
 
+    private AudioSource audioSource;
+    private bool pinged;
+
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         player = FindObjectOfType<PlayerController>();
         terminalOS = FindObjectOfType<TerminalOS>();
-        //computer = this;
-        //stateMachine = new StateMachine<Computer>(this);
-        //stateMachine.ChangeState(TerminalSleepState.Instance);
     }
 
-    //private void Update() => stateMachine.Update();
-    //private void FixedUpdate() => stateMachine.FixedUpdate();
+    private void Update()
+    {
+        if(DistanceFromPlayer() > terminalOS.terminalRange)
+        {
+            pinged = false;
+            link.gameObject.SetActive(false);
+            ring.SetActive(false);
+            button.gameObject.SetActive(false);
+        }
+    }
 
     public void Interact()
     {
@@ -39,7 +46,7 @@ public class Computer : MonoBehaviour, IInteractable
 
     public string BeingTouched()
     {
-        return "press e to hack";
+        return "press t to hack";
     }
 
     public void UseLights()
@@ -82,5 +89,44 @@ public class Computer : MonoBehaviour, IInteractable
         float distance = (player.transform.position - transform.position).magnitude;
 
         return distance;
+    }
+
+    public void PingComputer()
+    {
+        if (!pinged)
+        {
+            pinged = true;
+            audioSource.Play();
+            StartCoroutine(MoveLink());
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, terminalOS.terminalRange);
+    }
+
+    IEnumerator MoveLink()
+    {
+        link.gameObject.SetActive(false);
+        ring.SetActive(false);
+        button.gameObject.SetActive(false);
+        link.transform.position = player.transform.position;
+        link.gameObject.SetActive(true);
+        Vector3 directionTo = transform.position;
+        while (link.transform.position != directionTo)
+        {
+            link.transform.position = Vector3.MoveTowards(link.transform.position, directionTo, 55f * Time.deltaTime);
+            yield return null;
+        }
+
+        link.gameObject.SetActive(false);
+        ring.SetActive(true);
+        button.gameObject.SetActive(true);
+    }
+
+    public void AccessComputer()
+    {
+        player.AccessComputer(this);
     }
 }

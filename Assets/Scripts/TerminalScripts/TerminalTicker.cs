@@ -5,35 +5,54 @@ using TMPro;
 
 public class TerminalTicker : MonoBehaviour
 {
+    public TerminalTicker instance;
     public TextMeshProUGUI tickerText;
     public float scrollSpeed;
+    public GameObject startingPoint;
 
     private TextMeshProUGUI closeTickerText;
     private RectTransform textRectTransform;
 
+    private static string tickerMessage;
+    private static float width;
+
     private void Awake()
     {
+        instance = this;
         textRectTransform = tickerText.GetComponent<RectTransform>();
+        UpdateText("Hacker Box Version 1.8 is available");
         StartCoroutine(StartScroll());
     }
 
-    IEnumerator StartScroll()
+    public void UpdateText(string message)
     {
-        float width = tickerText.preferredWidth / 2;
-        Vector2 startPos = textRectTransform.localPosition;
+        tickerMessage = message;
+    }
 
-        float scrollPos = -100;
+    IEnumerator StartScroll()
+    {        
+        string currentMessage = tickerMessage;
+        Vector2 startPos = startingPoint.transform.localPosition;
+        float scrollPos = startPos.x;
 
         while (true)
         {
-            if((textRectTransform.localPosition.x + 100f) <= -width)
+            if (currentMessage != tickerMessage)
             {
-                scrollPos = -100;
+                width = tickerText.preferredWidth;
+                currentMessage = tickerText.text;
             }
 
-            textRectTransform.localPosition = new Vector2(-scrollPos, startPos.y);
+            tickerText.text = tickerMessage;
+            width = tickerText.preferredWidth;
 
-            scrollPos += scrollSpeed * Time.deltaTime;
+            if (scrollPos <= -width)
+            {
+                scrollPos = startPos.x;
+            }
+
+            textRectTransform.localPosition = new Vector2(scrollPos, startPos.y);
+            scrollPos -= scrollSpeed * Time.deltaTime;
             yield return null;
         }
     }

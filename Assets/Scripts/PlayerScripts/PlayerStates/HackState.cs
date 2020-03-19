@@ -21,8 +21,6 @@ public class HackState : State<PlayerController>
         get { if (_instance == null) new HackState(); return _instance; }
     }
     #endregion
-
-    Computer workingComputer;
     CanvasGroup terminalGUI;
     PlayerController player;
 
@@ -30,14 +28,17 @@ public class HackState : State<PlayerController>
     {
         player = _player;
         terminalGUI = player.terminalGUI;
-        workingComputer = player.currentlyTouching.GetComponent<Computer>();
+        Vector3 rectLocalPos = player.terminalOS.GetComponent<RectTransform>().localPosition;
+        player.terminalOS.GetComponent<RectTransform>().localPosition = new Vector3(Mathf.Abs(rectLocalPos.x) * -player.GetSpriteDirection, 0);
         player.interactText.text = "Press T to close";
         OpenTerminal();
+        player.spriteAnim.SetBool("Hacking", true);
     }
 
     public override void ExitState(PlayerController _player)
     {
         CloseTerminal();
+        player.spriteAnim.SetBool("Hacking", false);
     }
 
     public override void UpdateState(PlayerController _player)

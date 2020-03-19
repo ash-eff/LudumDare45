@@ -11,6 +11,8 @@ public class TerminalOS : MonoBehaviour
     public StateMachine<TerminalOS> stateMachine;
     public static TerminalOS terminalOS;
 
+    public LayerMask objectLayer;
+    public float terminalRange;
     public CanvasGroup terminalGUI;
     public Computer workingComputer;
     public Image loadingBar;
@@ -30,16 +32,27 @@ public class TerminalOS : MonoBehaviour
     public Image signalFillBarUI;
     public GameObject noSignal;
     public GameObject noSignalUI;
+    public TerminalTicker ticker;
+
+    public PlayerController player;
 
     public HackedSystemsIcon[] systemIcons;
+    private Computer[] computers;
 
     private void Awake()
     {
+        player = FindObjectOfType<PlayerController>();
         terminalGUI.alpha = 0;
         gameController = FindObjectOfType<GameController>();
+
         terminalOS = this;
         stateMachine = new StateMachine<TerminalOS>(terminalOS);
         stateMachine.ChangeState(TerminalSleepState.Instance);
+    }
+
+    private void Start()
+    {
+        computers = gameController.currentRoom.computers;
     }
 
     private void Update() => stateMachine.Update();
@@ -167,13 +180,13 @@ public class TerminalOS : MonoBehaviour
         signalFillBarUI.gameObject.SetActive(true);
         signalFillBar.gameObject.SetActive(true);
 
-        float maxDistance = 10;
+        float maxDistance = terminalRange;
         float fillAmount = 0;
         float currentDistance = workingComputer.DistanceFromPlayer();
         
-        if (currentDistance <= 10)
+        if (currentDistance <= terminalRange)
         {
-            fillAmount = Mathf.Abs(currentDistance - maxDistance) / 10;
+            fillAmount = Mathf.Abs(currentDistance - maxDistance) / terminalRange;
             noSignal.SetActive(false);
             noSignalUI.SetActive(false);
         }
@@ -197,7 +210,7 @@ public class TerminalOS : MonoBehaviour
             return;
         }
 
-        if(workingComputer.DistanceFromPlayer() <= 10f)
+        if(workingComputer.DistanceFromPlayer() <= terminalRange)
         {
             terminalAccessIcon.GetComponent<Button>().interactable = true;
         }
@@ -207,4 +220,24 @@ public class TerminalOS : MonoBehaviour
             CloseTerminalAccessWindow();
         }
     }
+
+    public void CheckForComputerInRange()
+    { 
+        if(computers.Length > 0)
+        {
+            foreach(Computer computer in computers)
+            {
+                if(computer.DistanceFromPlayer() <= terminalRange)
+                {
+                    computer.PingComputer();
+                    //workingComputer = computer;
+                }
+            }
+        }
+        else
+        {
+            workingComputer = null;
+        }
+    }
+
 }

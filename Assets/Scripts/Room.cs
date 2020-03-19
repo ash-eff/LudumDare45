@@ -13,6 +13,7 @@ public class Room : MonoBehaviour
     public Transform entrance;
     public Transform exit;
     public Renderer[] rends;
+    public Computer[] computers;
 
     public bool roomLoaded;
     public GameObject exits;
@@ -32,6 +33,7 @@ public class Room : MonoBehaviour
 
     void Awake()
     {
+        computers = GetComponentsInChildren<Computer>();
         ventGrid.gameObject.SetActive(true);
         shadows.SetActive(true);
         gameController = FindObjectOfType<GameController>();

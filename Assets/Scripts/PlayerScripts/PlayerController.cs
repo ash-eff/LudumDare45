@@ -16,6 +16,7 @@ namespace Ash.PlayerController
         public Color baseColor;
         public Color stealthColor;
         public bool isStealthed;
+        public GameObject stealthIcon;
         public LayerMask layersToCheck;
         public StateMachine<PlayerController> stateMachine;
         public static PlayerController player;
@@ -228,12 +229,14 @@ namespace Ash.PlayerController
             {
                 stealthBar.SetActive(true);
                 isStealthed = true;
+                stealthIcon.SetActive(true);
                 //playerSprite.color = stealthColor;
             }
             else
             {
                 stealthBar.SetActive(false);
                 isStealthed = false;
+                stealthIcon.SetActive(false);
                 //playerSprite.color = baseColor;
             }
         }
@@ -309,24 +312,29 @@ namespace Ash.PlayerController
         {
             if (stateMachine.currentState == HackState.Instance || stateMachine.currentState == TerminalState.Instance)
                 stateMachine.ChangeState(BaseState.Instance);
-            else if(currentlyTouching != null)
+            else if(terminalOS.workingComputer != null)
             {
-                if (currentlyTouching.tag == "Hackable")
+                if (!terminalOS.workingComputer.accessGranted)
                 {
-                    terminalOS.SetWorkingComputer(currentlyTouching.GetComponent<Computer>());
                     stateMachine.ChangeState(HackState.Instance);
                 }
                 else
                 {
-                    //terminalOS.SetWorkingComputer(null);
                     stateMachine.ChangeState(TerminalState.Instance);
                 }
             }
             else
             {
-                //terminalOS.SetWorkingComputer(null);
                 stateMachine.ChangeState(TerminalState.Instance);
             }
+
+            Debug.Log(stateMachine.currentState);
+        }
+
+        public void AccessComputer(Computer computer)
+        {
+            player.terminalOS.workingComputer = computer;
+            HandTerminal();
         }
 
         public void TargetRobots(bool b)
