@@ -328,7 +328,6 @@ namespace Ash.PlayerController
                 stateMachine.ChangeState(TerminalState.Instance);
             }
 
-            Debug.Log(stateMachine.currentState);
         }
 
         public void AccessComputer(Computer computer)

@@ -60,7 +60,7 @@ public class TerminalAccessState : State<TerminalOS>
         }
 
         // when you add more hacked icons, you'll need to select the next available one
-        os.systemIcons[1].computer = os.workingComputer;
+        //os.systemIcons[1].computer = os.workingInterface;
         os.workingComputer.accessGranted = true;
         return false;
     }

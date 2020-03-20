@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\RobotCam.cs" />
+    <Compile Include="Assets\Scripts\GameScripts\CPU.cs" />
     <Compile Include="Assets\Scripts\GameScripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Computer.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Container.cs" />

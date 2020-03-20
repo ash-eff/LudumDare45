@@ -24,9 +24,4 @@ public class SingleLight : MonoBehaviour
         pointLight.enabled = false;
         freeformLight.enabled = false;
     }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawWireSphere(transform.position, lightRadius);
-    }
 }

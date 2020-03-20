@@ -24,6 +24,7 @@ public class RobotInvestigateState : State<RobotController>
     {
         _robot.SetRobotIdle(true);
         LookAtTarget();
+        //_robot.CheckForPing();
     }
 
     public override void FixedUpdateState(RobotController _robot)

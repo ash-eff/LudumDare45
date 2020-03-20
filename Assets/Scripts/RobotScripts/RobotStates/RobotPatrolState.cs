@@ -19,9 +19,10 @@ public class RobotPatrolState : State<RobotController>
     public override void UpdateState(RobotController _robot)
     {
         _robot.SetRobotIdle(false);
-        LookForPlayer();
+        //LookForPlayer();
         FollowPath();
         RotateVision();
+        //_robot.CheckForPing();
     }
     
     public override void FixedUpdateState(RobotController _robot)
@@ -30,9 +31,9 @@ public class RobotPatrolState : State<RobotController>
 
     public void LookForPlayer()
     {
-        Vector2[] directionsToTargets = { GetDirectionToTarget(robot.playerTarget.feet.transform.position),
-                          GetDirectionToTarget(robot.playerTarget.head.transform.position),
-                          GetDirectionToTarget(robot.playerTarget.transform.position) };
+        Vector2[] directionsToTargets = { GetDirectionToTarget(robot.player.feet.transform.position),
+                          GetDirectionToTarget(robot.player.head.transform.position),
+                          GetDirectionToTarget(robot.player.transform.position) };
 
         if (IsTargetSeen(directionsToTargets))
         {
@@ -40,8 +41,8 @@ public class RobotPatrolState : State<RobotController>
             {
                 robot.SpottedPlayer = true;
                 robot.robotGUI.SetExclaimActive(true);
-                robot.playerTarget.timesSpotted++;
-                robot.TargetLastPosition = robot.playerTarget.transform.position;
+                robot.player.timesSpotted++;
+                robot.TargetLastPosition = robot.player.transform.position;
                 robot.stateMachine.ChangeState(new RobotInvestigateState());
             }
         }
@@ -49,7 +50,7 @@ public class RobotPatrolState : State<RobotController>
         else
         {
             robot.SpottedPlayer = false;
-            robot.robotGUI.SetExclaimActive(false);
+            //robot.robotGUI.SetExclaimActive(false);
         }
     }
 
@@ -67,7 +68,7 @@ public class RobotPatrolState : State<RobotController>
                 robot.robotSprite.transform.localScale = new Vector2(1, 1);
             }
 
-            Debug.Log(robot.DirectionFacing);
+            //Debug.Log(robot.DirectionFacing);
             robot.transform.position = Vector3.MoveTowards(robot.transform.position, robot.path[robot.nextIndexInPath], robot.PatrolSpeed * Time.deltaTime);
 
             if (robot.transform.position == robot.path[robot.nextIndexInPath])
@@ -102,7 +103,7 @@ public class RobotPatrolState : State<RobotController>
 
     private bool IsTargetSeen(Vector2[] _directionsToTargets)
     {
-        if (robot.playerTarget.isStealthed)
+        if (robot.player.isStealthed)
             return false;
 
         int numberOfTargetsSeen = 0;

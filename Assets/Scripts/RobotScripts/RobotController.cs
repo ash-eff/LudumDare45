@@ -28,7 +28,7 @@ public class RobotController : MonoBehaviour
     public Animator anim;
     public SpriteRenderer robotSprite;
     public Room startingRoom;
-    public PlayerController playerTarget;
+    public PlayerController player;
 
     public Waypoint[] patrolWaypoints;
     public List<Vector3> path = new List<Vector3>();
@@ -68,10 +68,11 @@ public class RobotController : MonoBehaviour
     private void Awake()
     {
         startingRoom = GetComponentInParent<Room>();
-        playerTarget = FindObjectOfType<PlayerController>();
+        player = FindObjectOfType<PlayerController>();
         robot = this;
         stateMachine = new StateMachine<RobotController>(robot);
         stateMachine.ChangeState(new RobotGetGridState());
+
     }
 
     private void Update() => stateMachine.Update();

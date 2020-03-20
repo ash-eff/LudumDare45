@@ -32,7 +32,8 @@ public class RobotIdleState : State<RobotController>
     public override void UpdateState(RobotController _robot)
     {
         _robot.SetRobotIdle(true);
-        LookForPlayer();
+        //LookForPlayer();
+        //_robot.CheckForPing();
     }
 
     public override void FixedUpdateState(RobotController _robot)
@@ -41,18 +42,18 @@ public class RobotIdleState : State<RobotController>
 
     public void LookForPlayer()
     {
-        Vector2[] directionsToTargets = { GetDirectionToTarget(robot.playerTarget.feet.transform.position),
-                          GetDirectionToTarget(robot.playerTarget.head.transform.position),
-                          GetDirectionToTarget(robot.playerTarget.transform.position) };
+        Vector2[] directionsToTargets = { GetDirectionToTarget(robot.player.feet.transform.position),
+                          GetDirectionToTarget(robot.player.head.transform.position),
+                          GetDirectionToTarget(robot.player.transform.position) };
 
         if (IsTargetSeen(directionsToTargets))
         {
             if (!robot.SpottedPlayer)
             {
                 robot.SpottedPlayer = true;
-                robot.robotGUI.SetExclaimActive(true);
-                robot.playerTarget.timesSpotted++;
-                robot.TargetLastPosition = robot.playerTarget.transform.position;
+                //robot.robotGUI.SetExclaimActive(true);
+                robot.player.timesSpotted++;
+                robot.TargetLastPosition = robot.player.transform.position;
                 robot.stateMachine.ChangeState(new RobotInvestigateState());
             }
         }
@@ -60,7 +61,7 @@ public class RobotIdleState : State<RobotController>
         else
         {
             robot.SpottedPlayer = false;
-            robot.robotGUI.SetExclaimActive(false);
+            //robot.robotGUI.SetExclaimActive(false);
         }
     }
 
@@ -116,7 +117,7 @@ public class RobotIdleState : State<RobotController>
 
     private bool IsTargetSeen(Vector2[] _directionsToTargets)
     {
-        if (robot.playerTarget.isStealthed)
+        if (robot.player.isStealthed)
             return false;
 
         int numberOfTargetsSeen = 0;

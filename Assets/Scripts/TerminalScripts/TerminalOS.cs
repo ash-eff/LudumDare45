@@ -131,14 +131,14 @@ public class TerminalOS : MonoBehaviour
         bool doneLoading = false;
         loadingBar.fillAmount = 0;
         loadingText.text = "";
-
+    
         while (!doneLoading)
         {
             doneLoading = GetLoadAccess(workingComputer, accessText);
-
+    
             yield return null;
         }
-
+    
         icon.SetActive(true);
     }
 
@@ -168,37 +168,37 @@ public class TerminalOS : MonoBehaviour
 
     public void SignalStrength()
     {
-        if(workingComputer == null)
-        {
-            signalFillBarUI.gameObject.SetActive(false);
-            signalFillBar.gameObject.SetActive(false);
-            noSignalUI.SetActive(true);
-            noSignal.SetActive(true);
-            return;
-        }
-
-        signalFillBarUI.gameObject.SetActive(true);
-        signalFillBar.gameObject.SetActive(true);
-
-        float maxDistance = terminalRange;
-        float fillAmount = 0;
-        float currentDistance = workingComputer.DistanceFromPlayer();
-        
-        if (currentDistance <= terminalRange)
-        {
-            fillAmount = Mathf.Abs(currentDistance - maxDistance) / terminalRange;
-            noSignal.SetActive(false);
-            noSignalUI.SetActive(false);
-        }
-        else
-        {
-            noSignal.SetActive(true);
-            noSignalUI.SetActive(true);
-        }
-
-      
-        signalFillBar.fillAmount = fillAmount;
-        signalFillBarUI.fillAmount = fillAmount;
+        //if(workingComputer == null)
+        //{
+        //    signalFillBarUI.gameObject.SetActive(false);
+        //    signalFillBar.gameObject.SetActive(false);
+        //    noSignalUI.SetActive(true);
+        //    noSignal.SetActive(true);
+        //    return;
+        //}
+        //
+        //signalFillBarUI.gameObject.SetActive(true);
+        //signalFillBar.gameObject.SetActive(true);
+        //
+        //float maxDistance = terminalRange;
+        //float fillAmount = 0;
+        //float currentDistance = workingComputer.DistanceFromPlayer();
+        //
+        //if (currentDistance <= terminalRange)
+        //{
+        //    fillAmount = Mathf.Abs(currentDistance - maxDistance) / terminalRange;
+        //    noSignal.SetActive(false);
+        //    noSignalUI.SetActive(false);
+        //}
+        //else
+        //{
+        //    noSignal.SetActive(true);
+        //    noSignalUI.SetActive(true);
+        //}
+        //
+        //
+        //signalFillBar.fillAmount = fillAmount;
+        //signalFillBarUI.fillAmount = fillAmount;
     }
 
     public void IsComputerAccessible()
@@ -210,34 +210,34 @@ public class TerminalOS : MonoBehaviour
             return;
         }
 
-        if(workingComputer.DistanceFromPlayer() <= terminalRange)
-        {
-            terminalAccessIcon.GetComponent<Button>().interactable = true;
-        }
-        else
-        {
-            terminalAccessIcon.GetComponent<Button>().interactable = false;
-            CloseTerminalAccessWindow();
-        }
+        //if(workingComputer.DistanceFromPlayer() <= terminalRange)
+        //{
+        //    terminalAccessIcon.GetComponent<Button>().interactable = true;
+        //}
+        //else
+        //{
+        //    terminalAccessIcon.GetComponent<Button>().interactable = false;
+        //    CloseTerminalAccessWindow();
+        //}
     }
 
     public void CheckForComputerInRange()
     { 
-        if(computers.Length > 0)
-        {
-            foreach(Computer computer in computers)
-            {
-                if(computer.DistanceFromPlayer() <= terminalRange)
-                {
-                    computer.PingComputer();
-                    //workingComputer = computer;
-                }
-            }
-        }
-        else
-        {
-            workingComputer = null;
-        }
+        //if(computers.Length > 0)
+        //{
+        //    foreach(Computer computer in computers)
+        //    {
+        //        if(computer.DistanceFromPlayer() <= terminalRange)
+        //        {
+        //            computer.PingComputer();
+        //            //workingComputer = computer;
+        //        }
+        //    }
+        //}
+        //else
+        //{
+        //    workingComputer = null;
+        //}
     }
 
 }
