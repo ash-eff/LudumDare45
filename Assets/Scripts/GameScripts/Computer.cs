@@ -57,6 +57,6 @@ public class Computer : CPU, IInteractable
 
     public void AccessComputer()
     {
-        player.AccessComputer(this);
+        player.terminalOS.SetWorkingCPU(this);
     }
 }

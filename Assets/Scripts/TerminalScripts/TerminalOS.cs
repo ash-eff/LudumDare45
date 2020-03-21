@@ -14,7 +14,8 @@ public class TerminalOS : MonoBehaviour
     public LayerMask objectLayer;
     public float terminalRange;
     public CanvasGroup terminalGUI;
-    public Computer workingComputer;
+    public CPU workingCPU;
+    public TextMeshProUGUI workingCPUName;
     public Image loadingBar;
     public Image securityBar;
     public TextMeshProUGUI loadingText;
@@ -36,7 +37,6 @@ public class TerminalOS : MonoBehaviour
 
     public PlayerController player;
 
-    public HackedSystemsIcon[] systemIcons;
     private Computer[] computers;
 
     private void Awake()
@@ -58,22 +58,14 @@ public class TerminalOS : MonoBehaviour
     private void Update() => stateMachine.Update();
     private void FixedUpdate() => stateMachine.FixedUpdate();
 
-    public void SetWorkingComputer(Computer _computer)
+    public void SetWorkingCPU(CPU _cpu)
     {
-        workingComputer = _computer;
+        workingCPU = _cpu;
+        workingCPUName.text = workingCPU.transform.name;
+        player.HandTerminal();
     }
 
-    public void CloseTerminalAccessWindow()
-    {
-        terminalAccessWindow.SetActive(false);
-    }
-
-    public void OpenTerminalAccessWindow()
-    {
-        terminalAccessWindow.SetActive(true);
-    }
-
-    public void ResetOS()
+public void ResetOS()
     {
         loadingBar.fillAmount = 0;
         loadingBar.transform.parent.gameObject.SetActive(false);
@@ -81,32 +73,6 @@ public class TerminalOS : MonoBehaviour
         terminalAccessIcon.SetActive(false);
     }
 
-    public void UnlockDoors()
-    {
-        foreach(Door door in workingComputer.doors)
-        {
-            if (door.IsLocked)
-            {
-                door.IsLocked = false;
-            }
-        }
-    }
-
-    public void UseLights()
-    {
-        workingComputer.UseLights();
-    }
-
-    public void SecurityIcon()
-    {
-        terminalAccessWindow.SetActive(false);
-        StartCoroutine(LoadAccess("Accessing Security", securityAccessIcon));
-    }
-
-    public void SecuritySystemAccess()
-    {
-        StartCoroutine(FillSecurityBar());
-    }
 
     IEnumerator FillSecurityBar()
     {
@@ -126,45 +92,6 @@ public class TerminalOS : MonoBehaviour
         player.TargetRobots(true);
     }
 
-    IEnumerator LoadAccess(string accessText, GameObject icon)
-    {
-        bool doneLoading = false;
-        loadingBar.fillAmount = 0;
-        loadingText.text = "";
-    
-        while (!doneLoading)
-        {
-            doneLoading = GetLoadAccess(workingComputer, accessText);
-    
-            yield return null;
-        }
-    
-        icon.SetActive(true);
-    }
-
-    public bool GetLoadAccess(Computer _computer, string message)
-    {
-        loadingBarWindow.SetActive(true);
-        loadingText.text = message;
-        loadingBar.fillAmount += Time.deltaTime;
-        if (loadingBar.fillAmount < 1)
-        {
-            return false;
-        }
-
-        loadingBarWindow.SetActive(false);
-        return true;
-    }
-
-    public void OpenHackedSystemsWindow()
-    {
-        HackedSystemsWindow.SetActive(true);
-    }
-
-    public void CloseHackedSystemsWindow()
-    {
-        HackedSystemsWindow.SetActive(false);
-    }
 
     public void SignalStrength()
     {
@@ -203,10 +130,10 @@ public class TerminalOS : MonoBehaviour
 
     public void IsComputerAccessible()
     {
-        if(workingComputer == null)
+        if(workingCPU == null)
         {
             terminalAccessIcon.GetComponent<Button>().interactable = false;
-            CloseTerminalAccessWindow();
+            //CloseTerminalAccessWindow();
             return;
         }
 

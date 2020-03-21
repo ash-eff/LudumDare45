@@ -13559,7 +13559,7 @@ GameObject:
   - component: {fileID: 1721274784485995648}
   - component: {fileID: 2851350950000574943}
   - component: {fileID: 8786273692249932645}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: VentWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}

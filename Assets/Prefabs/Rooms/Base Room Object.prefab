@@ -352,15 +352,13 @@ MonoBehaviour:
   walkableGrid: []
   entrance: {fileID: 0}
   exit: {fileID: 0}
-  peakRadius: 8
+  rends: []
+  computers: []
   roomLoaded: 0
-  resetRoom: 0
   exits: {fileID: 5183954014271937902}
-  lights: {fileID: 8849759803553480912}
   shadows: {fileID: 5045400784500786680}
+  lights: {fileID: 8849759803553480912}
   roomHolder: {fileID: 7678933337633680556}
-  fogColor: {r: 0, g: 0, b: 0, a: 0}
-  otherFogColor: {r: 0, g: 0, b: 0, a: 0}
   minimapActive: 0
 --- !u!114 &6385524031394655137
 MonoBehaviour:
@@ -2656,7 +2654,7 @@ GameObject:
   - component: {fileID: 7746683810159950231}
   - component: {fileID: 6624941556166315208}
   - component: {fileID: 400135325393833586}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: VentWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}

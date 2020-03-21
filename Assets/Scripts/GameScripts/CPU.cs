@@ -16,6 +16,8 @@ public class CPU : MonoBehaviour
     public PlayerController player;
     public AudioSource audioSource;
     public bool pinged;
+    public bool accesseGranted = false;
+    LineRenderer lr;
 
     protected virtual void Awake()
     {
@@ -27,6 +29,7 @@ public class CPU : MonoBehaviour
         cpuRing = processingUnit.transform.Find("CPU Ring").gameObject;
         cpuButton = processingUnit.GetComponentInChildren<Button>();
         audioSource = processingUnit.GetComponent<AudioSource>();
+        lr = cpuLink.transform.GetComponent<LineRenderer>();
         cpuLink.SetActive(false);
         cpuRing.SetActive(false);
         cpuButton.gameObject.SetActive(false);
@@ -41,7 +44,7 @@ public class CPU : MonoBehaviour
     {
         if (DistanceFromPlayer() <= terminalOS.terminalRange)
         {
-            RaycastHit2D hit = Physics2D.Raycast(processingUnit.transform.position, (player.transform.position - processingUnit.transform.position).normalized, terminalOS.terminalRange, visionLayers);
+            RaycastHit2D hit = Physics2D.Raycast(cpuRing.transform.position, (player.transform.position - cpuRing.transform.position).normalized, terminalOS.terminalRange, visionLayers);
             if (hit)
             {
                 if (hit.transform.tag == "Player")
@@ -83,26 +86,88 @@ public class CPU : MonoBehaviour
         }
     }
 
+    //IEnumerator MoveLink()
+    //{
+    //    cpuLink.transform.parent = null;
+    //    cpuLink.gameObject.SetActive(false);
+    //    cpuRing.SetActive(false);
+    //    cpuButton.gameObject.SetActive(false);
+    //    cpuLink.transform.position = player.transform.position;
+    //    Vector3 directionTo = processingUnit.transform.position;
+    //    cpuLink.gameObject.SetActive(true);
+    //
+    //    while (cpuLink.transform.position != directionTo)
+    //    {
+    //        cpuLink.transform.position = Vector3.MoveTowards(cpuLink.transform.position, directionTo, 55f * Time.deltaTime);
+    //        yield return null;
+    //    }
+    //
+    //    
+    //    cpuLink.gameObject.SetActive(false);
+    //    cpuLink.transform.parent = processingUnit.transform;
+    //    cpuRing.SetActive(true);
+    //    cpuButton.gameObject.SetActive(true);
+    //}
+
     IEnumerator MoveLink()
     {
+        Color color = new Color(lr.startColor.r, lr.startColor.g, lr.startColor.b, 1);
+        lr.startColor = color;
+        lr.endColor = color;
         cpuLink.transform.parent = null;
         cpuLink.gameObject.SetActive(false);
         cpuRing.SetActive(false);
         cpuButton.gameObject.SetActive(false);
         cpuLink.transform.position = player.transform.position;
-        Vector3 directionTo = processingUnit.transform.position;
+        Vector3 finalPosition = CalculateLineFinalPosition();
+        Vector3 linkEndPos = player.transform.position;
         cpuLink.gameObject.SetActive(true);
+        lr.SetPosition(0, player.transform.position);
+        lr.SetPosition(1, player.transform.position);
 
-        while (cpuLink.transform.position != directionTo)
+        while (lr.GetPosition(1) != finalPosition)
         {
-            cpuLink.transform.position = Vector3.MoveTowards(cpuLink.transform.position, directionTo, 55f * Time.deltaTime);
+            lr.SetPosition(0, player.transform.position);
+            lr.SetPosition(1, linkEndPos);
+            linkEndPos = Vector3.MoveTowards(linkEndPos, finalPosition, 55f * Time.deltaTime);
             yield return null;
         }
 
-        
-        cpuLink.gameObject.SetActive(false);
-        cpuLink.transform.parent = processingUnit.transform;
+        StartCoroutine(FadeLink());
         cpuRing.SetActive(true);
         cpuButton.gameObject.SetActive(true);
+    }
+
+    IEnumerator FadeLink()
+    {
+        Color a = lr.startColor;
+        Color b = new Color(lr.startColor.r, lr.startColor.g, lr.startColor.b, 0);
+        float timer = 1f;
+        float lerptime = timer;
+        float currentLerpTime = 0;
+        while (timer > 0 && pinged)
+        {
+            timer -= Time.deltaTime;
+            currentLerpTime += Time.deltaTime;
+            float perc = currentLerpTime / lerptime;
+            lr.startColor = Color.Lerp(a, b, perc);
+            lr.endColor = Color.Lerp(a, b, perc);
+            lr.SetPosition(0, player.transform.position);
+            lr.SetPosition(1, CalculateLineFinalPosition());
+
+            yield return null;
+        }
+
+        cpuLink.gameObject.SetActive(false);
+        cpuLink.transform.parent = processingUnit.transform;
+    }
+
+    private Vector3 CalculateLineFinalPosition()
+    {
+        Vector3 direction = (cpuRing.transform.position - player.transform.position).normalized;
+        float distance = (cpuRing.transform.position - player.transform.position).magnitude;
+        Vector3 finalPosition = player.transform.position + (direction * (distance - cpuRing.transform.localScale.x));
+
+        return finalPosition;
     }
 }

@@ -27,7 +27,7 @@ public class TerminalAccessState : State<TerminalOS>
     public override void EnterState(TerminalOS terminalOS)
     {
         os = terminalOS;
-        if (!terminalOS.workingComputer.accessGranted)
+        if (!terminalOS.workingCPU.accessGranted)
         {
             terminalOS.hackGameBar.fillAmount = 0;
             terminalOS.hackGameWindow.SetActive(true);         
@@ -61,7 +61,7 @@ public class TerminalAccessState : State<TerminalOS>
 
         // when you add more hacked icons, you'll need to select the next available one
         //os.systemIcons[1].computer = os.workingInterface;
-        os.workingComputer.accessGranted = true;
+        os.workingCPU.accessGranted = true;
         return false;
     }
 }

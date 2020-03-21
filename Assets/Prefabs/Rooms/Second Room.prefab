@@ -136,6 +136,7 @@ MonoBehaviour:
   entrance: {fileID: 3456229067803199670}
   exit: {fileID: 6912404388182916743}
   rends: []
+  computers: []
   roomLoaded: 0
   exits: {fileID: 3721012676225292379}
   shadows: {fileID: 7690526406724088343}
@@ -7979,7 +7980,7 @@ GameObject:
   - component: {fileID: 5133927295902486136}
   - component: {fileID: 8596920286583798567}
   - component: {fileID: 2968840515631856029}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: VentWalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}

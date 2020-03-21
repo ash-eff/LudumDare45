@@ -308,20 +308,20 @@ namespace Ash.PlayerController
             }
         }
 
-        private void HandTerminal()
+        public void HandTerminal()
         {
             if (stateMachine.currentState == HackState.Instance || stateMachine.currentState == TerminalState.Instance)
                 stateMachine.ChangeState(BaseState.Instance);
-            else if(terminalOS.workingComputer != null)
+            else if(terminalOS.workingCPU != null)
             {
-                if (!terminalOS.workingComputer.accessGranted)
-                {
-                    stateMachine.ChangeState(HackState.Instance);
-                }
-                else
-                {
+                //if (!terminalOS.workingCPU.accessGranted)
+                //{
+                //    stateMachine.ChangeState(HackState.Instance);
+                //}
+                //else
+                //{
                     stateMachine.ChangeState(TerminalState.Instance);
-                }
+                //}
             }
             else
             {
@@ -332,7 +332,7 @@ namespace Ash.PlayerController
 
         public void AccessComputer(Computer computer)
         {
-            player.terminalOS.workingComputer = computer;
+            player.terminalOS.workingCPU = computer;
             HandTerminal();
         }
 

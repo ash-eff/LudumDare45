@@ -98,6 +98,12 @@ TextureImporter:
   - first:
       213: -5853094309744046950
     second: HackingTerminallOperatingSystem_31
+  - first:
+      213: -194221711174464494
+    second: HackingTerminallOperatingSystem_32
+  - first:
+      213: 2692970064075287540
+    second: HackingTerminallOperatingSystem_33
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -849,6 +855,48 @@ TextureImporter:
       bones: []
       spriteID: a9c88de7cb1a5cea0800000000000000
       internalID: -5853094309744046950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HackingTerminallOperatingSystem_32
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 72
+        width: 13
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21c07c9f16cfd4df0800000000000000
+      internalID: -194221711174464494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HackingTerminallOperatingSystem_33
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 72
+        width: 13
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fbe7fb510a5f5520800000000000000
+      internalID: 2692970064075287540
       vertices: []
       indices: 
       edges: []

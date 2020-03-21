@@ -70,7 +70,6 @@
     <Compile Include="Assets\Scripts\GameScripts\Door.cs" />
     <Compile Include="Assets\Scripts\GameScripts\GameController.cs" />
     <Compile Include="Assets\Scripts\GameScripts\GridMap.cs" />
-    <Compile Include="Assets\Scripts\GameScripts\HackedSystemsIcon.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Interactable.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Item.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Laser.cs" />
