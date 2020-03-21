@@ -33,6 +33,7 @@ public class TerminalBaseState : State<TerminalOS>
     {
         terminalOS.SignalStrength();
         terminalOS.IsComputerAccessible();
+        terminalOS.CheckForComputerInRange();
     }
 
     public override void FixedUpdateState(TerminalOS terminalOS)

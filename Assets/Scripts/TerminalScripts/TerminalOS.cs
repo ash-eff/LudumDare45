@@ -15,25 +15,19 @@ public class TerminalOS : MonoBehaviour
     public float terminalRange;
     public CanvasGroup terminalGUI;
     public CPU workingCPU;
-    public TextMeshProUGUI workingCPUName;
-    public Image loadingBar;
-    public Image securityBar;
-    public TextMeshProUGUI loadingText;
-    //public GameObject securityGranted;
-    public GameObject HackedSystemsWindow;
-    public GameObject loadingBarWindow;
-    public GameObject securityBarWindow;
-    public GameObject terminalAccessWindow;
-    public GameObject terminalAccessIcon;
-    public GameObject securityAccessIcon;
-    public GameObject hackGameWindow;
-    public Image hackGameBar;
+
+    public GameObject workingCPUWindow;
+    public GameObject gameSettingsWindow;
+
+    public GameObject connectWindow;
     public GameController gameController;
     public Image signalFillBar;
     public Image signalFillBarUI;
     public GameObject noSignal;
     public GameObject noSignalUI;
     public TerminalTicker ticker;
+    public Button currentCPUButton;
+    public TextMeshProUGUI currentCPUText;
 
     public PlayerController player;
 
@@ -61,37 +55,14 @@ public class TerminalOS : MonoBehaviour
     public void SetWorkingCPU(CPU _cpu)
     {
         workingCPU = _cpu;
-        workingCPUName.text = workingCPU.transform.name;
-        player.HandTerminal();
+        player.OpenHandTerminal();
     }
 
-public void ResetOS()
+    public void ResetOS()
     {
-        loadingBar.fillAmount = 0;
-        loadingBar.transform.parent.gameObject.SetActive(false);
-        terminalAccessWindow.SetActive(false);
-        terminalAccessIcon.SetActive(false);
+        CloseCurrentCPUWindow();
+        CloseGameSettingsWindow();
     }
-
-
-    IEnumerator FillSecurityBar()
-    {
-        securityBar.fillAmount = 0;
-        securityBarWindow.SetActive(true);
-        while (securityBar.fillAmount < 1)
-        {
-            securityBar.fillAmount += Time.deltaTime;
-            yield return null;
-        }
-
-        //securityGranted.SetActive(true);
-        yield return new WaitForSeconds(.5f);
-        //securityGranted.SetActive(false);
-        securityBarWindow.SetActive(false);
-        PlayerController player = FindObjectOfType<PlayerController>();
-        player.TargetRobots(true);
-    }
-
 
     public void SignalStrength()
     {
@@ -132,7 +103,7 @@ public void ResetOS()
     {
         if(workingCPU == null)
         {
-            terminalAccessIcon.GetComponent<Button>().interactable = false;
+            //terminalAccessIcon.GetComponent<Button>().interactable = false;
             //CloseTerminalAccessWindow();
             return;
         }
@@ -149,22 +120,55 @@ public void ResetOS()
     }
 
     public void CheckForComputerInRange()
-    { 
-        //if(computers.Length > 0)
-        //{
-        //    foreach(Computer computer in computers)
-        //    {
-        //        if(computer.DistanceFromPlayer() <= terminalRange)
-        //        {
-        //            computer.PingComputer();
-        //            //workingComputer = computer;
-        //        }
-        //    }
-        //}
-        //else
-        //{
-        //    workingComputer = null;
-        //}
+    {
+        if(workingCPU != null)
+        {
+            if (workingCPU.accessGranted)
+            {
+                currentCPUButton.interactable = true;
+                currentCPUText.text = "HACKED SYSTEM";
+            }
+            else
+            {
+                currentCPUButton.interactable = false;
+                currentCPUText.text = "NO ACCESS";
+            }
+
+            if (workingCPU.DistanceFromPlayer() > terminalRange)
+            {
+                workingCPU = null;
+            }
+        }
+
+        if(workingCPU == null)
+        {
+            currentCPUButton.interactable = false;
+            currentCPUText.text = "NO SYSTEM";
+        }
+    }
+
+    public void OpenCurrentCPUWindow()
+    {
+        Debug.Log("Open CPU Window");
+        workingCPUWindow.SetActive(true);
+    }
+
+    public void OpenGameSettingsWindow()
+    {
+        Debug.Log("Close Settings Window");
+        gameSettingsWindow.SetActive(true);
+    }
+
+    public void CloseCurrentCPUWindow()
+    {
+        Debug.Log("Close CPU Window");
+        workingCPUWindow.SetActive(false);
+    }
+
+    public void CloseGameSettingsWindow()
+    {
+        Debug.Log("Close Settings Window");
+        gameSettingsWindow.SetActive(false);
     }
 
 }

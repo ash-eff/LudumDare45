@@ -23,28 +23,32 @@ public class TerminalAccessState : State<TerminalOS>
     #endregion
 
     TerminalOS os;
+    float timer = 0;
+    float connectTime = 2f;
 
     public override void EnterState(TerminalOS terminalOS)
     {
         os = terminalOS;
         if (!terminalOS.workingCPU.accessGranted)
         {
-            terminalOS.hackGameBar.fillAmount = 0;
-            terminalOS.hackGameWindow.SetActive(true);         
+            timer = 0f;
+            terminalOS.connectWindow.SetActive(true);         
         }
     }
 
     public override void ExitState(TerminalOS terminalOS)
     {
-        terminalOS.hackGameWindow.SetActive(false);
+        terminalOS.connectWindow.SetActive(false);
     }
 
     public override void UpdateState(TerminalOS terminalOS)
     {
         if (!RunTempGame())
         {
+            terminalOS.connectWindow.SetActive(false);
             terminalOS.stateMachine.ChangeState(TerminalConnectedState.Instance);
         }
+        terminalOS.CheckForComputerInRange();
     }
 
     public override void FixedUpdateState(TerminalOS terminalOS)
@@ -53,9 +57,9 @@ public class TerminalAccessState : State<TerminalOS>
 
     bool RunTempGame()
     {
-        if(os.hackGameBar.fillAmount < 1)
+        if(timer < connectTime)
         {
-            os.hackGameBar.fillAmount += Time.deltaTime;
+            timer += Time.deltaTime;
             return true;
         }
 

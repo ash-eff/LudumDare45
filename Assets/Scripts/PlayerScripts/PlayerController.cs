@@ -132,7 +132,10 @@ namespace Ash.PlayerController
                     SecondaryInteractWithObject();
 
             if (Input.GetKeyDown(KeyCode.T))
-                HandTerminal();
+                if (terminalGUI.alpha == 1)
+                    CloseHandTerminal();
+                else
+                    OpenHandTerminal();
         }   
 
         public void SetPlayerVelocity(float _atSpeed, bool allowMovement)
@@ -308,20 +311,18 @@ namespace Ash.PlayerController
             }
         }
 
-        public void HandTerminal()
+        public void OpenHandTerminal()
         {
-            if (stateMachine.currentState == HackState.Instance || stateMachine.currentState == TerminalState.Instance)
-                stateMachine.ChangeState(BaseState.Instance);
-            else if(terminalOS.workingCPU != null)
+            if(terminalOS.workingCPU != null)
             {
-                //if (!terminalOS.workingCPU.accessGranted)
-                //{
-                //    stateMachine.ChangeState(HackState.Instance);
-                //}
-                //else
-                //{
+                if (!terminalOS.workingCPU.accessGranted)
+                {
+                    stateMachine.ChangeState(HackState.Instance);
+                }
+                else
+                {
                     stateMachine.ChangeState(TerminalState.Instance);
-                //}
+                }
             }
             else
             {
@@ -330,11 +331,17 @@ namespace Ash.PlayerController
 
         }
 
-        public void AccessComputer(Computer computer)
+        public void CloseHandTerminal()
         {
-            player.terminalOS.workingCPU = computer;
-            HandTerminal();
+            if (stateMachine.currentState == HackState.Instance || stateMachine.currentState == TerminalState.Instance)
+                stateMachine.ChangeState(BaseState.Instance);
         }
+
+        //public void AccessComputer(Computer computer)
+        //{
+        //    player.terminalOS.workingCPU = computer;
+        //    OpenHandTerminal();
+        //}
 
         public void TargetRobots(bool b)
         {

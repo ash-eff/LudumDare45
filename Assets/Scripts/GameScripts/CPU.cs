@@ -16,7 +16,6 @@ public class CPU : MonoBehaviour
     public PlayerController player;
     public AudioSource audioSource;
     public bool pinged;
-    public bool accesseGranted = false;
     LineRenderer lr;
 
     protected virtual void Awake()
@@ -70,7 +69,7 @@ public class CPU : MonoBehaviour
         }
     }
 
-    private float DistanceFromPlayer()
+    public float DistanceFromPlayer()
     {
         float distance = (player.transform.position - transform.position).magnitude;
         return distance;
@@ -85,29 +84,6 @@ public class CPU : MonoBehaviour
             StartCoroutine(MoveLink());
         }
     }
-
-    //IEnumerator MoveLink()
-    //{
-    //    cpuLink.transform.parent = null;
-    //    cpuLink.gameObject.SetActive(false);
-    //    cpuRing.SetActive(false);
-    //    cpuButton.gameObject.SetActive(false);
-    //    cpuLink.transform.position = player.transform.position;
-    //    Vector3 directionTo = processingUnit.transform.position;
-    //    cpuLink.gameObject.SetActive(true);
-    //
-    //    while (cpuLink.transform.position != directionTo)
-    //    {
-    //        cpuLink.transform.position = Vector3.MoveTowards(cpuLink.transform.position, directionTo, 55f * Time.deltaTime);
-    //        yield return null;
-    //    }
-    //
-    //    
-    //    cpuLink.gameObject.SetActive(false);
-    //    cpuLink.transform.parent = processingUnit.transform;
-    //    cpuRing.SetActive(true);
-    //    cpuButton.gameObject.SetActive(true);
-    //}
 
     IEnumerator MoveLink()
     {

@@ -24,9 +24,6 @@ public class TerminalConnectedState : State<TerminalOS>
 
     public override void EnterState(TerminalOS terminalOS)
     {
-        terminalOS.terminalAccessIcon.GetComponent<Button>().interactable = true;
-        terminalOS.terminalAccessIcon.SetActive(true);
-        // set other icons active here
     }
 
     public override void ExitState(TerminalOS terminalOS)
@@ -37,6 +34,7 @@ public class TerminalConnectedState : State<TerminalOS>
     {
         terminalOS.SignalStrength();
         terminalOS.IsComputerAccessible();
+        terminalOS.CheckForComputerInRange();
     }
 
     public override void FixedUpdateState(TerminalOS terminalOS)

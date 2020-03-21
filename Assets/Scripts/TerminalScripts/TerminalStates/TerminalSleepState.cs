@@ -24,11 +24,12 @@ public class TerminalSleepState : State<TerminalOS>
 
     public override void EnterState(TerminalOS terminalOS)
     {
+        terminalOS.ResetOS();
     }
 
     public override void ExitState(TerminalOS terminalOS)
     {
-        //terminalOS.ResetOS();
+        
     }
 
     public override void UpdateState(TerminalOS terminalOS)
