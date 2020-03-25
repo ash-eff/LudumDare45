@@ -10,12 +10,28 @@ public class CPU : MonoBehaviour
     public TerminalOS terminalOS;
     public bool accessGranted;
     public GameObject processingUnit;
+    public GameObject iconPositionObject;
     public GameObject cpuLink;
     public GameObject cpuRing;
+    public GameObject cpuWindow;
+    public Canvas canvas;
     public Button cpuButton;
     public PlayerController player;
     public AudioSource audioSource;
     public bool pinged;
+
+    public GameObject[] iconPositions;
+
+    public GameObject lightsIcon;
+    public GameObject floorplanIcon;
+    public GameObject locksIcon;
+    public GameObject firewallIcon;
+    public GameObject reverseIcon;
+    public GameObject bombIcon;
+    public GameObject friendsIcon;
+    public GameObject powerIcon;
+
+    public List<GameObject> activeIcons = new List<GameObject>();
     LineRenderer lr;
 
     protected virtual void Awake()
@@ -26,12 +42,16 @@ public class CPU : MonoBehaviour
         processingUnit = transform.Find("CPU").gameObject;
         cpuLink = processingUnit.transform.Find("CPU Link").gameObject;
         cpuRing = processingUnit.transform.Find("CPU Ring").gameObject;
+        canvas = GetComponentInChildren<Canvas>();
+        //canvas.worldCamera = Camera.main;
+        cpuWindow = canvas.transform.Find("CPU Window").gameObject;
         cpuButton = processingUnit.GetComponentInChildren<Button>();
         audioSource = processingUnit.GetComponent<AudioSource>();
         lr = cpuLink.transform.GetComponent<LineRenderer>();
         cpuLink.SetActive(false);
         cpuRing.SetActive(false);
         cpuButton.gameObject.SetActive(false);
+        //IconSetup();
     }
 
     protected virtual void Update()
@@ -66,6 +86,17 @@ public class CPU : MonoBehaviour
             cpuLink.gameObject.SetActive(false);
             cpuRing.SetActive(false);
             cpuButton.gameObject.SetActive(false);
+        }
+    }
+
+    public void IconSetup()
+    {
+        int iconIndex = 0;
+        foreach (GameObject icon in activeIcons)
+        {
+            icon.transform.localPosition = iconPositions[iconIndex].transform.localPosition;
+            icon.SetActive(true);
+            iconIndex++;
         }
     }
 

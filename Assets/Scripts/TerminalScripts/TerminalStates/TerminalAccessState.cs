@@ -32,7 +32,9 @@ public class TerminalAccessState : State<TerminalOS>
         if (!terminalOS.workingCPU.accessGranted)
         {
             timer = 0f;
-            terminalOS.connectWindow.SetActive(true);         
+            terminalOS.connectWindow.SetActive(true);
+            terminalOS.QueueTerminalMessages("Accessing remote interface");
+            terminalOS.QueueTerminalMessages("Please wait...");
         }
     }
 
@@ -49,6 +51,7 @@ public class TerminalAccessState : State<TerminalOS>
             terminalOS.stateMachine.ChangeState(TerminalConnectedState.Instance);
         }
         terminalOS.CheckForComputerInRange();
+        terminalOS.WhattimeIsIt();
     }
 
     public override void FixedUpdateState(TerminalOS terminalOS)

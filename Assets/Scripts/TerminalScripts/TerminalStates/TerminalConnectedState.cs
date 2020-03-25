@@ -24,6 +24,7 @@ public class TerminalConnectedState : State<TerminalOS>
 
     public override void EnterState(TerminalOS terminalOS)
     {
+        terminalOS.QueueTerminalMessages("Linked to remote interface");
     }
 
     public override void ExitState(TerminalOS terminalOS)
@@ -35,6 +36,7 @@ public class TerminalConnectedState : State<TerminalOS>
         terminalOS.SignalStrength();
         terminalOS.IsComputerAccessible();
         terminalOS.CheckForComputerInRange();
+        terminalOS.WhattimeIsIt();
     }
 
     public override void FixedUpdateState(TerminalOS terminalOS)

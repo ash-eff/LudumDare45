@@ -24,12 +24,13 @@ public class TerminalSleepState : State<TerminalOS>
 
     public override void EnterState(TerminalOS terminalOS)
     {
+        terminalOS.ClearQueue();
         terminalOS.ResetOS();
     }
 
     public override void ExitState(TerminalOS terminalOS)
     {
-        
+        terminalOS.WhattimeIsIt();
     }
 
     public override void UpdateState(TerminalOS terminalOS)

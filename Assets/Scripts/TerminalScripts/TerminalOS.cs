@@ -1,10 +1,10 @@
-﻿using System.Collections;
+﻿using Ash.PlayerController;
+using Ash.StateMachine;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Ash.PlayerController;
-using Ash.StateMachine;
-using TMPro;
 
 public class TerminalOS : MonoBehaviour
 {
@@ -16,8 +16,16 @@ public class TerminalOS : MonoBehaviour
     public CanvasGroup terminalGUI;
     public CPU workingCPU;
 
+    public GameObject workingCPUPosition;
     public GameObject workingCPUWindow;
-    public GameObject gameSettingsWindow;
+    public GameObject storeWindow;
+    public GameObject settingsWindow;
+    public GameObject messageWindow;
+    public GameObject collectiblesWindow;
+    public GameObject gamesWindow;
+    public GameObject weeb;
+
+    public TextMeshProUGUI terminalText;
 
     public GameObject connectWindow;
     public GameController gameController;
@@ -28,10 +36,14 @@ public class TerminalOS : MonoBehaviour
     public TerminalTicker ticker;
     public Button currentCPUButton;
     public TextMeshProUGUI currentCPUText;
+    public TextMeshProUGUI currentTime;
+    //public static System.DateTime now;
 
     public PlayerController player;
 
     private Computer[] computers;
+
+    private Queue<string> terminalMessages = new Queue<string>();
 
     private void Awake()
     {
@@ -42,26 +54,43 @@ public class TerminalOS : MonoBehaviour
         terminalOS = this;
         stateMachine = new StateMachine<TerminalOS>(terminalOS);
         stateMachine.ChangeState(TerminalSleepState.Instance);
+
+        currentTime.text = System.DateTime.Now.ToString();
     }
 
     private void Start()
     {
         computers = gameController.currentRoom.computers;
+        StartCoroutine(TerminalOutput());
     }
 
     private void Update() => stateMachine.Update();
     private void FixedUpdate() => stateMachine.FixedUpdate();
 
+    public void WhattimeIsIt()
+    {
+        currentTime.text = currentTime.text = System.DateTime.Now.ToString();
+    }
+
     public void SetWorkingCPU(CPU _cpu)
     {
         workingCPU = _cpu;
+        workingCPUWindow = _cpu.cpuWindow;
+        workingCPUWindow.transform.parent = workingCPUPosition.transform;
+        workingCPUWindow.transform.localPosition = Vector3.zero;
+        workingCPUWindow.transform.localScale = Vector3.one;
+        workingCPUWindow.SetActive(true);
+        workingCPUWindow.transform.SetAsFirstSibling();
         player.OpenHandTerminal();
     }
 
     public void ResetOS()
     {
         CloseCurrentCPUWindow();
-        CloseGameSettingsWindow();
+        CloseSettingsWindow();
+        CloseMessageWindow();
+        CloseCollectiblesWindow();
+        CloseStoreWindow();
     }
 
     public void SignalStrength()
@@ -137,6 +166,9 @@ public class TerminalOS : MonoBehaviour
             if (workingCPU.DistanceFromPlayer() > terminalRange)
             {
                 workingCPU = null;
+                workingCPUWindow.transform.parent = workingCPU.canvas.transform;
+                workingCPUWindow.SetActive(false);
+                workingCPUWindow = null;
             }
         }
 
@@ -149,26 +181,108 @@ public class TerminalOS : MonoBehaviour
 
     public void OpenCurrentCPUWindow()
     {
-        Debug.Log("Open CPU Window");
-        workingCPUWindow.SetActive(true);
+        workingCPUPosition.SetActive(true);
+        QueueTerminalMessages("Remote Inteface");
+        QueueTerminalMessages("...");
     }
 
-    public void OpenGameSettingsWindow()
+    public void OpenStoreWindow()
     {
-        Debug.Log("Close Settings Window");
-        gameSettingsWindow.SetActive(true);
+        storeWindow.SetActive(true);
     }
 
     public void CloseCurrentCPUWindow()
     {
-        Debug.Log("Close CPU Window");
-        workingCPUWindow.SetActive(false);
+        workingCPUPosition.SetActive(false);
     }
 
-    public void CloseGameSettingsWindow()
+    public void CloseStoreWindow()
     {
-        Debug.Log("Close Settings Window");
-        gameSettingsWindow.SetActive(false);
+        storeWindow.SetActive(false);
     }
 
+    public void OpenSettingsWindow()
+    {
+        settingsWindow.SetActive(true);
+        Time.timeScale = 0;
+        QueueTerminalMessages("Loading Settings");
+        QueueTerminalMessages("Game Paused");
+        QueueTerminalMessages("...");
+    }
+
+    public void CloseSettingsWindow()
+    {
+        settingsWindow.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+    public void OpenMessageWindow()
+    {
+        QueueTerminalMessages("Loading Messages");
+        QueueTerminalMessages("...");
+        messageWindow.SetActive(true);
+    }
+
+    public void CloseMessageWindow()
+    {
+        messageWindow.SetActive(false);
+    }
+
+    public void OpenCollectiblesWindow()
+    {
+        collectiblesWindow.SetActive(true);
+    }
+
+    public void CloseCollectiblesWindow()
+    {
+        collectiblesWindow.SetActive(false);
+    }
+
+    public void OpenGamesWindow()
+    {
+        QueueTerminalMessages("Loading Games");
+        QueueTerminalMessages("...");
+        gamesWindow.SetActive(true);
+    }
+
+    public void CloseGamesWindow()
+    {
+        gamesWindow.SetActive(false);
+    }
+
+    public void QueueTerminalMessages(string message)
+    {
+        string newMessage = message + "\n";
+        terminalMessages.Enqueue(newMessage);
+    }
+
+    public void ClearQueue()
+    {
+        terminalMessages.Clear();
+        terminalText.text = "      --HACKBOX VERSION 1.8--\n\n";
+    }
+
+    IEnumerator TerminalOutput()
+    {
+        while (true)
+        {
+            if(terminalMessages.Count > 0)
+            {
+                string currentMessage = terminalMessages.Peek();
+                terminalText.text += ">> ";
+                foreach(char c in currentMessage)
+                {
+                    terminalText.text += c;
+                    yield return null;
+                }
+                terminalMessages.Dequeue();
+            }
+            else
+            {
+                Debug.Log("Terminal Queue is empty");
+            }
+
+            yield return null;
+        }
+    }
 }

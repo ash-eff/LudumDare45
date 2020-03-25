@@ -23,6 +23,7 @@ public class TerminalBaseState : State<TerminalOS>
 
     public override void EnterState(TerminalOS terminalOS)
     {
+        terminalOS.QueueTerminalMessages("Hello _PlayerName_");
     }
 
     public override void ExitState(TerminalOS terminalOS)
@@ -34,6 +35,7 @@ public class TerminalBaseState : State<TerminalOS>
         terminalOS.SignalStrength();
         terminalOS.IsComputerAccessible();
         terminalOS.CheckForComputerInRange();
+        terminalOS.WhattimeIsIt();
     }
 
     public override void FixedUpdateState(TerminalOS terminalOS)
