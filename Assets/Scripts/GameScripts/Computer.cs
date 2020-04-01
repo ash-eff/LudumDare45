@@ -3,22 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ash.PlayerController;
 
-public class Computer : CPU, IInteractable
+public class Computer : MonoBehaviour, IHackable
 {
     public float lightRebootTimer;
     public Door[] doors;
     public SingleLight[] lights;
     public bool rebootingLights;
-
-    public void Interact()
-    {
-
-    }
-
-    public string BeingTouched()
-    {
-        return "";
-    }
+    public bool isHacked;
 
     public void UseLights()
     {
@@ -57,6 +48,26 @@ public class Computer : CPU, IInteractable
 
     public void AccessComputer()
     {
-        player.terminalOS.SetWorkingCPU(this);
+        //cpu.terminalOS.SetWorkingCPU(this);
+    }
+
+    public bool AccessGranted()
+    {
+        return isHacked;
+    }
+
+    public void Hack()
+    {
+        isHacked = true;
+    }
+
+    public GameObject GetAttachedGameObject()
+    {
+        return gameObject; 
+    }
+
+    public string GetSystemName()
+    {
+        return "FL SYS 776";
     }
 }

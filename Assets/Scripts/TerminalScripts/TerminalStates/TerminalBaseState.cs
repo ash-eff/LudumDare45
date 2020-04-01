@@ -23,7 +23,17 @@ public class TerminalBaseState : State<TerminalOS>
 
     public override void EnterState(TerminalOS terminalOS)
     {
-        terminalOS.QueueTerminalMessages("Hello _PlayerName_");
+        if (terminalOS.hackableObject != null)
+        {
+            if (terminalOS.hackableObject.AccessGranted())
+            {
+                Debug.Log("Go to hacked object window screen");
+            }
+            else
+            {
+                terminalOS.stateMachine.ChangeState(TerminalHackState.Instance);
+            }
+        }
     }
 
     public override void ExitState(TerminalOS terminalOS)
@@ -32,6 +42,17 @@ public class TerminalBaseState : State<TerminalOS>
 
     public override void UpdateState(TerminalOS terminalOS)
     {
+        if (terminalOS.hackableObject != null)
+        {
+            if (terminalOS.hackableObject.AccessGranted())
+            {
+                Debug.Log("Go to hacked object window screen");
+            }
+            else
+            {
+                terminalOS.stateMachine.ChangeState(TerminalHackState.Instance);
+            }
+        }
         terminalOS.SignalStrength();
         terminalOS.IsComputerAccessible();
         terminalOS.CheckForComputerInRange();

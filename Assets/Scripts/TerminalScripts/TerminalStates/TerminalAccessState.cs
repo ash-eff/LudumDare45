@@ -22,17 +22,16 @@ public class TerminalAccessState : State<TerminalOS>
     }
     #endregion
 
-    TerminalOS os;
     float timer = 0;
     float connectTime = 2f;
 
     public override void EnterState(TerminalOS terminalOS)
     {
-        os = terminalOS;
-        if (!terminalOS.workingCPU.accessGranted)
+        if (!terminalOS.hackableObject.AccessGranted())
         {
             timer = 0f;
             terminalOS.connectWindow.SetActive(true);
+            terminalOS.currentCPUText.text = "CONNECTING...";
             terminalOS.QueueTerminalMessages("Accessing remote interface");
             terminalOS.QueueTerminalMessages("Please wait...");
         }
@@ -41,6 +40,7 @@ public class TerminalAccessState : State<TerminalOS>
     public override void ExitState(TerminalOS terminalOS)
     {
         terminalOS.connectWindow.SetActive(false);
+        terminalOS.currentCPUText.text = terminalOS.hackableObject.GetSystemName();
     }
 
     public override void UpdateState(TerminalOS terminalOS)
@@ -48,7 +48,7 @@ public class TerminalAccessState : State<TerminalOS>
         if (!RunTempGame())
         {
             terminalOS.connectWindow.SetActive(false);
-            terminalOS.stateMachine.ChangeState(TerminalConnectedState.Instance);
+            terminalOS.stateMachine.ChangeState(TerminalHackState.Instance);
         }
         terminalOS.CheckForComputerInRange();
         terminalOS.WhattimeIsIt();
@@ -68,7 +68,7 @@ public class TerminalAccessState : State<TerminalOS>
 
         // when you add more hacked icons, you'll need to select the next available one
         //os.systemIcons[1].computer = os.workingInterface;
-        os.workingCPU.accessGranted = true;
+        //os.workingCPU.accessGranted = true;
         return false;
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using Ash.StateMachine;
 using Ash.PlayerController;
 
-public class RobotController : MonoBehaviour
+public class RobotController : MonoBehaviour, IHackable
 {
     public StateMachine<RobotController> stateMachine;
     public RobotController robot;
@@ -77,6 +77,25 @@ public class RobotController : MonoBehaviour
 
     private void Update() => stateMachine.Update();
     private void FixedUpdate() => stateMachine.FixedUpdate();
+
+    public bool AccessGranted()
+    {
+        return false;
+    }
+    public void Hack()
+    {
+
+    }
+
+    public GameObject GetAttachedGameObject()
+    {
+        return gameObject;
+    }
+
+    public string GetSystemName()
+    {
+        return "EQ 509";
+    }
 
     public void SetRobotIdle(bool b)
     {

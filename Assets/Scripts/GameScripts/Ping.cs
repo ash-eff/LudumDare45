@@ -4,54 +4,31 @@ using UnityEngine;
 using UnityEngine.UI;
 using Ash.PlayerController;
 
-public class CPU : MonoBehaviour
+public class Ping : MonoBehaviour
 {
     public LayerMask visionLayers;
     public TerminalOS terminalOS;
+
     public bool accessGranted;
-    public GameObject processingUnit;
-    public GameObject iconPositionObject;
+
     public GameObject cpuLink;
     public GameObject cpuRing;
-    public GameObject cpuWindow;
-    public Canvas canvas;
     public Button cpuButton;
-    public PlayerController player;
-    public AudioSource audioSource;
-    public bool pinged;
-
-    public GameObject[] iconPositions;
-
-    public GameObject lightsIcon;
-    public GameObject floorplanIcon;
-    public GameObject locksIcon;
-    public GameObject firewallIcon;
-    public GameObject reverseIcon;
-    public GameObject bombIcon;
-    public GameObject friendsIcon;
-    public GameObject powerIcon;
-
-    public List<GameObject> activeIcons = new List<GameObject>();
-    LineRenderer lr;
+    private PlayerController player;
+    private AudioSource audioSource;
+    private LineRenderer lr;
+    private bool pinged;
 
     protected virtual void Awake()
     {
-        //audioSource = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
         player = FindObjectOfType<PlayerController>();
         terminalOS = FindObjectOfType<TerminalOS>();
-        processingUnit = transform.Find("CPU").gameObject;
-        cpuLink = processingUnit.transform.Find("CPU Link").gameObject;
-        cpuRing = processingUnit.transform.Find("CPU Ring").gameObject;
-        canvas = GetComponentInChildren<Canvas>();
-        //canvas.worldCamera = Camera.main;
-        cpuWindow = canvas.transform.Find("CPU Window").gameObject;
-        cpuButton = processingUnit.GetComponentInChildren<Button>();
-        audioSource = processingUnit.GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
         lr = cpuLink.transform.GetComponent<LineRenderer>();
         cpuLink.SetActive(false);
         cpuRing.SetActive(false);
         cpuButton.gameObject.SetActive(false);
-        //IconSetup();
     }
 
     protected virtual void Update()
@@ -59,9 +36,10 @@ public class CPU : MonoBehaviour
         CheckForPing();
     }
 
-    public void CheckForPing()
+    private void CheckForPing()
     {
-        if (DistanceFromPlayer() <= terminalOS.terminalRange)
+        float distanceFromCPUToPlayer = MyUtils.DistanceBetweenObjects(player.transform.position, transform.position);
+        if (distanceFromCPUToPlayer <= terminalOS.terminalRange)
         {
             RaycastHit2D hit = Physics2D.Raycast(cpuRing.transform.position, (player.transform.position - cpuRing.transform.position).normalized, terminalOS.terminalRange, visionLayers);
             if (hit)
@@ -87,23 +65,6 @@ public class CPU : MonoBehaviour
             cpuRing.SetActive(false);
             cpuButton.gameObject.SetActive(false);
         }
-    }
-
-    public void IconSetup()
-    {
-        int iconIndex = 0;
-        foreach (GameObject icon in activeIcons)
-        {
-            icon.transform.localPosition = iconPositions[iconIndex].transform.localPosition;
-            icon.SetActive(true);
-            iconIndex++;
-        }
-    }
-
-    public float DistanceFromPlayer()
-    {
-        float distance = (player.transform.position - transform.position).magnitude;
-        return distance;
     }
 
     private void PingCPU()
@@ -166,7 +127,7 @@ public class CPU : MonoBehaviour
         }
 
         cpuLink.gameObject.SetActive(false);
-        cpuLink.transform.parent = processingUnit.transform;
+        cpuLink.transform.parent = transform;
     }
 
     private Vector3 CalculateLineFinalPosition()
@@ -176,5 +137,10 @@ public class CPU : MonoBehaviour
         Vector3 finalPosition = player.transform.position + (direction * (distance - cpuRing.transform.localScale.x));
 
         return finalPosition;
+    }
+
+    public void AccessHackableItem()
+    {
+        terminalOS.HackSystem(GetComponentInParent<IHackable>());
     }
 }

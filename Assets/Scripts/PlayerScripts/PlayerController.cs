@@ -313,27 +313,13 @@ namespace Ash.PlayerController
 
         public void OpenHandTerminal()
         {
-            if(terminalOS.workingCPU != null)
-            {
-                if (!terminalOS.workingCPU.accessGranted)
-                {
-                    stateMachine.ChangeState(HackState.Instance);
-                }
-                else
-                {
-                    stateMachine.ChangeState(TerminalState.Instance);
-                }
-            }
-            else
-            {
-                stateMachine.ChangeState(TerminalState.Instance);
-            }
 
+                stateMachine.ChangeState(TerminalState.Instance);
         }
 
         public void CloseHandTerminal()
         {
-            if (stateMachine.currentState == HackState.Instance || stateMachine.currentState == TerminalState.Instance)
+            if (stateMachine.currentState == TerminalState.Instance)
                 stateMachine.ChangeState(BaseState.Instance);
         }
 

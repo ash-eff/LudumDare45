@@ -11,4 +11,10 @@ public class MyUtils
         float z = Mathf.Round(position.z * 2) / 2;
         return new Vector3(x, y, z);
     }
+
+    public static float DistanceBetweenObjects(Vector3 to, Vector3 from)
+    {
+        float distance = (to - from).magnitude;
+        return distance;
+    }
 }

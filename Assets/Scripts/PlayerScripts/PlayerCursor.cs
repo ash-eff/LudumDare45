@@ -22,7 +22,7 @@ public class PlayerCursor : MonoBehaviour
 
     void CursorIcon()
     {
-        if (player.stateMachine.currentState != HackState.Instance && player.stateMachine.currentState != TerminalState.Instance)
+        if (player.stateMachine.currentState != TerminalState.Instance)
             Cursor.SetCursor(targetTexture, Vector2.zero, CursorMode.ForceSoftware);
         else
             Cursor.SetCursor(pointerTexture, new Vector2(-1, 1), CursorMode.ForceSoftware);

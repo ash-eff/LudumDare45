@@ -1,14 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class TerminalConnectedState : State<TerminalOS>
+public class TerminalHackState : State<TerminalOS>
 {
     #region setup
-    private static TerminalConnectedState _instance;
+    private static TerminalHackState _instance;
 
-    private TerminalConnectedState()
+    private TerminalHackState()
     {
         if (_instance != null) return;
         _instance = this;
@@ -16,15 +15,16 @@ public class TerminalConnectedState : State<TerminalOS>
 
     public override State<TerminalOS> createInstance() { return Instance; }
 
-    public static TerminalConnectedState Instance
+    public static TerminalHackState Instance
     {
-        get { if (_instance == null) new TerminalConnectedState(); return _instance; }
+        get { if (_instance == null) new TerminalHackState(); return _instance; }
     }
     #endregion
 
     public override void EnterState(TerminalOS terminalOS)
     {
-        terminalOS.QueueTerminalMessages("Linked to remote interface");
+        terminalOS.hackboxWindow.SetActive(true);
+        terminalOS.QueueTerminalMessages("Hackbox Launch Panel Ready...");
     }
 
     public override void ExitState(TerminalOS terminalOS)

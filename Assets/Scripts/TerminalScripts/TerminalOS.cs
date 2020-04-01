@@ -14,20 +14,14 @@ public class TerminalOS : MonoBehaviour
     public LayerMask objectLayer;
     public float terminalRange;
     public CanvasGroup terminalGUI;
-    public CPU workingCPU;
 
-    public GameObject workingCPUPosition;
     public GameObject workingCPUWindow;
-    public GameObject storeWindow;
-    public GameObject settingsWindow;
-    public GameObject messageWindow;
-    public GameObject collectiblesWindow;
-    public GameObject gamesWindow;
-    public GameObject weeb;
-
-    public TextMeshProUGUI terminalText;
-
     public GameObject connectWindow;
+    public GameObject hackboxWindow;
+
+    public IHackable hackableObject;
+
+    public TextMeshProUGUI terminalOutputText;
     public GameController gameController;
     public Image signalFillBar;
     public Image signalFillBarUI;
@@ -37,11 +31,7 @@ public class TerminalOS : MonoBehaviour
     public Button currentCPUButton;
     public TextMeshProUGUI currentCPUText;
     public TextMeshProUGUI currentTime;
-    //public static System.DateTime now;
-
     public PlayerController player;
-
-    private Computer[] computers;
 
     private Queue<string> terminalMessages = new Queue<string>();
 
@@ -60,37 +50,43 @@ public class TerminalOS : MonoBehaviour
 
     private void Start()
     {
-        computers = gameController.currentRoom.computers;
         StartCoroutine(TerminalOutput());
     }
 
     private void Update() => stateMachine.Update();
     private void FixedUpdate() => stateMachine.FixedUpdate();
 
+    public void HackSystem(IHackable _hackableObject)
+    {
+        if(player.stateMachine.currentState != TerminalState.Instance)
+        {
+            player.OpenHandTerminal();
+        }
+
+        hackableObject = _hackableObject;
+
+        stateMachine.ChangeState(TerminalAccessState.Instance);
+        if (hackableObject.GetType() == typeof(Computer))
+        {
+            Computer computer = hackableObject.GetAttachedGameObject().GetComponent<Computer>();
+            Debug.Log("Hacking: " + computer.transform.name);
+        }
+
+        if (hackableObject.GetType() == typeof(RobotController))
+        {
+            RobotController robot = hackableObject.GetAttachedGameObject().GetComponent<RobotController>();
+            Debug.Log("Hacking: " + robot.transform.name);
+        }
+    }
+
     public void WhattimeIsIt()
     {
         currentTime.text = currentTime.text = System.DateTime.Now.ToString();
     }
 
-    public void SetWorkingCPU(CPU _cpu)
-    {
-        workingCPU = _cpu;
-        workingCPUWindow = _cpu.cpuWindow;
-        workingCPUWindow.transform.parent = workingCPUPosition.transform;
-        workingCPUWindow.transform.localPosition = Vector3.zero;
-        workingCPUWindow.transform.localScale = Vector3.one;
-        workingCPUWindow.SetActive(true);
-        workingCPUWindow.transform.SetAsFirstSibling();
-        player.OpenHandTerminal();
-    }
-
     public void ResetOS()
     {
-        CloseCurrentCPUWindow();
-        CloseSettingsWindow();
-        CloseMessageWindow();
-        CloseCollectiblesWindow();
-        CloseStoreWindow();
+
     }
 
     public void SignalStrength()
@@ -130,12 +126,12 @@ public class TerminalOS : MonoBehaviour
 
     public void IsComputerAccessible()
     {
-        if(workingCPU == null)
-        {
-            //terminalAccessIcon.GetComponent<Button>().interactable = false;
-            //CloseTerminalAccessWindow();
-            return;
-        }
+        //if(workingCPU == null)
+        //{
+        //    //terminalAccessIcon.GetComponent<Button>().interactable = false;
+        //    //CloseTerminalAccessWindow();
+        //    return;
+        //}
 
         //if(workingComputer.DistanceFromPlayer() <= terminalRange)
         //{
@@ -150,104 +146,33 @@ public class TerminalOS : MonoBehaviour
 
     public void CheckForComputerInRange()
     {
-        if(workingCPU != null)
-        {
-            if (workingCPU.accessGranted)
-            {
-                currentCPUButton.interactable = true;
-                currentCPUText.text = "HACKED SYSTEM";
-            }
-            else
-            {
-                currentCPUButton.interactable = false;
-                currentCPUText.text = "NO ACCESS";
-            }
-
-            if (workingCPU.DistanceFromPlayer() > terminalRange)
-            {
-                workingCPU = null;
-                workingCPUWindow.transform.parent = workingCPU.canvas.transform;
-                workingCPUWindow.SetActive(false);
-                workingCPUWindow = null;
-            }
-        }
-
-        if(workingCPU == null)
-        {
-            currentCPUButton.interactable = false;
-            currentCPUText.text = "NO SYSTEM";
-        }
-    }
-
-    public void OpenCurrentCPUWindow()
-    {
-        workingCPUPosition.SetActive(true);
-        QueueTerminalMessages("Remote Inteface");
-        QueueTerminalMessages("...");
-    }
-
-    public void OpenStoreWindow()
-    {
-        storeWindow.SetActive(true);
-    }
-
-    public void CloseCurrentCPUWindow()
-    {
-        workingCPUPosition.SetActive(false);
-    }
-
-    public void CloseStoreWindow()
-    {
-        storeWindow.SetActive(false);
-    }
-
-    public void OpenSettingsWindow()
-    {
-        settingsWindow.SetActive(true);
-        Time.timeScale = 0;
-        QueueTerminalMessages("Loading Settings");
-        QueueTerminalMessages("Game Paused");
-        QueueTerminalMessages("...");
-    }
-
-    public void CloseSettingsWindow()
-    {
-        settingsWindow.SetActive(false);
-        Time.timeScale = 1;
-    }
-
-    public void OpenMessageWindow()
-    {
-        QueueTerminalMessages("Loading Messages");
-        QueueTerminalMessages("...");
-        messageWindow.SetActive(true);
-    }
-
-    public void CloseMessageWindow()
-    {
-        messageWindow.SetActive(false);
-    }
-
-    public void OpenCollectiblesWindow()
-    {
-        collectiblesWindow.SetActive(true);
-    }
-
-    public void CloseCollectiblesWindow()
-    {
-        collectiblesWindow.SetActive(false);
-    }
-
-    public void OpenGamesWindow()
-    {
-        QueueTerminalMessages("Loading Games");
-        QueueTerminalMessages("...");
-        gamesWindow.SetActive(true);
-    }
-
-    public void CloseGamesWindow()
-    {
-        gamesWindow.SetActive(false);
+        //if(workingCPU != null)
+        //{
+        //    float distanceToComputer = MyUtils.DistanceBetweenObjects(player.transform.position, workingCPU.transform.position);
+        //    if (workingCPU.accessGranted)
+        //    {
+        //        currentCPUButton.interactable = true;
+        //        currentCPUText.text = "HACKED SYSTEM";
+        //    }
+        //    else
+        //    {
+        //        currentCPUButton.interactable = false;
+        //        currentCPUText.text = "NO ACCESS";
+        //    }
+        //
+        //    if (distanceToComputer > terminalRange)
+        //    {
+        //        workingCPU = null;
+        //        //workingCPUWindow.SetActive(false);
+        //        //workingCPUWindow = null;
+        //    }
+        //}
+        //
+        //if(workingCPU == null)
+        //{
+        //    currentCPUButton.interactable = false;
+        //    currentCPUText.text = "NO SYSTEM";
+        //}
     }
 
     public void QueueTerminalMessages(string message)
@@ -259,7 +184,7 @@ public class TerminalOS : MonoBehaviour
     public void ClearQueue()
     {
         terminalMessages.Clear();
-        terminalText.text = "      --HACKBOX VERSION 1.8--\n\n";
+        terminalOutputText.text = "      --HACKBOX VERSION 1.8--\n\n";
     }
 
     IEnumerator TerminalOutput()
@@ -269,20 +194,32 @@ public class TerminalOS : MonoBehaviour
             if(terminalMessages.Count > 0)
             {
                 string currentMessage = terminalMessages.Peek();
-                terminalText.text += ">> ";
+                terminalOutputText.text += ">> ";
                 foreach(char c in currentMessage)
                 {
-                    terminalText.text += c;
+                    terminalOutputText.text += c;
                     yield return null;
                 }
                 terminalMessages.Dequeue();
             }
-            else
-            {
-                Debug.Log("Terminal Queue is empty");
-            }
-
             yield return null;
         }
     }
+
+    public void LoadTerminalLoadBar(string message, int seconds)
+    {
+        //StartCoroutine(TerminalLoadBar(message, seconds));
+    }
+
+    //IEnumerator TerminalLoadBar(string message, int seconds)
+    //{
+    //    float timer = seconds / 16f;
+    //    string loading = "||||||||||||||||";
+    //    terminalText.text += message + ": ";
+    //    foreach (char c in loading)
+    //    {
+    //        terminalText.text += c;
+    //        yield return new WaitForSeconds(timer);
+    //    }
+    //}
 }

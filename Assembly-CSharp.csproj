@@ -63,13 +63,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\RobotCam.cs" />
-    <Compile Include="Assets\Scripts\GameScripts\CPU.cs" />
     <Compile Include="Assets\Scripts\GameScripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Computer.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Container.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Door.cs" />
     <Compile Include="Assets\Scripts\GameScripts\GameController.cs" />
     <Compile Include="Assets\Scripts\GameScripts\GridMap.cs" />
+    <Compile Include="Assets\Scripts\GameScripts\IHackable.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Interactable.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Item.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Laser.cs" />
@@ -77,6 +77,7 @@
     <Compile Include="Assets\Scripts\GameScripts\MenuController.cs" />
     <Compile Include="Assets\Scripts\GameScripts\MyUtils.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Noise.cs" />
+    <Compile Include="Assets\Scripts\GameScripts\Ping.cs" />
     <Compile Include="Assets\Scripts\GameScripts\RoomReveal.cs" />
     <Compile Include="Assets\Scripts\GameScripts\SimpleCoroutine.cs" />
     <Compile Include="Assets\Scripts\GameScripts\SingleLight.cs" />
@@ -93,7 +94,6 @@
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerCursor.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerInventory.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\BaseState.cs" />
-    <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\HackState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\HideState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\KnockState.cs" />
     <Compile Include="Assets\Scripts\PlayerScripts\PlayerStates\PeakState.cs" />
@@ -122,7 +122,7 @@
     <Compile Include="Assets\Scripts\TerminalScripts\TerminalOS.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\TerminalStates\TerminalAccessState.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\TerminalStates\TerminalBaseState.cs" />
-    <Compile Include="Assets\Scripts\TerminalScripts\TerminalStates\TerminalConnectedState.cs" />
+    <Compile Include="Assets\Scripts\TerminalScripts\TerminalStates\TerminalHackState.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\TerminalStates\TerminalSleepState.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\TerminalTicker.cs" />
     <Compile Include="Assets\Scripts\UIScripts\ConfirmWindowUI.cs" />

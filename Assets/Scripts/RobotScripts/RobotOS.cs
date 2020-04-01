@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ash.PlayerController;
 
-public class RobotOS : CPU
+public class RobotOS : MonoBehaviour
 {
     public RobotController robot;
     public RobotGUI robotGUI;
@@ -35,9 +35,8 @@ public class RobotOS : CPU
     //    PlayerController.OnTerminalClose -= TerminalClosed;
     //}
 
-    protected override void Awake()
+    void Awake()
     {
-        base.Awake();
         gc = FindObjectOfType<GameController>();
     }
 
