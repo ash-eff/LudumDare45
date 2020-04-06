@@ -313,7 +313,6 @@ namespace Ash.PlayerController
 
         public void OpenHandTerminal()
         {
-
                 stateMachine.ChangeState(TerminalState.Instance);
         }
 

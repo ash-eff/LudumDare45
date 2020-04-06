@@ -29,6 +29,9 @@ TextureImporter:
   - first:
       213: 5297297207995698630
     second: terminalWindows_8
+  - first:
+      213: 5523816168387804076
+    second: terminalWindows_9
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -301,7 +304,7 @@ TextureImporter:
         width: 104
         height: 19
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -309,6 +312,27 @@ TextureImporter:
       bones: []
       spriteID: 6cd80409eb7c38940800000000000000
       internalID: 5297297207995698630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terminalWindows_9
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 27
+        width: 124
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cab7059e98988ac40800000000000000
+      internalID: 5523816168387804076
       vertices: []
       indices: 
       edges: []

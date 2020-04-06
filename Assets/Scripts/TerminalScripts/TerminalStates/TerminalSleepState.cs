@@ -31,7 +31,7 @@ public class TerminalSleepState : State<TerminalOS>
     public override void ExitState(TerminalOS terminalOS)
     {
         terminalOS.WhattimeIsIt();
-        terminalOS.QueueTerminalMessages("Hello _PlayerName_");
+
     }
 
     public override void UpdateState(TerminalOS terminalOS)

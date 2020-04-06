@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TerminalBaseState : State<TerminalOS>
+public class TerminalSysAccessState : State<TerminalOS>
 {
     #region setup
-    private static TerminalBaseState _instance;
 
-    private TerminalBaseState()
+    private static TerminalSysAccessState _instance;
+
+    private TerminalSysAccessState()
     {
         if (_instance != null) return;
         _instance = this;
@@ -15,16 +16,19 @@ public class TerminalBaseState : State<TerminalOS>
 
     public override State<TerminalOS> createInstance() { return Instance; }
 
-    public static TerminalBaseState Instance
+    public static TerminalSysAccessState Instance
     {
-        get { if (_instance == null) new TerminalBaseState(); return _instance; }
+        get { if (_instance == null) new TerminalSysAccessState(); return _instance; }
     }
     #endregion
 
     public override void EnterState(TerminalOS terminalOS)
     {
-        terminalOS.ClearQueue();
-        terminalOS.QueueTerminalMessages("Hello _PlayerName_");
+        terminalOS.hackboxWindow.SetActive(false);
+        terminalOS.hackingOutputWindow.SetActive(false);
+        terminalOS.hackingProgressWindow.SetActive(false);
+        terminalOS.hackingCompleteWindow.SetActive(true);
+        terminalOS.hackActive = false;
     }
 
     public override void ExitState(TerminalOS terminalOS)
@@ -34,7 +38,6 @@ public class TerminalBaseState : State<TerminalOS>
     public override void UpdateState(TerminalOS terminalOS)
     {
         terminalOS.SignalStrength();
-        terminalOS.IsComputerAccessible();
         terminalOS.CheckForComputerInRange();
         terminalOS.WhattimeIsIt();
     }

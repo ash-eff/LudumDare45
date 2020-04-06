@@ -4,7 +4,7 @@ using UnityEngine;
 using Ash.StateMachine;
 using Ash.PlayerController;
 
-public class RobotController : MonoBehaviour, IHackable
+public class RobotController : Hackable
 {
     public StateMachine<RobotController> stateMachine;
     public RobotController robot;
@@ -77,15 +77,6 @@ public class RobotController : MonoBehaviour, IHackable
 
     private void Update() => stateMachine.Update();
     private void FixedUpdate() => stateMachine.FixedUpdate();
-
-    public bool AccessGranted()
-    {
-        return false;
-    }
-    public void Hack()
-    {
-
-    }
 
     public GameObject GetAttachedGameObject()
     {

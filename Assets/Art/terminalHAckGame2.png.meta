@@ -1,16 +1,25 @@
 fileFormatVersion: 2
-guid: 2d8dbe5be70df6f47a57640c958f007b
+guid: 1458c117d1c036345ab4722f3b71f7c2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6364093036660548754
-    second: terminalHacks_0
+      213: 3233063529790686755
+    second: terminalHAckGame2_0
   - first:
-      213: 8761695606052916162
-    second: terminalHacks_1
+      213: 4084174492043111775
+    second: terminalHAckGame2_1
   - first:
-      213: -9218608643520041173
-    second: terminalHacks_2
+      213: 542399979212262131
+    second: terminalHAckGame2_2
+  - first:
+      213: 929681663877905109
+    second: terminalHAckGame2_3
+  - first:
+      213: 920479454480960892
+    second: terminalHAckGame2_4
+  - first:
+      213: -3033096148318118126
+    second: terminalHAckGame2_5
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -107,55 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: terminalHacks_0
+      name: terminalHAckGame2_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 207
-        width: 113
-        height: 81
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 29460bff5ecc15850800000000000000
-      internalID: 6364093036660548754
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: terminalHacks_1
-      rect:
-        serializedVersion: 2
-        x: 113
-        y: 207
-        width: 113
-        height: 81
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2cb82e47bbbc79970800000000000000
-      internalID: 8761695606052916162
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: terminalHacks_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 126
-        width: 113
-        height: 81
+        y: 206
+        width: 114
+        height: 82
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -163,8 +130,113 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b2f64afe74ce01080800000000000000
-      internalID: -9218608643520041173
+      spriteID: 326c17d96262edc20800000000000000
+      internalID: 3233063529790686755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terminalHAckGame2_1
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 206
+        width: 114
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5de0f6cf07eda830800000000000000
+      internalID: 4084174492043111775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terminalHAckGame2_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 124
+        width: 114
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3fa402748edf68700800000000000000
+      internalID: 542399979212262131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terminalHAckGame2_3
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 124
+        width: 114
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5daf2a13c84e6ec00800000000000000
+      internalID: 929681663877905109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terminalHAckGame2_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 42
+        width: 114
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7d026bdf2336cc00800000000000000
+      internalID: 920479454480960892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: terminalHAckGame2_5
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 42
+        width: 114
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21f94e58f1748e5d0800000000000000
+      internalID: -3033096148318118126
       vertices: []
       indices: 
       edges: []

@@ -141,6 +141,6 @@ public class Ping : MonoBehaviour
 
     public void AccessHackableItem()
     {
-        terminalOS.HackSystem(GetComponentInParent<IHackable>());
+        terminalOS.HackSystem(GetComponentInParent<Hackable>());
     }
 }

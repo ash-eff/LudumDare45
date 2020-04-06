@@ -69,7 +69,7 @@
     <Compile Include="Assets\Scripts\GameScripts\Door.cs" />
     <Compile Include="Assets\Scripts\GameScripts\GameController.cs" />
     <Compile Include="Assets\Scripts\GameScripts\GridMap.cs" />
-    <Compile Include="Assets\Scripts\GameScripts\IHackable.cs" />
+    <Compile Include="Assets\Scripts\GameScripts\Hackable.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Interactable.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Item.cs" />
     <Compile Include="Assets\Scripts\GameScripts\Laser.cs" />
@@ -120,10 +120,10 @@
     <Compile Include="Assets\Scripts\RoomEntrance.cs" />
     <Compile Include="Assets\Scripts\RoomExit.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\TerminalOS.cs" />
-    <Compile Include="Assets\Scripts\TerminalScripts\TerminalStates\TerminalAccessState.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\TerminalStates\TerminalBaseState.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\TerminalStates\TerminalHackState.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\TerminalStates\TerminalSleepState.cs" />
+    <Compile Include="Assets\Scripts\TerminalScripts\TerminalStates\TerminalSysAccessState.cs" />
     <Compile Include="Assets\Scripts\TerminalScripts\TerminalTicker.cs" />
     <Compile Include="Assets\Scripts\UIScripts\ConfirmWindowUI.cs" />
     <Compile Include="Assets\Scripts\UIScripts\HackingTest.cs" />
@@ -139,6 +139,7 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\VHSPack\ScreenLines.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\TextAssets\HackingJargon.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\VHSPack\ScreenDistort.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ash.PlayerController;
 
-public class Computer : MonoBehaviour, IHackable
+public class Computer : Hackable
 {
     public float lightRebootTimer;
     public Door[] doors;
